@@ -74,6 +74,25 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 - Set `API_KEY` before exposing this to the internet.
 - Never put your `.env` file on GitHub — it is already excluded by `.gitignore`.
 
+### Keys not working? Run the setup doctor
+
+```
+npm run check
+```
+
+It checks Node.js, your `.env` file, both keys, and makes a real test call to your AI provider — then tells you exactly what to fix in plain English.
+
+Most key problems are one of these:
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `401` or `403` from the provider | Key copied wrong, expired, or on the wrong line | Create a new key on your provider's API Keys page. Paste the whole key into `AI_API_KEY=` (not `API_KEY=`). No spaces, no quotes. |
+| `404` model not found | Typo in `AI_MODEL` | Use `mistral-small-latest` for Mistral. |
+| `429` | Free plan rate limit | Wait a minute and retry, or check your plan's limits. |
+| `.env` file "missing" but you made one | Windows saved it as `.env.txt` | Rename it to exactly `.env`. |
+| Changes to `.env` do nothing | Server was already running | Stop the server (Ctrl+C) and run `npm start` again. |
+| Mistral website won't give you a key | Free tier requires phone verification | Complete the phone/verification steps in the Mistral console, then the API Keys page will work. |
+
 ### Run the tests
 
 ```

@@ -17,3 +17,7 @@ services:
         value: https://generativelanguage.googleapis.com/v1beta/openai
       - key: AI_MODEL
         value: gemini-2.5-flash
+      - key: PUBLIC_CHAT_ENABLED
+        value: "true"
+      - key: PUBLIC_RATE_LIMIT_MAX
+        value: "10"

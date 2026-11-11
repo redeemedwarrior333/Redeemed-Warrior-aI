@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Redeemed Warrior AI</title>
+<style>
+  :root {
+    --bg: #0f0a1e;
+    --panel: #1a1230;
+    --panel2: #241a42;
+    --gold: #e8b84b;
+    --text: #f3eefc;
+    --muted: #a99cc7;
+    --user: linear-gradient(135deg, #6d3fd4, #8b5cf6);
+    --ai: #241a42;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #2a1b52 0%, var(--bg) 60%);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 18px 16px 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(232,184,75,0.25);
+    background: rgba(15,10,30,0.7);
+    backdrop-filter: blur(8px);
+  }
+  header h1 {
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    background: linear-gradient(90deg, #f5d78a, var(--gold), #f5d78a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header p { color: var(--muted); font-size: 0.78rem; margin-top: 4px; font-style: italic; }
+  #chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .msg { max-width: 86%; padding: 12px 14px; border-radius: 16px; line-height: 1.55; font-size: 0.95rem; white-space: pre-wrap; word-wrap: break-word; }
+  .msg.user { align-self: flex-end; background: var(--user); border-bottom-right-radius: 4px; }
+  .msg.ai { align-self: flex-start; background: var(--ai); border: 1px solid rgba(139,92,246,0.25); border-bottom-left-radius: 4px; }
+  .msg.error { align-self: center; background: rgba(220,80,80,0.15); border: 1px solid rgba(220,80,80,0.4); color: #ffb4b4; font-size: 0.85rem; }
+  .typing { align-self: flex-start; display: flex; gap: 5px; padding: 14px 16px; background: var(--ai); border-radius: 16px; border-bottom-left-radius: 4px; }
+  .typing span { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); animation: bounce 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-6px); opacity: 1; } }
+  #welcome { text-align: center; color: var(--muted); margin: auto 0; padding: 24px; }
+  #welcome .crest { font-size: 2.2rem; margin-bottom: 10px; }
+  #welcome h2 { color: var(--text); font-size: 1.05rem; margin-bottom: 8px; }
+  #welcome p { font-size: 0.88rem; line-height: 1.6; }
+  #welcome .hints { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+  #welcome button.hint {
+    background: var(--panel2); color: var(--text); border: 1px solid rgba(139,92,246,0.35);
+    border-radius: 12px; padding: 10px 14px; font-size: 0.85rem; cursor: pointer; text-align: left;
+  }
+  #welcome button.hint:active { background: #2e2255; }
+  form {
+    display: flex; gap: 8px; padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(232,184,75,0.2); background: rgba(15,10,30,0.85);
+    backdrop-filter: blur(8px); max-width: 760px; width: 100%; margin: 0 auto;
+  }
+  #input {
+    flex: 1; background: var(--panel); color: var(--text); border: 1px solid rgba(139,92,246,0.35);
+    border-radius: 14px; padding: 12px 14px; font-size: 1rem; outline: none;
+  }
+  #input:focus { border-color: var(--gold); }
+  #send {
+    background: linear-gradient(135deg, #6d3fd4, #8b5cf6); color: #fff; border: none;
+    border-radius: 14px; padding: 0 18px; font-size: 1rem; cursor: pointer; font-weight: 600;
+  }
+  #send:disabled { opacity: 0.5; }
+  footer { text-align: center; color: var(--muted); font-size: 0.68rem; padding: 6px 12px 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚔️ REDEEMED WARRIOR AI</h1>
+  <p>Redeemed by Grace. Strengthened by Purpose. Built to Rise.</p>
+</header>
+
+<div id="chat">
+  <div id="welcome">
+    <div class="crest">🛡️</div>
+    <h2>Welcome, warrior.</h2>
+    <p>I'm Redeemed Warrior AI — your assistant, app builder, and business partner. Tell me what you want to create, ask anything, or start with an idea below.</p>
+    <div class="hints">
+      <button class="hint" data-hint="I want to build an app but I have no coding experience. Can you help me plan it?">📱 "I want to build an app but I don't know how to code"</button>
+      <button class="hint" data-hint="Help me start a small business with a very low budget.">💼 "Help me start a business on a small budget"</button>
+      <button class="hint" data-hint="I need a website for my business. Where should we start?">🌐 "I need a website for my business"</button>
+      <button class="hint" data-hint="I'm feeling overwhelmed today. Can you encourage me?">💛 "I'm feeling overwhelmed — can you encourage me?"</button>
+    </div>
+  </div>
+</div>
+
+<form id="form">
+  <input id="input" type="text" placeholder="Ask anything..." autocomplete="off" maxlength="4000">
+  <button id="send" type="submit">Send</button>
+</form>
+<footer>Powered by Redeemed Warrior AI</footer>
+
+<script>
+  const chatEl = document.getElementById('chat');
+  const form = document.getElementById('form');
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+  const welcome = document.getElementById('welcome');
+  let conversationId = null;
+  let busy = false;
+
+  function addMsg(text, cls) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + cls;
+    div.textContent = text;
+    chatEl.appendChild(div);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return div;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    chatEl.appendChild(t);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return t;
+  }
+
+  document.querySelectorAll('button.hint').forEach(function (b) {
+    b.addEventListener('click', function () {
+      input.value = b.dataset.hint;
+      form.dispatchEvent(new Event('submit'));
+    });
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text || busy) return;
+    busy = true;
+    sendBtn.disabled = true;
+    input.value = '';
+    if (welcome) welcome.remove();
+    addMsg(text, 'user');
+    const typing = showTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, conversationId: conversationId })
+      });
+      const data = await res.json().catch(function () { return {}; });
+      typing.remove();
+      if (!res.ok) {
+        const msg = (data && data.error && data.error.message) || 'Something went wrong. Please try again.';
+        addMsg(msg, 'error');
+      } else {
+        conversationId = data.conversationId || conversationId;
+        addMsg(data.reply || '(empty reply)', 'ai');
+      }
+    } catch (err) {
+      typing.remove();
+      addMsg('Could not reach the server. Check your connection and try again.', 'error');
+    }
+
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+  });
+</script>
+</body>
+</html>

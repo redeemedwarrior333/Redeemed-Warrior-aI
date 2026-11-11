@@ -73,6 +73,36 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 - Set `API_KEY` before exposing this to the internet.
 - Never put your `.env` file on GitHub — it is already excluded by `.gitignore`.
 
+### Add it to your website
+
+The API includes a ready-made chat page for your visitors, at `/chat` on your deployment:
+
+```
+https://your-render-address.onrender.com/chat
+```
+
+Three ways to put it on your website:
+
+1. **Link to it** — add a "Chat with our AI" button anywhere on your site that opens the `/chat` address.
+2. **Embed it** — paste this into any page (works in WordPress, Wix, Squarespace and most builders via an "embed" or "custom HTML" block):
+
+   ```html
+   <iframe src="https://your-render-address.onrender.com/chat"
+           style="width:100%;height:640px;border:0;border-radius:12px"
+           title="Redeemed Warrior AI"></iframe>
+   ```
+
+3. **Build your own** — call `POST /api/chat` from your site's code.
+
+Visitor chat is controlled by these settings:
+
+| Setting | What it means |
+|---------|---------------|
+| `PUBLIC_CHAT_ENABLED` | `true` lets visitors chat without a key (via the `/chat` page). Remove or set to `false` to lock the API to key-holders only. |
+| `PUBLIC_RATE_LIMIT_MAX` | Messages per minute per visitor (default 10) |
+
+Honest note: when public chat is on, anyone who finds the address can use it within the rate limit, and each message consumes your AI provider's free-tier quota. Keep `API_KEY` for anything sensitive.
+
 ### No computer? Deploy from your phone (free)
 
 You do not need a computer. [Render](https://render.com) runs the API for you in the cloud, for free, straight from your GitHub repository:

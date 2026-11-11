@@ -20,14 +20,13 @@ The backend AI service for the Redeemed Warrior platform. It loads the master pr
 ### Quick start (beginner friendly)
 
 1. Install [Node.js](https://nodejs.org) version 18 or newer.
-2. Get an AI provider API key. The default setup uses [Mistral AI](https://console.mistral.ai), which has a free tier. Any OpenAI-compatible provider works (OpenAI, Groq, OpenRouter, and others) — just change `AI_BASE_URL` and `AI_MODEL`.
+2. Get a free AI provider API key. The easiest free option is [Google AI Studio](https://aistudio.google.com): sign in with a Google account, click "Get API key", and copy it — no credit card needed. Other free-friendly providers that work out of the box: [Groq](https://console.groq.com) (fast, no credit card; base URL `https://api.groq.com/openai/v1`), [OpenRouter](https://openrouter.ai), or Mistral. Just change `AI_BASE_URL` and `AI_MODEL` to match.
 3. In this folder, create a file named `.env` (copy `.env.example`) and fill in your keys:
 
    ```
    AI_API_KEY=your-key-from-your-ai-provider
    API_KEY=a-long-random-string-you-invent
    ```
-
 4. Install and run:
 
    ```
@@ -63,9 +62,9 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 |---------|---------------|
 | `PORT` | Port the API runs on (default 3000) |
 | `API_KEY` | Password that protects your API. Leave empty only for private testing. |
-| `AI_BASE_URL` | Your AI provider's URL (default: Mistral) |
+| `AI_BASE_URL` | Your AI provider's URL (default: Google AI Studio / Gemini) |
 | `AI_API_KEY` | Your AI provider key |
-| `AI_MODEL` | Which AI model to use (default: `mistral-small-latest`, a cost-conscious choice) |
+| `AI_MODEL` | Which AI model to use (default: `gemini-2.5-flash`, a cost-conscious choice) |
 | `RATE_LIMIT_MAX` | Requests allowed per minute per visitor (default 60) |
 
 ### Security notes

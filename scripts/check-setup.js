@@ -51,7 +51,7 @@ async function main() {
     report(
       false,
       'AI_API_KEY is missing or empty in your .env file',
-      'This is the key from your AI provider (Mistral, OpenAI, etc.). Get one at https://console.mistral.ai (API Keys page), paste it into .env as AI_API_KEY=your-key, then run this check again.'
+      'This is the key from your AI provider. The easiest free one is Google AI Studio: go to https://aistudio.google.com, sign in with a Google account, click "Get API key", and create one - no credit card needed. Paste it into .env as AI_API_KEY=your-key, then run this check again.'
     );
   }
 
@@ -97,7 +97,7 @@ async function main() {
     report(
       false,
       `Could not reach the AI provider at ${config.aiBaseUrl}`,
-      'Check your internet connection, and check AI_BASE_URL in .env for typos. For Mistral it must be exactly: https://api.mistral.ai/v1'
+      'Check your internet connection, and check AI_BASE_URL in .env for typos. For Google AI Studio it must be exactly: https://generativelanguage.googleapis.com/v1beta/openai'
     );
     finish();
     return;
@@ -119,7 +119,7 @@ async function main() {
     report(
       false,
       `The model "${config.aiModel}" was not found on your AI provider`,
-      'Check AI_MODEL in .env for typos. For Mistral, use: mistral-small-latest'
+      'Check AI_MODEL in .env for typos. For Google AI Studio use a name like: gemini-2.5-flash. For Groq, copy an exact model name from https://console.groq.com/models'
     );
   } else if (response.status === 429) {
     report(

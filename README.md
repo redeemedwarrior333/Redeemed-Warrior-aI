@@ -16,6 +16,10 @@ The backend AI service for the Redeemed Warrior platform. It loads the master pr
 | `POST /api/chat` | Chat with Redeemed Warrior AI, with conversation memory. Supports streaming. |
 | `GET /api/chat/:conversationId` | Retrieve a saved conversation |
 | `POST /api/apps/plan` | Describe an app idea in plain English, get back a complete app blueprint |
+| `POST /api/auth/register` / `POST /api/auth/login` | Free member accounts |
+| `POST /api/store/redeem` | Redeem a Store purchase code (check → claim) to unlock an app |
+| `GET /api/store/my-apps` | Apps the member has unlocked, with live access status |
+| `GET /dashboard` | Member dashboard page: redeem codes, My Apps, redemption status |
 
 ### Quick start (beginner friendly)
 
@@ -72,6 +76,14 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 - The AI's behavior is governed entirely by [MASTER_PROMPT.md](MASTER_PROMPT.md) — edit that file to change how the AI acts.
 - Set `API_KEY` before exposing this to the internet.
 - Never put your `.env` file on GitHub — it is already excluded by `.gitignore`.
+
+### Store integration (godsredeemedwarrior.store)
+
+Members can redeem Store purchase codes to unlock apps: server-to-server calls with the `X-RW-Key` header, access rechecked daily, revoked automatically on refunds/cancellations. See [docs/STORE_INTEGRATION.md](docs/STORE_INTEGRATION.md) for the full contract, configuration (`RW_STORE_API_KEY`, `RW_STORE_BASE_URL`), and the end-to-end testing checklist.
+
+Member dashboard: open `/dashboard` on your deployment.
+
+> Note: the Store's `/api/rw/redeem/*` endpoints must be live on the Store for redemption to work. The Builder side is complete and ready.
 
 ### Add it to your website
 

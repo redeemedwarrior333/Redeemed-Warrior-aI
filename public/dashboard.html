@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Redeemed Warrior — Member Dashboard</title>
+<style>
+  :root {
+    --bg: #0f0a1e; --panel: #1a1230; --panel2: #241a42; --gold: #e8b84b;
+    --text: #f3eefc; --muted: #a99cc7; --ok: #6ee7a0; --bad: #ff9d9d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #2a1b52 0%, var(--bg) 60%);
+    color: var(--text); min-height: 100vh;
+  }
+  header { padding: 20px 16px 14px; text-align: center; border-bottom: 1px solid rgba(232,184,75,0.25); }
+  header h1 { font-size: 1.2rem; letter-spacing: 0.06em;
+    background: linear-gradient(90deg, #f5d78a, var(--gold), #f5d78a);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  header p { color: var(--muted); font-size: 0.75rem; margin-top: 4px; font-style: italic; }
+  main { max-width: 720px; margin: 0 auto; padding: 18px 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .card { background: var(--panel); border: 1px solid rgba(139,92,246,0.25); border-radius: 16px; padding: 18px; }
+  .card h2 { font-size: 1rem; color: var(--gold); margin-bottom: 10px; }
+  .card p.sub { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 12px; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin: 10px 0 4px; }
+  input {
+    width: 100%; background: var(--panel2); color: var(--text); border: 1px solid rgba(139,92,246,0.35);
+    border-radius: 12px; padding: 11px 13px; font-size: 0.95rem; outline: none;
+  }
+  input:focus { border-color: var(--gold); }
+  button.primary {
+    width: 100%; margin-top: 14px; background: linear-gradient(135deg, #6d3fd4, #8b5cf6); color: #fff;
+    border: none; border-radius: 12px; padding: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  }
+  button.primary:disabled { opacity: 0.5; }
+  button.link { background: none; border: none; color: var(--gold); font-size: 0.85rem; cursor: pointer; padding: 0; margin-top: 12px; text-decoration: underline; }
+  .msg { border-radius: 12px; padding: 11px 13px; font-size: 0.85rem; line-height: 1.5; margin-top: 12px; display: none; }
+  .msg.error { background: rgba(220,80,80,0.12); border: 1px solid rgba(220,80,80,0.4); color: var(--bad); }
+  .msg.ok { background: rgba(110,231,160,0.1); border: 1px solid rgba(110,231,160,0.4); color: var(--ok); }
+  .app-item { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    background: var(--panel2); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+  .app-item .name { font-size: 0.92rem; }
+  .app-item .status { font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+  .status.active { background: rgba(110,231,160,0.15); color: var(--ok); }
+  .status.revoked { background: rgba(220,80,80,0.15); color: var(--bad); }
+  .hidden { display: none !important; }
+  #memberBadge { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 8px; }
+  button.ghost {
+    background: var(--panel2); color: var(--text); border: 1px solid rgba(139,92,246,0.35);
+    border-radius: 12px; padding: 11px; font-size: 0.9rem; cursor: pointer; margin-top: 14px; width: 100%;
+  }
+  footer { text-align: center; color: var(--muted); font-size: 0.68rem; padding: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚔️ REDEEMED WARRIOR — MEMBER DASHBOARD</h1>
+  <p>Redeemed by Grace. Strengthened by Purpose. Built to Rise.</p>
+</header>
+
+<main>
+  <div class="card" id="authCard">
+    <h2 id="authTitle">Create your free member account</h2>
+    <p class="sub">Your account keeps your apps, purchases and progress in one place.</p>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+    <label for="password">Password (at least 8 characters)</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="Choose a safe password">
+    <button class="primary" id="authBtn">Create account</button>
+    <button class="link" id="authToggle">I already have an account — log in</button>
+    <div class="msg error" id="authMsg"></div>
+  </div>
+
+  <div id="memberArea" class="hidden">
+    <div id="memberBadge"></div>
+
+    <div class="card">
+      <h2>🎁 Redeem Store Purchase</h2>
+      <p class="sub">Bought an app in the Redeemed Warrior Store? Enter the redemption code from your purchase email to unlock it here.</p>
+      <label for="code">Redemption code</label>
+      <input id="code" type="text" placeholder="RW-XXXX-XXXX" autocomplete="off">
+      <button class="primary" id="redeemBtn">Redeem</button>
+      <div class="msg error" id="redeemMsg"></div>
+      <div class="msg ok" id="redeemOk"></div>
+    </div>
+
+    <div class="card">
+      <h2>📱 My Apps</h2>
+      <p class="sub">Apps unlocked by your Store purchases. Access is verified with the Store automatically.</p>
+      <div id="appsList"></div>
+    </div>
+
+    <div class="card">
+      <h2>🧾 Redemption status</h2>
+      <div id="redemptionsList"></div>
+    </div>
+
+    <button class="ghost" id="logoutBtn">Log out</button>
+  </div>
+</main>
+
+<footer>Powered by Redeemed Warrior AI · godsredeemedwarrior.com</footer>
+
+<script>
+  const authCard = document.getElementById('authCard');
+  const authTitle = document.getElementById('authTitle');
+  const authBtn = document.getElementById('authBtn');
+  const authToggle = document.getElementById('authToggle');
+  const authMsg = document.getElementById('authMsg');
+  const memberArea = document.getElementById('memberArea');
+  const memberBadge = document.getElementById('memberBadge');
+  const codeInput = document.getElementById('code');
+  const redeemBtn = document.getElementById('redeemBtn');
+  const redeemMsg = document.getElementById('redeemMsg');
+  const redeemOk = document.getElementById('redeemOk');
+  const appsList = document.getElementById('appsList');
+  const redemptionsList = document.getElementById('redemptionsList');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  let mode = 'register';
+  let token = localStorage.getItem('rw_member_token') || null;
+  let email = localStorage.getItem('rw_member_email') || null;
+
+  function show(el, text, cls) {
+    el.textContent = text;
+    el.className = 'msg ' + cls;
+    el.style.display = 'block';
+  }
+  function hide(el) { el.style.display = 'none'; }
+
+  async function api(path, body, method) {
+    const opts = { method: method || (body ? 'POST' : 'GET'), headers: {} };
+    if (token) opts.headers.Authorization = 'Bearer ' + token;
+    if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+    const res = await fetch(path, opts);
+    let data = {};
+    try { data = await res.json(); } catch (e) {}
+    return { ok: res.ok, status: res.status, data };
+  }
+
+  function renderApps(apps) {
+    appsList.innerHTML = '';
+    if (!apps.length) {
+      appsList.innerHTML = '<p class="sub">No apps yet. Redeem a Store purchase code above to unlock your first app.</p>';
+      return;
+    }
+    apps.forEach(function (a) {
+      const div = document.createElement('div');
+      div.className = 'app-item';
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = a.name;
+      const st = document.createElement('div');
+      st.className = 'status ' + (a.hasAccess ? 'active' : 'revoked');
+      st.textContent = a.hasAccess ? 'Access granted' : a.status;
+      div.appendChild(name); div.appendChild(st);
+      appsList.appendChild(div);
+    });
+  }
+
+  function renderRedemptions(items) {
+    redemptionsList.innerHTML = '';
+    if (!items.length) {
+      redemptionsList.innerHTML = '<p class="sub">Nothing redeemed yet.</p>';
+      return;
+    }
+    items.forEach(function (r) {
+      const div = document.createElement('div');
+      div.className = 'app-item';
+      const left = document.createElement('div');
+      left.className = 'name';
+      left.textContent = r.code + ' — ' + r.app.name;
+      const st = document.createElement('div');
+      st.className = 'status ' + (r.hasAccess ? 'active' : 'revoked');
+      st.textContent = r.status;
+      div.appendChild(left); div.appendChild(st);
+      redemptionsList.appendChild(div);
+    });
+  }
+
+  async function refresh() {
+    if (!token) return;
+    const apps = await api('/api/store/my-apps');
+    if (apps.ok) renderApps(apps.data.apps || []);
+    const reds = await api('/api/store/redemptions');
+    if (reds.ok) renderRedemptions(reds.data.redemptions || []);
+  }
+
+  function enterDashboard() {
+    authCard.classList.add('hidden');
+    memberArea.classList.remove('hidden');
+    memberBadge.textContent = 'Logged in as ' + email;
+    refresh();
+  }
+
+  authToggle.addEventListener('click', function () {
+    mode = mode === 'register' ? 'login' : 'register';
+    authTitle.textContent = mode === 'register' ? 'Create your free member account' : 'Welcome back, warrior';
+    authBtn.textContent = mode === 'register' ? 'Create account' : 'Log in';
+    authToggle.textContent = mode === 'register' ? 'I already have an account — log in' : 'New here? Create your free account';
+    hide(authMsg);
+  });
+
+  authBtn.addEventListener('click', async function () {
+    hide(authMsg);
+    authBtn.disabled = true;
+    try {
+      const r = await api('/api/auth/' + mode, { email: document.getElementById('email').value, password: document.getElementById('password').value });
+      if (!r.ok) {
+        show(authMsg, (r.data.error && r.data.error.message) || 'Something went wrong. Please try again.', 'error');
+      } else {
+        token = r.data.token;
+        email = r.data.member.email;
+        localStorage.setItem('rw_member_token', token);
+        localStorage.setItem('rw_member_email', email);
+        enterDashboard();
+      }
+    } catch (e) {
+      show(authMsg, 'Could not reach the server. Check your connection.', 'error');
+    }
+    authBtn.disabled = false;
+  });
+
+  redeemBtn.addEventListener('click', async function () {
+    hide(redeemMsg); hide(redeemOk);
+    const code = codeInput.value.trim();
+    if (!code) { show(redeemMsg, 'Please enter your redemption code first.', 'error'); return; }
+    redeemBtn.disabled = true;
+    try {
+      const r = await api('/api/store/redeem', { code: code });
+      if (!r.ok) {
+        show(redeemMsg, (r.data.error && r.data.error.message) || 'Redemption failed. Please try again.', 'error');
+      } else {
+        show(redeemOk, r.data.message || 'Redeemed!', 'ok');
+        codeInput.value = '';
+        refresh();
+      }
+    } catch (e) {
+      show(redeemMsg, 'Could not reach the server. Check your connection.', 'error');
+    }
+    redeemBtn.disabled = false;
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    token = null; email = null;
+    localStorage.removeItem('rw_member_token');
+    localStorage.removeItem('rw_member_email');
+    memberArea.classList.add('hidden');
+    authCard.classList.remove('hidden');
+  });
+
+  if (token && email) { enterDashboard(); }
+</script>
+</body>
+</html>

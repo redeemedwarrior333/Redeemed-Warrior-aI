@@ -9,6 +9,8 @@ const healthRoutes = require('./routes/health');
 const chatRoutes = require('./routes/chat');
 const appsRoutes = require('./routes/apps');
 const pagesRoutes = require('./routes/pages');
+const authRoutes = require('./routes/auth');
+const storeRoutes = require('./routes/store');
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(rateLimit);
 
 app.use('/health', healthRoutes);
 app.use('/', pagesRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/store', storeRoutes);
 app.use('/api/chat', requireApiKey, chatRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
 

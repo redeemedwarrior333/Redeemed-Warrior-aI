@@ -73,6 +73,20 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 - Set `API_KEY` before exposing this to the internet.
 - Never put your `.env` file on GitHub — it is already excluded by `.gitignore`.
 
+### No computer? Deploy from your phone (free)
+
+You do not need a computer. [Render](https://render.com) runs the API for you in the cloud, for free, straight from your GitHub repository:
+
+1. Merge the pull request so your repo has the latest code.
+2. On your phone, go to [dashboard.render.com](https://dashboard.render.com) and choose **"Sign up with GitHub"**.
+3. Click **New +** → **Blueprint** → pick your `Redeemed-Warrior-aI` repository → **Connect**.
+4. Render reads the included `render.yaml` and only asks you for one thing: your **AI_API_KEY** (the Google AI Studio key starting with `AIza...`). Paste it and click **Apply**.
+5. Wait about 2 minutes. Your AI is now live at a web address like `https://redeemed-warrior-ai-api.onrender.com` — open `/health` in your browser to confirm it says `"status":"ok"`.
+
+Notes:
+- Render generates your `API_KEY` automatically — find it in your service's **Environment** tab. Keep it secret; anyone who has it can use your AI.
+- The free plan puts the API to sleep after ~15 minutes of no visitors. The next request takes about a minute to wake it up. It also has monthly usage limits — fine for building and testing, upgrade only when you outgrow it.
+
 ### Keys not working? Run the setup doctor
 
 ```

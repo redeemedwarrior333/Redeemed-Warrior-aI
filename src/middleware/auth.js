@@ -9,14 +9,21 @@ function safeEqual(a, b) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-module.exports = function requireApiKey(req, res, next) {
-  if (!config.apiKey) return next();
+function isValidKey(req) {
+  if (!config.apiKey) return true;
   const header = req.headers.authorization || '';
   const token = header.startsWith('Bearer ') ? header.slice(7).trim() : '';
-  if (token && safeEqual(token, config.apiKey)) return next();
+  return Boolean(token) && safeEqual(token, config.apiKey);
+}
+
+module.exports = function requireApiKey(req, res, next) {
+  if (isValidKey(req)) return next();
+  if (config.publicChatEnabled) return next();
   res.status(401).json({
     error: {
       message: 'Missing or invalid API key. Send it as a header: Authorization: Bearer <your-key>'
     }
   });
 };
+
+module.exports.isValidKey = isValidKey;

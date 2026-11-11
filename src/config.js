@@ -9,6 +9,8 @@ const config = {
   aiApiKey: process.env.AI_API_KEY || '',
   aiModel: process.env.AI_MODEL || 'gemini-2.5-flash',
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX) || 60,
+  publicChatEnabled: process.env.PUBLIC_CHAT_ENABLED === 'true',
+  publicRateLimitMax: Number(process.env.PUBLIC_RATE_LIMIT_MAX) || 10,
   rateLimitWindowMs: 60 * 1000,
   maxHistoryMessages: 20,
   masterPromptPath: path.join(__dirname, '..', 'MASTER_PROMPT.md')

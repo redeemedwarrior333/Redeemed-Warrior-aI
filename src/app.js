@@ -8,6 +8,7 @@ const { notFound, errorHandler } = require('./middleware/errors');
 const healthRoutes = require('./routes/health');
 const chatRoutes = require('./routes/chat');
 const appsRoutes = require('./routes/apps');
+const pagesRoutes = require('./routes/pages');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json({ limit: '1mb' }));
 app.use(rateLimit);
 
 app.use('/health', healthRoutes);
+app.use('/', pagesRoutes);
 app.use('/api/chat', requireApiKey, chatRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
 

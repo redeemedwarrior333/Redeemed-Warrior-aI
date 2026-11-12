@@ -116,4 +116,4 @@ async function chatCompletion(options) {
   throw lastError;
 }
 
-module.exports = { chatCompletion, ApiError };
+module.exports = { chatCompletion, chatWithProvider, providers, ApiError };

@@ -8,6 +8,7 @@ const rateLimit = require('./middleware/rateLimit');
 const { notFound, errorHandler } = require('./middleware/errors');
 const healthRoutes = require('./routes/health');
 const chatRoutes = require('./routes/chat');
+const aiStatusRoutes = require('./routes/aiStatus');
 const appsRoutes = require('./routes/apps');
 const pagesRoutes = require('./routes/pages');
 const authRoutes = require('./routes/auth');
@@ -26,6 +27,7 @@ app.use('/', pagesRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/store', storeRoutes);
 app.use('/api/chat', requireApiKey, chatRoutes);
+app.use('/api/ai-status', aiStatusRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
 app.use('/api/autopilot', requireApiKeyStrict, autopilotRoutes);
 

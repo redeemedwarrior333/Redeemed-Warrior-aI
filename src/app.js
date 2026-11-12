@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const config = require('./config');
 const requireApiKey = require('./middleware/auth');
+const { requireApiKeyStrict } = require('./middleware/auth');
 const rateLimit = require('./middleware/rateLimit');
 const { notFound, errorHandler } = require('./middleware/errors');
 const healthRoutes = require('./routes/health');
@@ -11,6 +12,7 @@ const appsRoutes = require('./routes/apps');
 const pagesRoutes = require('./routes/pages');
 const authRoutes = require('./routes/auth');
 const storeRoutes = require('./routes/store');
+const autopilotRoutes = require('./routes/autopilot');
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/store', storeRoutes);
 app.use('/api/chat', requireApiKey, chatRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
+app.use('/api/autopilot', requireApiKeyStrict, autopilotRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

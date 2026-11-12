@@ -119,7 +119,7 @@ async function main() {
     report(
       false,
       `The model "${config.aiModel}" was not found on your AI provider`,
-      'Check AI_MODEL in .env for typos. For Google AI Studio use a name like: gemini-2.5-flash. For Groq, copy an exact model name from https://console.groq.com/models'
+      'Check AI_MODEL in .env for typos. For Google AI Studio use a name like: gemini-3.8-flash. For Groq, copy an exact model name from https://console.groq.com/models'
     );
   } else if (response.status === 429) {
     report(

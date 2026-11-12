@@ -48,6 +48,7 @@ async function chatWithProvider(provider, { messages, stream = false, temperatur
       })
     });
   } catch (err) {
+    console.error(`[aiClient] provider "${provider.name}" (${provider.model}): network error - ${err.message}`);
     throw new ApiError(502, 'Could not reach the AI provider. Please try again.', err);
   }
 
@@ -56,9 +57,21 @@ async function chatWithProvider(provider, { messages, stream = false, temperatur
     try {
       detail = (await response.text()).slice(0, 500);
     } catch (_) {}
+    console.error(
+      `[aiClient] provider "${provider.name}" (${provider.model}) failed: HTTP ${response.status} ${detail}`
+    );
+    let reason = '';
+    try {
+      const parsed = JSON.parse(detail);
+      const upstreamMessage = parsed && parsed.error && parsed.error.message;
+      if (typeof upstreamMessage === 'string') reason = upstreamMessage.slice(0, 200);
+    } catch (_) {
+      reason = detail.slice(0, 200);
+    }
+    const suffix = reason ? ` Provider said: ${reason}` : '';
     throw new ApiError(
       mapUpstreamStatus(response.status),
-      `The AI provider returned an error (HTTP ${response.status}). Please try again or check your AI provider settings.`,
+      `The AI provider returned an error (HTTP ${response.status}). Please try again or check your AI provider settings.${suffix}`,
       detail
     );
   }

@@ -7,7 +7,7 @@ const config = {
   apiKey: process.env.API_KEY || '',
   aiBaseUrl: (process.env.AI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai').replace(/\/+$/, ''),
   aiApiKey: process.env.AI_API_KEY || '',
-  aiModel: process.env.AI_MODEL || 'gemini-3.5-flash-lite',
+  aiModel: process.env.AI_MODEL || 'gemini-3.8-flash',
   aiFallbackBaseUrl: (process.env.AI_FALLBACK_BASE_URL || '').replace(/\/+$/, ''),
   aiFallbackApiKey: process.env.AI_FALLBACK_API_KEY || '',
   aiFallbackModel: process.env.AI_FALLBACK_MODEL || '',

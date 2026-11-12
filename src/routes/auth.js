@@ -33,4 +33,21 @@ router.get('/me', requireMember, (req, res) => {
   res.json({ member: publicMember(req.member) });
 });
 
+router.post('/forgot', (req, res) => {
+  const email = req.body && typeof req.body.email === 'string' ? req.body.email : '';
+  members.requestReset(email);
+  res.json({
+    message: 'If that email has an account, your request was sent to the platform owner, who will give you a temporary password.'
+  });
+});
+
+router.post('/change-password', requireMember, (req, res) => {
+  const { currentPassword, newPassword } = req.body || {};
+  const result = members.changePassword(req.member.memberId, currentPassword, newPassword);
+  if (result.error) {
+    return res.status(400).json({ error: { message: result.error } });
+  }
+  res.json({ message: 'Your password has been updated.' });
+});
+
 module.exports = router;

@@ -88,6 +88,10 @@ function listActiveForRecheck() {
   return Array.from(redemptions.values()).filter((r) => needsRecheck(r));
 }
 
+function listAll() {
+  return Array.from(redemptions.values()).sort((a, b) => b.claimedAt - a.claimedAt);
+}
+
 module.exports = {
   redemptions,
   recordClaim,
@@ -99,6 +103,7 @@ module.exports = {
   applyStatus,
   needsRecheck,
   listActiveForRecheck,
+  listAll,
   ACTIVE_STATUSES,
   REVOKED_STATUSES
 };

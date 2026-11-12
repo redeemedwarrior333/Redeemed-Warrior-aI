@@ -89,6 +89,12 @@ Member dashboard: open `/dashboard` on your deployment.
 
 Set `OWNER_EMAILS` (comma-separated) in the server environment. Any member who registers or signs in with one of those emails gets the `owner` role, verified server-side: full Premium access in hosted apps with no purchase code needed, never limited by subscriptions. Regular members are unaffected.
 
+Owner dashboard: open `/owner` on your deployment and sign in with the owner email — live member counts, password reset requests (issue temporary passwords), member list, and all Store redemptions.
+
+### Forgot password
+
+Members tap "Forgot password?" in an app and enter their email (`POST /api/auth/forgot`). The request lands in the owner dashboard, where the owner issues a one-time temporary password; the member signs in with it and changes it under Account (`POST /api/auth/change-password`). No email service required.
+
 > Note: the Store's `/api/rw/redeem/*` endpoints must be live on the Store for redemption to work. The Builder side is complete and ready.
 
 ### Add it to your website

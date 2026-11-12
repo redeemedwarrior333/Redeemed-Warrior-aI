@@ -17,4 +17,8 @@ router.get('/autopilot', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'public', 'autopilot.html'));
 });
 
+router.get('/owner', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'public', 'owner.html'));
+});
+
 module.exports = router;

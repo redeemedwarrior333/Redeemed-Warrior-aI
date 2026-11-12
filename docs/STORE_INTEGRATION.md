@@ -94,6 +94,10 @@ survive until the server restarts. Before real money flows through the Store, th
 should move to a persistent database (the services are written so the storage can be
 swapped without changing the routes).
 
+## Automated end-to-end test
+
+`npm run test:e2e` runs the complete 7-step flow (registration, code check, claim with `confirm:true`, My Apps, access grant, cross-account rejection, refund revocation) against a built-in mock Store that enforces the `X-RW-Key` header. It can be re-run against the real Store once its endpoints are live by setting `RW_STORE_BASE_URL` to the Store URL before running it.
+
 ## Testing checklist (run after the Store deploys its endpoints)
 
 1. **Store purchase** — buy an app product in the Store; confirm a redemption code is issued.

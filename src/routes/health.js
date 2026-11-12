@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
     version: '0.1.0',
     model: config.aiModel,
     aiConfigured: Boolean(config.aiApiKey),
+    fallbackConfigured: Boolean(config.aiFallbackApiKey),
     authRequired: Boolean(config.apiKey),
     uptimeSeconds: Math.round(process.uptime())
   });

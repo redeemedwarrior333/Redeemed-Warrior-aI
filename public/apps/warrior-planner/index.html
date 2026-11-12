@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warrior Planner — Redeemed Warrior</title>
+  <meta name="theme-color" content="#0B0609" />
+  <style>
+    :root {
+      --bg: #0b0609;
+      --panel: #171019;
+      --panel-2: #1f1523;
+      --line: #3a2a3f;
+      --gold: #d9b877;
+      --gold-deep: #b08d4f;
+      --text: #f3ead9;
+      --muted: #b8a58a;
+      --good: #7fc98d;
+      --danger: #e07a7a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+    header {
+      text-align: center;
+      padding: 28px 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #150d18 0%, var(--bg) 100%);
+    }
+    header h1 {
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    header .motto {
+      margin-top: 6px;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    header .date {
+      margin-top: 10px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      display: flex;
+      background: var(--panel);
+      border-top: 1px solid var(--line);
+      z-index: 10;
+    }
+    nav button {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.8rem;
+      padding: 12px 4px 14px;
+      cursor: pointer;
+    }
+    nav button .ico { display: block; font-size: 1.15rem; margin-bottom: 3px; }
+    nav button.active { color: var(--gold); }
+    main { max-width: 640px; margin: 0 auto; padding: 18px 16px; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .card h2 {
+      font-size: 1.02rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+    .verse {
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .verse-ref {
+      display: block;
+      margin-top: 8px;
+      color: var(--gold);
+      font-style: normal;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    input:focus, textarea:focus { outline: 1px solid var(--gold-deep); }
+    textarea { resize: vertical; min-height: 70px; }
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #241708;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    .btn.ghost {
+      background: none;
+      color: var(--gold);
+      border: 1px solid var(--gold-deep);
+      font-weight: 400;
+    }
+    .btn.small { padding: 6px 10px; font-size: 0.8rem; }
+    ul.list { list-style: none; }
+    ul.list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 2px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+    }
+    ul.list li:last-child { border-bottom: none; }
+    ul.list li.done .txt { text-decoration: line-through; color: var(--muted); }
+    ul.list li .txt { flex: 1; }
+    ul.list li .when { color: var(--muted); font-size: 0.75rem; }
+    .check {
+      width: 22px; height: 22px;
+      min-width: 22px;
+      border-radius: 6px;
+      border: 1px solid var(--gold-deep);
+      background: none;
+      color: var(--gold);
+      font-size: 0.85rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    li.done .check { background: var(--gold); color: #241708; }
+    .x {
+      background: none; border: none;
+      color: var(--danger);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+    .empty { color: var(--muted); font-style: italic; font-size: 0.9rem; padding: 6px 2px; }
+    .row { display: flex; gap: 8px; }
+    .row input { margin-bottom: 0; }
+    .toast {
+      position: fixed;
+      left: 50%; bottom: 84px;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: #241708;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 999px;
+      padding: 9px 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 20px 0 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛡️ Warrior Planner</h1>
+    <div class="motto">Redeemed by Grace. Strengthened by Purpose. Built to Rise.</div>
+    <div class="date" id="todayDate"></div>
+  </header>
+
+  <main>
+    <section class="page active" id="page-today">
+      <div class="card">
+        <h2>✝️ Scripture for today</h2>
+        <p class="verse" id="verseText"></p>
+        <span class="verse-ref" id="verseRef"></span>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Top 3 priorities</h2>
+        <div class="row"><input type="text" id="priorityInput" placeholder="What matters most today?" maxlength="120"></div>
+        <button class="btn small" id="addPriority" style="margin-top:8px">Add priority</button>
+        <ul class="list" id="priorityList" style="margin-top:10px"></ul>
+      </div>
+
+      <div class="card">
+        <h2>💛 Three things I'm grateful for</h2>
+        <div class="row"><input type="text" id="gratitudeInput" placeholder="Thank You, Lord, for..."></div>
+        <button class="btn small" id="addGratitude" style="margin-top:8px">Add</button>
+        <ul class="list" id="gratitudeList" style="margin-top:10px"></ul>
+      </div>
+
+      <div class="card">
+        <h2>📝 Today's notes</h2>
+        <textarea id="notesArea" placeholder="Thoughts, prayers, ideas..."></textarea>
+      </div>
+    </section>
+
+    <section class="page" id="page-prayers">
+      <div class="card">
+        <h2>🙏 Prayer requests</h2>
+        <div class="row"><input type="text" id="prayerInput" placeholder="Lord, I bring you..."></div>
+        <button class="btn small" id="addPrayer" style="margin-top:8px">Add prayer</button>
+        <ul class="list" id="prayerList" style="margin-top:10px"></ul>
+      </div>
+      <div class="card">
+        <h2>✨ Answered prayers</h2>
+        <p class="empty" id="answeredEmpty">Mark a prayer as answered and it will be recorded here — a record of God's faithfulness.</p>
+        <ul class="list" id="answeredList"></ul>
+      </div>
+    </section>
+
+    <section class="page" id="page-goals">
+      <div class="card">
+        <h2>🏔️ Goals &amp; dreams</h2>
+        <div class="row"><input type="text" id="goalInput" placeholder="The dream God placed in me is..."></div>
+        <button class="btn small" id="addGoal" style="margin-top:8px">Add goal</button>
+        <ul class="list" id="goalList" style="margin-top:10px"></ul>
+      </div>
+    </section>
+
+    <section class="page" id="page-more">
+      <div class="card">
+        <h2>💾 Your data</h2>
+        <p class="empty">Everything you write stays on this device (in your browser). Nothing is sent anywhere.</p>
+        <button class="btn ghost" id="exportBtn">Export my planner (text file)</button>
+      </div>
+      <div class="card">
+        <h2>⚠️ Reset</h2>
+        <p class="empty">This erases everything in your planner on this device. It cannot be undone.</p>
+        <button class="btn ghost" id="resetBtn" style="color:var(--danger); border-color:var(--danger)">Erase all data</button>
+      </div>
+      <footer>Warrior Planner · A Redeemed Warrior app<br/>Redeemed by Grace. Strengthened by Purpose. Built to Rise.</footer>
+    </section>
+  </main>
+
+  <nav>
+    <button data-page="today" class="active"><span class="ico">☀️</span>Today</button>
+    <button data-page="prayers"><span class="ico">🙏</span>Prayers</button>
+    <button data-page="goals"><span class="ico">🏔️</span>Goals</button>
+    <button data-page="more"><span class="ico">⚙️</span>More</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const KEY = 'warrior-planner-v1';
+    const VERSES = [
+      { t: 'I can do all things through Christ who strengthens me.', r: 'Philippians 4:13' },
+      { t: 'For I know the plans I have for you, declares the Lord — plans to give you hope and a future.', r: 'Jeremiah 29:11' },
+      { t: 'Be strong and courageous. Do not be afraid; the Lord your God goes with you.', r: 'Deuteronomy 31:6' },
+      { t: 'Trust in the Lord with all your heart and lean not on your own understanding.', r: 'Proverbs 3:5' },
+      { t: 'The Lord is my shepherd; I shall not want.', r: 'Psalm 23:1' },
+      { t: 'Let us not become weary in doing good, for at the proper time we will reap a harvest.', r: 'Galatians 6:9' },
+      { t: 'I am chosen, redeemed, forgiven and strengthened by grace.', r: 'Ephesians 1:7' }
+    ];
+
+    let state = load();
+    const $ = (id) => document.getElementById(id);
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (_) {}
+      return { priorities: {}, gratitudes: {}, notes: {}, prayers: [], goals: [] };
+    }
+    function save() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
+    }
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = String(s);
+      return d.innerHTML;
+    }
+    function toast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    function renderItem(ul, item, opts) {
+      const li = document.createElement('li');
+      if (opts.done) li.classList.add('done');
+      if (opts.checkable) {
+        const check = document.createElement('button');
+        check.className = 'check';
+        check.textContent = opts.done ? '✓' : '';
+        check.addEventListener('click', () => opts.onToggle(item));
+        li.appendChild(check);
+      }
+      const txt = document.createElement('span');
+      txt.className = 'txt';
+      txt.innerHTML = esc(opts.text(item));
+      li.appendChild(txt);
+      if (opts.when) {
+        const when = document.createElement('span');
+        when.className = 'when';
+        when.textContent = opts.when(item);
+        li.appendChild(when);
+      }
+      const del = document.createElement('button');
+      del.className = 'x';
+      del.textContent = '✕';
+      del.addEventListener('click', () => opts.onDelete(item));
+      li.appendChild(del);
+      ul.appendChild(li);
+    }
+
+    function renderPriorities() {
+      const key = todayKey();
+      const list = state.priorities[key] || [];
+      const ul = $('priorityList');
+      ul.innerHTML = '';
+      if (!list.length) ul.innerHTML = '<li class="empty">No priorities yet — start with one.</li>';
+      list.forEach((p) =>
+        renderItem(ul, p, {
+          done: p.done,
+          checkable: true,
+          text: (x) => x.text,
+          onToggle: (x) => { x.done = !x.done; save(); renderPriorities(); },
+          onDelete: (x) => {
+            state.priorities[key] = list.filter((i) => i !== x);
+            save(); renderPriorities();
+          }
+        })
+      );
+    }
+
+    function renderGratitudes() {
+      const key = todayKey();
+      const list = state.gratitudes[key] || [];
+      const ul = $('gratitudeList');
+      ul.innerHTML = '';
+      if (!list.length) ul.innerHTML = '<li class="empty">Count your blessings — add one.</li>';
+      list.forEach((g) =>
+        renderItem(ul, g, {
+          done: false,
+          text: (x) => x.text,
+          onDelete: (x) => {
+            state.gratitudes[key] = list.filter((i) => i !== g);
+            save(); renderGratitudes();
+          }
+        })
+      );
+    }
+
+    function renderPrayers() {
+      const ul = $('prayerList');
+      ul.innerHTML = '';
+      if (!state.prayers.length) ul.innerHTML = '<li class="empty">No prayers yet. Bring them here.</li>';
+      state.prayers.filter((p) => !p.answered).forEach((p) =>
+        renderItem(ul, p, {
+          done: false,
+          text: (x) => x.text,
+          when: (x) => new Date(x.addedAt).toLocaleDateString(),
+          onDelete: (x) => {
+            state.prayers = state.prayers.filter((i) => i !== p);
+            save(); renderPrayers();
+          },
+          onToggle: null
+        }).querySelector('.txt').before(makeAnswerBtn(p))
+      );
+      const answered = state.prayers.filter((p) => p.answered);
+      $('answeredEmpty').style.display = answered.length ? 'none' : 'block';
+      const ua = $('answeredList');
+      ua.innerHTML = '';
+      answered.forEach((p) =>
+        renderItem(ua, p, {
+          done: true,
+          text: (x) => x.text,
+          when: (x) => 'answered ' + new Date(x.answeredAt).toLocaleDateString(),
+          onDelete: (x) => {
+            state.prayers = state.prayers.filter((i) => i !== p);
+            save(); renderPrayers();
+          }
+        })
+      );
+    }
+
+    function makeAnswerBtn(p) {
+      const b = document.createElement('button');
+      b.className = 'btn ghost small';
+      b.textContent = 'Answered ✓';
+      b.addEventListener('click', () => {
+        p.answered = true;
+        p.answeredAt = Date.now();
+        save(); renderPrayers();
+        toast('God is faithful 🙌');
+      });
+      return b;
+    }
+
+    function renderGoals() {
+      const ul = $('goalList');
+      ul.innerHTML = '';
+      if (!state.goals.length) ul.innerHTML = '<li class="empty">Every big thing starts small. Add one goal.</li>';
+      state.goals.forEach((g) =>
+        renderItem(ul, g, {
+          done: g.done,
+          checkable: true,
+          text: (x) => x.text,
+          when: (x) => new Date(x.addedAt).toLocaleDateString(),
+          onToggle: (x) => { x.done = !x.done; save(); renderGoals(); },
+          onDelete: (x) => {
+            state.goals = state.goals.filter((i) => i !== g);
+            save(); renderGoals();
+          }
+        })
+      );
+    }
+
+    function addFromInput(inputId, target) {
+      const input = $(inputId);
+      const text = input.value.trim();
+      if (!text) return;
+      target(text);
+      input.value = '';
+      save();
+    }
+
+    $('addPriority').addEventListener('click', () => {
+      const key = todayKey();
+      state.priorities[key] = state.priorities[key] || [];
+      addFromInput('priorityInput', (text) => state.priorities[key].push({ text, done: false }));
+      renderPriorities();
+    });
+    $('addGratitude').addEventListener('click', () => {
+      const key = todayKey();
+      state.gratitudes[key] = state.gratitudes[key] || [];
+      addFromInput('gratitudeInput', (text) => state.gratitudes[key].push({ text }));
+      renderGratitudes();
+    });
+    $('addPrayer').addEventListener('click', () => {
+      addFromInput('prayerInput', (text) => state.prayers.unshift({ text, addedAt: Date.now(), answered: false }));
+      renderPrayers();
+    });
+    $('addGoal').addEventListener('click', () => {
+      addFromInput('goalInput', (text) => state.goals.unshift({ text, addedAt: Date.now(), done: false }));
+      renderGoals();
+    });
+    $('notesArea').addEventListener('input', (e) => {
+      state.notes[todayKey()] = e.target.value;
+      save();
+    });
+
+    $('exportBtn').addEventListener('click', () => {
+      let out = 'WARRIOR PLANNER — ' + new Date().toLocaleString() + '\n\n';
+      out += '== PRAYERS ==\n';
+      state.prayers.forEach((p) => {
+        out += (p.answered ? '[answered ' + new Date(p.answeredAt).toLocaleDateString() + '] ' : '[open] ') + p.text + '\n';
+      });
+      out += '\n== GOALS ==\n';
+      state.goals.forEach((g) => { out += (g.done ? '[x] ' : '[ ] ') + g.text + '\n'; });
+      out += '\n== DAILY ENTRIES ==\n';
+      Object.keys(state.priorities).sort().forEach((day) => {
+        out += '\n-- ' + day + ' --\n';
+        (state.priorities[day] || []).forEach((p) => { out += (p.done ? '[x] ' : '[ ] ') + p.text + '\n'; });
+        (state.gratitudes[day] || []).forEach((g) => { out += 'grateful: ' + g.text + '\n'; });
+        if (state.notes[day]) out += 'notes: ' + state.notes[day] + '\n';
+      });
+      const blob = new Blob([out], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'warrior-planner-export.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $('resetBtn').addEventListener('click', () => {
+      if (!confirm('Erase everything in your planner? This cannot be undone.')) return;
+      localStorage.removeItem(KEY);
+      state = load();
+      renderAll();
+      toast('Planner reset');
+    });
+
+    document.querySelectorAll('nav button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('nav button').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        $('page-' + btn.dataset.page).classList.add('active');
+        window.scrollTo(0, 0);
+      });
+    });
+
+    function renderAll() {
+      const now = new Date();
+      $('todayDate').textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const verse = VERSES[(Math.floor(now.getTime() / 86400000)) % VERSES.length];
+      $('verseText').textContent = '"' + verse.t + '"';
+      $('verseRef').textContent = '— ' + verse.r;
+      $('notesArea').value = state.notes[todayKey()] || '';
+      renderPriorities();
+      renderGratitudes();
+      renderPrayers();
+      renderGoals();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>

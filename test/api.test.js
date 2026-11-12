@@ -85,3 +85,17 @@ test('unknown route returns 404 JSON', async () => {
     server.close();
   }
 });
+
+test('purchased apps are served at /apps/:name', async () => {
+  const server = await startServer();
+  try {
+    const port = server.address().port;
+    const res = await fetch(`http://localhost:${port}/apps/warrior-planner/`);
+    const body = await res.text();
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get('content-type'), /text\/html/);
+    assert.match(body, /Warrior Planner/);
+  } finally {
+    server.close();
+  }
+});

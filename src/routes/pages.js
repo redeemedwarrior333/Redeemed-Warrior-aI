@@ -3,6 +3,8 @@ const path = require('path');
 
 const router = express.Router();
 
+router.use('/apps', express.static(path.join(__dirname, '..', '..', 'public', 'apps')));
+
 router.get('/chat', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'public', 'chat.html'));
 });

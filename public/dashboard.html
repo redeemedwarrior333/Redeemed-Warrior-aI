@@ -81,9 +81,11 @@
       <p class="sub">Bought an app in the Redeemed Warrior Store? Enter the redemption code from your purchase email to unlock it here.</p>
       <label for="code">Redemption code</label>
       <input id="code" type="text" placeholder="RW-XXXX-XXXX" autocomplete="off">
-      <button class="primary" id="redeemBtn">Redeem</button>
+      <button class="primary" id="redeemBtn">Check code</button>
+      <button class="ghost hidden" id="confirmBtn">Yes, add it to my account</button>
       <div class="msg error" id="redeemMsg"></div>
       <div class="msg ok" id="redeemOk"></div>
+      <div class="msg hidden" id="redeemPreview"></div>
     </div>
 
     <div class="card">
@@ -113,8 +115,10 @@
   const memberBadge = document.getElementById('memberBadge');
   const codeInput = document.getElementById('code');
   const redeemBtn = document.getElementById('redeemBtn');
+  const confirmBtn = document.getElementById('confirmBtn');
   const redeemMsg = document.getElementById('redeemMsg');
   const redeemOk = document.getElementById('redeemOk');
+  const redeemPreview = document.getElementById('redeemPreview');
   const appsList = document.getElementById('appsList');
   const redemptionsList = document.getElementById('redemptionsList');
   const logoutBtn = document.getElementById('logoutBtn');
@@ -223,8 +227,14 @@
     authBtn.disabled = false;
   });
 
+  function hidePreview() {
+    redeemPreview.classList.add('hidden');
+    confirmBtn.classList.add('hidden');
+    redeemPreview.textContent = '';
+  }
+
   redeemBtn.addEventListener('click', async function () {
-    hide(redeemMsg); hide(redeemOk);
+    hide(redeemMsg); hide(redeemOk); hidePreview();
     const code = codeInput.value.trim();
     if (!code) { show(redeemMsg, 'Please enter your redemption code first.', 'error'); return; }
     redeemBtn.disabled = true;
@@ -232,6 +242,18 @@
       const r = await api('/api/store/redeem', { code: code });
       if (!r.ok) {
         show(redeemMsg, (r.data.error && r.data.error.message) || 'Redemption failed. Please try again.', 'error');
+      } else if (r.data.readyForConfirm) {
+        const app = r.data.app || {};
+        const bits = [];
+        if (app.name) bits.push(app.name);
+        if (app.type) bits.push(app.type);
+        if (app.pricing) bits.push(app.pricing);
+        if (r.data.customer) bits.push('purchased by ' + r.data.customer);
+        if (r.data.accessUntil) bits.push('access until ' + new Date(r.data.accessUntil).toLocaleDateString());
+        redeemPreview.textContent = 'Found: ' + (bits.join(' \u00b7 ') || 'your purchased app') + '. Nothing is linked yet.';
+        redeemPreview.classList.remove('hidden');
+        confirmBtn.classList.remove('hidden');
+        confirmBtn.dataset.code = code;
       } else {
         show(redeemOk, r.data.message || 'Redeemed!', 'ok');
         codeInput.value = '';
@@ -240,6 +262,29 @@
     } catch (e) {
       show(redeemMsg, 'Could not reach the server. Check your connection.', 'error');
     }
+    redeemBtn.disabled = false;
+  });
+
+  confirmBtn.addEventListener('click', async function () {
+    hide(redeemMsg); hide(redeemOk);
+    const code = confirmBtn.dataset.code || codeInput.value.trim();
+    if (!code) { show(redeemMsg, 'Please enter your redemption code first.', 'error'); return; }
+    confirmBtn.disabled = true;
+    redeemBtn.disabled = true;
+    try {
+      const r = await api('/api/store/redeem', { code: code, confirm: true });
+      if (!r.ok) {
+        show(redeemMsg, (r.data.error && r.data.error.message) || 'Redemption failed. Please try again.', 'error');
+      } else {
+        show(redeemOk, r.data.message || 'Redeemed!', 'ok');
+        codeInput.value = '';
+        hidePreview();
+        refresh();
+      }
+    } catch (e) {
+      show(redeemMsg, 'Could not reach the server. Check your connection.', 'error');
+    }
+    confirmBtn.disabled = false;
     redeemBtn.disabled = false;
   });
 

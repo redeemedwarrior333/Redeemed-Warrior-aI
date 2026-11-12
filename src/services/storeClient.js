@@ -82,37 +82,57 @@ function normalizeStatus(raw) {
 }
 
 function pickApp(data) {
-  const app = data && (data.app || data.product || data.item);
+  const app = data && (data.product || data.app || data.item);
   if (!app || typeof app !== 'object') return null;
   const id = app.id || app.appId || app.productId || app.slug;
   if (!id) return null;
   return {
     id: String(id),
     name: String(app.name || app.title || 'Purchased app'),
-    type: app.type ? String(app.type) : undefined
+    type: app.appType || app.type ? String(app.appType || app.type) : undefined,
+    pricing: app.pricing ? String(app.pricing) : undefined
   };
 }
 
-async function checkCode(code) {
-  const data = await storeRequest('/api/rw/redeem/check', { code });
+function parseAccessUntil(raw) {
+  if (!raw) return null;
+  const ms = Date.parse(raw);
+  return Number.isFinite(ms) ? ms : null;
+}
+
+function parseStatus(data) {
+  if (!data) return 'not_found';
+  if (data.purchaseStatus) return normalizeStatus(data.purchaseStatus);
+  if (data.status) return normalizeStatus(data.status);
+  if (data.valid === true || data.valid === 'true' || data.ok === true) return 'active';
+  return 'not_found';
+}
+
+async function checkCode(code, account) {
+  const data = await storeRequest('/api/rw/redeem/check', { code, account });
   return {
     valid: Boolean(data && (data.valid === true || data.valid === 'true' || data.ok === true)),
-    status: normalizeStatus(data && (data.status || (data.valid ? 'active' : 'not_found'))),
+    status: parseStatus(data),
     app: pickApp(data),
+    accessUntil: parseAccessUntil(data && data.accessUntil),
+    customer: data && data.customer ? String(data.customer) : undefined,
+    message: data && data.message ? String(data.message) : undefined,
     raw: data
   };
 }
 
-async function claimCode(code, accountId) {
+async function claimCode(code, account) {
   const data = await storeRequest('/api/rw/redeem/claim', {
     code,
-    confirm: true,
-    accountId
+    account,
+    confirm: true
   });
   return {
-    success: Boolean(data && (data.success === true || data.ok === true || data.claimed === true)),
-    status: normalizeStatus(data && data.status),
+    success: Boolean(data && (data.success === true || data.ok === true || data.claimed === true || data.valid === true)),
+    status: parseStatus(data),
     app: pickApp(data),
+    accessUntil: parseAccessUntil(data && data.accessUntil),
+    customer: data && data.customer ? String(data.customer) : undefined,
     redemptionId: data && (data.redemptionId || data.id) ? String(data.redemptionId || data.id) : undefined,
     raw: data
   };

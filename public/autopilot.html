@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay-Link Auto-Pilot — Redeemed Warrior</title>
+  <meta name="theme-color" content="#0B0609" />
+  <style>
+    :root {
+      --bg: #0b0609; --panel: #171019; --panel-2: #1f1523; --line: #3a2a3f;
+      --gold: #d9b877; --gold-deep: #b08d4f; --text: #f3ead9; --muted: #b8a58a;
+      --good: #7fc98d; --danger: #e07a7a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; padding: 24px 16px 60px;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; }
+    h1 { color: var(--gold); font-size: 1.5rem; text-align: center; }
+    .sub { color: var(--muted); text-align: center; font-size: 0.85rem; margin: 8px 0 22px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px; margin-bottom: 14px;
+    }
+    input {
+      width: 100%; background: var(--panel-2); border: 1px solid var(--line);
+      border-radius: 10px; color: var(--text); font-size: 0.95rem; padding: 10px 12px;
+    }
+    input:focus { outline: 1px solid var(--gold-deep); }
+    .btn {
+      display: inline-block; background: var(--gold); color: #241708; border: none;
+      border-radius: 10px; font-weight: 700; font-size: 0.9rem; padding: 10px 16px;
+      cursor: pointer; margin-top: 10px;
+    }
+    .btn.ghost { background: none; color: var(--gold); border: 1px solid var(--gold-deep); font-weight: 400; }
+    .btn:disabled { opacity: 0.5; }
+    .msg { margin-top: 10px; font-size: 0.85rem; border-radius: 8px; padding: 9px 12px; display: none; }
+    .msg.error { display: block; background: #3a1414; color: var(--danger); }
+    .msg.ok { display: block; background: #14301b; color: var(--good); }
+    .msg.info { display: block; background: var(--panel-2); color: var(--muted); }
+    .prod { border-bottom: 1px solid var(--line); padding: 12px 0; }
+    .prod:last-child { border-bottom: none; }
+    .prod .t { font-weight: 600; }
+    .prod .meta { color: var(--muted); font-size: 0.8rem; margin-top: 3px; }
+    .badge {
+      display: inline-block; font-size: 0.7rem; border-radius: 999px;
+      padding: 2px 9px; margin-left: 8px; vertical-align: middle;
+    }
+    .badge.needs { background: #3a2a12; color: var(--gold); }
+    .badge.ok { background: #14301b; color: var(--good); }
+    .badge.free { background: var(--panel-2); color: var(--muted); }
+    .linkbox {
+      margin-top: 8px; background: var(--panel-2); border: 1px dashed var(--gold-deep);
+      border-radius: 8px; padding: 8px 10px; font-size: 0.8rem; word-break: break-all;
+      display: none;
+    }
+    .hidden { display: none !important; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🤖 Pay-Link Auto-Pilot</h1>
+    <p class="sub">Owner only · Creates Stripe payment links for your Store products</p>
+
+    <div class="card" id="keyCard">
+      <input id="apiKey" type="password" placeholder="Paste your API key (from Render)" />
+      <div class="row">
+        <button class="btn" id="loadBtn">Load my products</button>
+      </div>
+      <div class="msg" id="keyMsg"></div>
+    </div>
+
+    <div class="card hidden" id="productsCard">
+      <div id="stripeWarn" class="msg hidden"></div>
+      <div id="productList"></div>
+    </div>
+  </div>
+
+  <script>
+    const apiKeyInput = document.getElementById('apiKey');
+    const loadBtn = document.getElementById('loadBtn');
+    const keyMsg = document.getElementById('keyMsg');
+    const productsCard = document.getElementById('productsCard');
+    const productList = document.getElementById('productList');
+    const stripeWarn = document.getElementById('stripeWarn');
+
+    apiKeyInput.value = localStorage.getItem('rw_owner_key') || '';
+
+    function setMsg(el, text, cls) {
+      el.textContent = text;
+      el.className = 'msg ' + cls;
+    }
+
+    async function api(path, opts = {}) {
+      const res = await fetch(path, {
+        ...opts,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + apiKeyInput.value.trim(),
+          ...(opts.headers || {})
+        }
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    function productCard(p) {
+      const div = document.createElement('div');
+      div.className = 'prod';
+      const badge = p.checkoutUrl
+        ? '<span class="badge ok">has pay-link</span>'
+        : p.price === 0
+          ? '<span class="badge free">free — no link needed</span>'
+          : p.price < 0.5
+            ? '<span class="badge free">price below Stripe minimum</span>'
+            : '<span class="badge needs">needs pay-link</span>';
+      div.innerHTML = `
+        <div class="t">${escapeHtml(p.title)}${badge}</div>
+        <div class="meta">$${p.price.toFixed(2)} · ${escapeHtml(p.category || 'no category')}${p.published ? '' : ' · NOT published'}</div>
+        <div class="linkbox" id="box-${p.id}"></div>
+      `;
+      if (p.needsLink) {
+        const btn = document.createElement('button');
+        btn.className = 'btn ghost';
+        btn.textContent = 'Create pay-link';
+        btn.addEventListener('click', () => createLink(p, btn, div));
+        div.appendChild(btn);
+      } else if (p.checkoutUrl) {
+        const box = div.querySelector('#box-' + p.id);
+        box.style.display = 'block';
+        box.textContent = p.checkoutUrl;
+      }
+      return div;
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = String(s);
+      return d.innerHTML;
+    }
+
+    async function createLink(p, btn, div) {
+      btn.disabled = true;
+      btn.textContent = 'Creating…';
+      try {
+        const r = await api('/api/autopilot/create-link', {
+          method: 'POST',
+          body: JSON.stringify({ productId: p.id })
+        });
+        const box = div.querySelector('#box-' + p.id);
+        box.style.display = 'block';
+        if (!r.ok) {
+          box.textContent = (r.data.error && r.data.error.message) || 'Could not create the link.';
+          btn.disabled = false;
+          btn.textContent = 'Try again';
+          return;
+        }
+        box.innerHTML = '';
+        const urlSpan = document.createElement('div');
+        urlSpan.textContent = r.data.url;
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn';
+        copyBtn.textContent = 'Copy link';
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(r.data.url);
+            copyBtn.textContent = 'Copied ✓';
+          } catch (_) {
+            const ta = document.createElement('textarea');
+            ta.value = r.data.url;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            copyBtn.textContent = 'Copied ✓';
+          }
+        });
+        const openBtn = document.createElement('a');
+        openBtn.className = 'btn ghost';
+        openBtn.href = r.data.url;
+        openBtn.target = '_blank';
+        openBtn.rel = 'noopener';
+        openBtn.textContent = 'Test it';
+        box.appendChild(urlSpan);
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.appendChild(copyBtn);
+        row.appendChild(openBtn);
+        box.appendChild(row);
+        btn.remove();
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = 'Try again';
+      }
+    }
+
+    loadBtn.addEventListener('click', async () => {
+      setMsg(keyMsg, '', '');
+      loadBtn.disabled = true;
+      const key = apiKeyInput.value.trim();
+      if (!key) { setMsg(keyMsg, 'Paste your API key first (find it in Render → Environment → API_KEY).', 'error'); loadBtn.disabled = false; return; }
+      localStorage.setItem('rw_owner_key', key);
+      try {
+        const r = await api('/api/autopilot/products');
+        if (!r.ok) {
+          setMsg(keyMsg, (r.data.error && r.data.error.message) || 'Could not load products.', r.status === 401 ? 'error' : 'error');
+          if (r.status === 401) setMsg(keyMsg, 'That key was not accepted. Copy the exact API_KEY value from Render → Environment.', 'error');
+          loadBtn.disabled = false;
+          return;
+        }
+        setMsg(keyMsg, 'Loaded ' + r.data.products.length + ' products.', 'ok');
+        stripeWarn.classList.toggle('hidden', Boolean(r.data.stripeConnected));
+        if (!r.data.stripeConnected) {
+          setMsg(stripeWarn, 'Stripe is not connected yet — add STRIPE_SECRET_KEY in Render → Environment to enable link creation.', 'info');
+        }
+        productList.innerHTML = '';
+        r.data.products.forEach((p) => productList.appendChild(productCard(p)));
+        productsCard.classList.remove('hidden');
+      } catch (e) {
+        setMsg(keyMsg, 'Could not reach the server. Check your connection.', 'error');
+      }
+      loadBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>

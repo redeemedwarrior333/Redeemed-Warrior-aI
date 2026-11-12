@@ -13,6 +13,7 @@ const config = {
   publicRateLimitMax: Number(process.env.PUBLIC_RATE_LIMIT_MAX) || 10,
   rwStoreBaseUrl: (process.env.RW_STORE_BASE_URL || 'https://godsredeemedwarrior.store/.sfs-be').replace(/\/+$/, ''),
   rwStoreApiKey: process.env.RW_STORE_API_KEY || '',
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
   storeTimeoutMs: Number(process.env.STORE_TIMEOUT_MS) || 15000,
   accessRecheckIntervalMs: Number(process.env.ACCESS_RECHECK_INTERVAL_MS) || 24 * 60 * 60 * 1000,
   rateLimitWindowMs: 60 * 1000,

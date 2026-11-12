@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Redeemed Warrior Devotional Bible — Read. Pray. Reflect. Grow.</title>
-<meta name="theme-color" content="#2A0E1E" />
+<meta name="theme-color" content="#330010" />
 <meta name="description" content="A beautiful place to encounter God's Word, strengthen your faith, find encouragement, and grow closer to Jesus every single day." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,9 +15,9 @@
   --blush:#F9E3EC; --rose:#C48B9F; --rose-deep:#9E5F79;
   --gold:#D4AF7A; --gold-deep:#B08D4F; --gold-light:#EFD9B4;
   --ivory:#FDF9F4; --cream:#FAF3EA; --ink:#2A1520; --ink-soft:#5C3A4B;
-  --night:#2A0E1E; --night-2:#3B1428; --black:#1C1016;
+  --night:#330010; --night-2:#5C0F33; --black:#1A0008;
   --ok:#2E7D5B; --warn:#B3392E;
-  --radius:20px; --shadow:0 10px 30px rgba(42,14,30,.12);
+  --radius:20px; --shadow:0 10px 30px rgba(51,0,16,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -62,7 +62,7 @@ label.label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
 #welcome{position:fixed;inset:0;z-index:60;overflow-y:auto;background:
   radial-gradient(1200px 600px at 80% -10%,rgba(240,90,168,.25),transparent 60%),
   radial-gradient(900px 500px at 10% 110%,rgba(212,175,122,.22),transparent 60%),
-  linear-gradient(180deg,var(--night) 0%,var(--night-2) 55%,#4A1A33 100%);
+  linear-gradient(180deg,var(--night) 0%,var(--night-2) 55%,#8A275D 100%);
   color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px;gap:14px}
 #welcome .glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 50% 18%,rgba(239,217,180,.18),transparent 70%);animation:breathe 6s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
@@ -81,7 +81,7 @@ label.label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
 
 /* ---------- App shell ---------- */
 #app{min-height:100vh;padding-bottom:96px}
-.app-header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--night),var(--night-2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(42,14,30,.25)}
+.app-header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--night),var(--night-2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(51,0,16,.25)}
 .app-header .logo{display:flex;align-items:center;gap:10px;min-width:0}
 .app-header h1{font-size:1.15rem;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .app-header .sub{font-size:.68rem;letter-spacing:.24em;color:var(--gold-light);text-transform:uppercase}
@@ -91,14 +91,14 @@ main{padding:22px 0 30px}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .view-head{margin-bottom:18px}
 .view-head h2{font-size:2rem;color:var(--night)}
-nav.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:#fff;border-top:1px solid #F0DFE8;box-shadow:0 -6px 24px rgba(42,14,30,.08);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+nav.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:#fff;border-top:1px solid #F0DFE8;box-shadow:0 -6px 24px rgba(51,0,16,.08);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
 nav.tabbar button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;font-weight:600;color:var(--rose-deep);padding:6px 10px;border-radius:14px;min-width:60px}
 nav.tabbar button.active{color:var(--pink-deep);background:var(--blush)}
 nav.tabbar svg{width:22px;height:22px}
 nav.tabbar button.more-dim{color:var(--rose)}
 #moreSheet{position:fixed;inset:0;z-index:50;background:rgba(28,16,22,.45);display:flex;align-items:flex-end}
 #moreSheet .sheet{background:var(--ivory);width:100%;border-radius:24px 24px 0 0;padding:0 20px calc(24px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr;gap:12px;animation:up .25s ease;overflow:hidden}
-#moreSheet .sheet-head{grid-column:1/-1;display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#3D1226,var(--night));margin:0 -20px;padding:18px 20px;border-bottom:1px solid rgba(212,175,122,.35)}
+#moreSheet .sheet-head{grid-column:1/-1;display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,var(--night-2),var(--night));margin:0 -20px;padding:18px 20px;border-bottom:1px solid rgba(212,175,122,.35)}
 #moreSheet .sheet-head img{width:58px;height:58px;border-radius:14px;object-fit:cover;border:1.5px solid rgba(212,175,122,.8);box-shadow:0 4px 14px rgba(0,0,0,.4)}
 #moreSheet .sheet-head h3{margin:0;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#F6E8D8;line-height:1.2}
 #moreSheet .sheet-head .eyebrow{margin:0;color:var(--gold-light)}
@@ -111,7 +111,7 @@ nav.tabbar button.more-dim{color:var(--rose)}
 #moreSheet .close-row{grid-column:1/-1;display:flex;justify-content:center;padding-top:4px}
 
 /* ---------- Home ---------- */
-.greet-card{background:linear-gradient(150deg,var(--night),var(--night-2) 70%,#4A1A33);color:#fff;border-radius:26px;padding:26px 22px;position:relative;overflow:hidden;border:1px solid rgba(212,175,122,.4)}
+.greet-card{background:linear-gradient(150deg,var(--night),var(--night-2) 70%,#8A275D);color:#fff;border-radius:26px;padding:26px 22px;position:relative;overflow:hidden;border:1px solid rgba(212,175,122,.4)}
 .greet-card::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(240,90,168,.35),transparent 70%)}
 .greet-card h2{font-size:2rem}
 .greet-card .date{color:var(--gold-light);letter-spacing:.18em;text-transform:uppercase;font-size:.75rem}
@@ -201,7 +201,7 @@ footer.app-foot{text-align:center;color:var(--rose-deep);font-size:.8rem;padding
 <div id="app" class="hidden">
   <header class="app-header">
     <div class="logo">
-      <img src="cover-sm.jpg" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold);box-shadow:0 2px 8px rgba(42,14,30,.25)"/>
+      <img src="cover-sm.jpg" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold);box-shadow:0 2px 8px rgba(51,0,16,.25)"/>
       <div>
         <h1>Devotional Bible</h1>
         <span class="sub">Redeemed Warrior</span>

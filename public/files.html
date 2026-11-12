@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Files — Redeemed Warrior AI</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: linear-gradient(160deg, #330010 0%, #5C0F33 55%, #8A275D 100%);
+    min-height: 100vh;
+    color: #FFF6F0;
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  .brand { text-align: center; margin-bottom: 28px; }
+  .brand h1 { font-size: 1.7em; letter-spacing: 2px; color: #F7C948; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .brand p { color: #F5C9D9; margin-top: 6px; font-size: .95em; }
+  .card {
+    background: rgba(26, 0, 8, .55);
+    border: 1px solid rgba(247, 201, 217, .25);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 30px rgba(51, 0, 16, .45);
+  }
+  .card h2 { color: #F7C948; font-size: 1.1em; margin-bottom: 12px; letter-spacing: 1px; }
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(247,201,217,.35);
+    background: rgba(51,0,16,.5); color: #FFF6F0; font-size: 1em; margin-bottom: 10px;
+  }
+  input::placeholder { color: #C99AAE; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 999px; border: none; cursor: pointer;
+    font-weight: bold; font-size: 1em; letter-spacing: 1px;
+  }
+  .btn-gold { background: linear-gradient(135deg, #F7C948, #E0A93E); color: #330010; }
+  .btn-pink { background: linear-gradient(135deg, #E85D9E, #C2437E); color: #FFF; }
+  .btn-ghost { background: transparent; border: 1px solid rgba(247,201,217,.4); color: #F5C9D9; padding: 8px 14px; font-size: .85em; }
+  .btn:disabled { opacity: .55; cursor: wait; }
+  .filebox {
+    border: 2px dashed rgba(247,201,217,.4); border-radius: 14px; padding: 26px 16px;
+    text-align: center; margin-bottom: 12px; color: #F5C9D9;
+  }
+  .filebox input { display: block; margin: 10px auto 0; color: #F5C9D9; }
+  .msg { margin-top: 10px; font-size: .92em; min-height: 1.2em; }
+  .msg.ok { color: #9FE6B8; }
+  .msg.err { color: #FFB3C6; }
+  .file-item {
+    background: rgba(51,0,16,.5); border: 1px solid rgba(247,201,217,.2);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+  }
+  .file-item .fname { font-weight: bold; color: #FFF; word-break: break-all; }
+  .file-item .fsize { color: #C99AAE; font-size: .82em; margin-left: 8px; }
+  .file-item .flink { display: block; color: #9FD8E8; font-size: .8em; word-break: break-all; margin: 6px 0; text-decoration: none; }
+  .file-item .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .note { font-size: .85em; color: #C99AAE; margin-top: 8px; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <h1>📜 FILES &amp; PICTURES</h1>
+    <p>Upload images and files — get a link you can paste anywhere.</p>
+  </div>
+
+  <div class="card" id="loginCard">
+    <h2>OWNER SIGN IN</h2>
+    <input type="email" id="email" placeholder="Your email" autocomplete="email">
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+    <button class="btn btn-gold" id="btnLogin">Sign In</button>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <div class="card hidden" id="upCard">
+    <h2>UPLOAD A FILE OR PICTURE</h2>
+    <div class="filebox">
+      Choose a picture or file (up to 5 MB)
+      <input type="file" id="fileInput">
+    </div>
+    <button class="btn btn-pink" id="btnUpload">⬆ Upload</button>
+    <div class="msg" id="upMsg"></div>
+    <p class="note">Pictures: png, jpg, gif, webp, svg &amp; more. Files: pdf, txt, csv, json, mp3, mp4 &amp; more.</p>
+  </div>
+
+  <div class="card hidden" id="listCard">
+    <h2>YOUR STORED FILES</h2>
+    <div id="fileList"><p class="note">Loading…</p></div>
+    <button class="btn btn-ghost" id="btnRefresh">↺ Refresh list</button>
+  </div>
+</div>
+
+<script>
+const API = '';
+let token = sessionStorage.getItem('rw_owner_token') || '';
+
+function $(id) { return document.getElementById(id); }
+
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = 'Bearer ' + token;
+  const res = await fetch(API + path, {
+    method: opts.method || 'GET',
+    headers,
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  let body = null;
+  try { body = await res.json(); } catch (_) {}
+  if (!res.ok) {
+    const err = new Error((body && body.error && body.error.message) || 'Request failed');
+    err.status = res.status;
+    throw err;
+  }
+  return body;
+}
+
+function showMsg(id, text, ok) {
+  const el = $(id);
+  el.textContent = text;
+  el.className = 'msg ' + (ok ? 'ok' : 'err');
+}
+
+function fmtSize(bytes) {
+  if (bytes > 1048576) return (bytes / 1048576).toFixed(1) + ' MB';
+  if (bytes > 1024) return Math.round(bytes / 1024) + ' KB';
+  return bytes + ' B';
+}
+
+function copyText(text, btn) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = old; }, 1500);
+    });
+  }
+}
+
+async function loadList() {
+  const listEl = $('fileList');
+  listEl.innerHTML = '<p class="note">Loading…</p>';
+  try {
+    const body = await api('/api/uploads');
+    if (!body.files.length) {
+      listEl.innerHTML = '<p class="note">No files yet — upload your first picture above! 🌸</p>';
+      return;
+    }
+    listEl.innerHTML = '';
+    body.files.forEach((f) => {
+      const div = document.createElement('div');
+      div.className = 'file-item';
+      const direct = f.url;
+      div.innerHTML =
+        '<span class="fname">' + f.name.replace(/[<>&]/g, '') + '</span>' +
+        '<span class="fsize">' + fmtSize(f.size) + '</span>' +
+        '<a class="flink" href="' + direct + '" target="_blank" rel="noopener">' + direct + '</a>' +
+        '<div class="row">' +
+        '<button class="btn btn-ghost copy-link">📋 Copy link</button>' +
+        '<button class="btn btn-ghost del-btn">🗑 Delete</button>' +
+        '</div>';
+      div.querySelector('.copy-link').addEventListener('click', function () { copyText(direct, this); });
+      div.querySelector('.del-btn').addEventListener('click', async function () {
+        if (!confirm('Delete ' + f.name + '?')) return;
+        this.disabled = true;
+        try {
+          await api('/api/uploads/' + encodeURIComponent(f.name), { method: 'DELETE' });
+          loadList();
+        } catch (err) {
+          this.disabled = false;
+          alert(err.message);
+        }
+      });
+      listEl.appendChild(div);
+    });
+  } catch (err) {
+    if (err.status === 401) { logout(); return; }
+    listEl.innerHTML = '<p class="note">' + err.message + '</p>';
+  }
+}
+
+function logout() {
+  token = '';
+  sessionStorage.removeItem('rw_owner_token');
+  $('loginCard').classList.remove('hidden');
+  $('upCard').classList.add('hidden');
+  $('listCard').classList.add('hidden');
+}
+
+async function init() {
+  if (!token) return;
+  try {
+    const me = await api('/api/auth/me');
+    if (me.member && me.member.role === 'owner') {
+      $('loginCard').classList.add('hidden');
+      $('upCard').classList.remove('hidden');
+      $('listCard').classList.remove('hidden');
+      loadList();
+    }
+  } catch (err) {
+    logout();
+  }
+}
+
+$('btnLogin').addEventListener('click', async () => {
+  const btn = $('btnLogin');
+  btn.disabled = true;
+  showMsg('loginMsg', 'Signing in…', true);
+  try {
+    const body = await api('/api/auth/login', {
+      method: 'POST',
+      body: { email: $('email').value.trim(), password: $('password').value }
+    });
+    if (body.member.role !== 'owner') {
+      showMsg('loginMsg', 'This page is for the platform owner only.', false);
+      return;
+    }
+    token = body.token;
+    sessionStorage.setItem('rw_owner_token', token);
+    showMsg('loginMsg', '', true);
+    init();
+  } catch (err) {
+    showMsg('loginMsg', err.message, false);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+$('btnUpload').addEventListener('click', async () => {
+  const input = $('fileInput');
+  const btn = $('btnUpload');
+  if (!input.files || !input.files[0]) {
+    showMsg('upMsg', 'Please choose a file first.', false);
+    return;
+  }
+  const file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) {
+    showMsg('upMsg', 'That file is over 5 MB. Please choose a smaller one.', false);
+    return;
+  }
+  btn.disabled = true;
+  showMsg('upMsg', 'Uploading ' + file.name + '…', true);
+  const reader = new FileReader();
+  reader.onload = async () => {
+    try {
+      const body = await api('/api/uploads', {
+        method: 'POST',
+        body: { name: file.name, data: reader.result }
+      });
+      showMsg('upMsg', '✓ Uploaded! Your link is ready below.', true);
+      input.value = '';
+      loadList();
+    } catch (err) {
+      if (err.status === 401) { logout(); return; }
+      showMsg('upMsg', err.message, false);
+    } finally {
+      btn.disabled = false;
+    }
+  };
+  reader.onerror = () => {
+    btn.disabled = false;
+    showMsg('upMsg', 'Could not read that file. Please try again.', false);
+  };
+  reader.readAsDataURL(file);
+});
+
+$('btnRefresh').addEventListener('click', loadList);
+
+init();
+</script>
+</body>
+</html>

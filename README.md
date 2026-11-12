@@ -14,6 +14,8 @@ The backend AI service for the Redeemed Warrior platform. It loads the master pr
 |----------|---------------|
 | `GET /health` | Check the API is running (no key needed) |
 | `GET /api/ai-status` | Pings each configured AI provider separately and reports which ones work (with the provider's own error text when they don't) |
+| `GET /files` | Owner-only file & picture manager. Upload images/files (max 5 MB) and get shareable links to paste into the Store, the Builder, or any app |
+| `/api/uploads` | Owner-only API behind `/files`: list, upload (`{ name, data }` as base64), and delete files. Stored in the GitHub repo's `uploads/` folder via the GitHub API |
 | `POST /api/chat` | Chat with Redeemed Warrior AI, with conversation memory. Supports streaming. |
 | `GET /api/chat/:conversationId` | Retrieve a saved conversation |
 | `POST /api/apps/plan` | Describe an app idea in plain English, get back a complete app blueprint |

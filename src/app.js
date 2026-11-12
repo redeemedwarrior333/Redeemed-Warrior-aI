@@ -15,6 +15,7 @@ const authRoutes = require('./routes/auth');
 const storeRoutes = require('./routes/store');
 const ownerRoutes = require('./routes/owner');
 const autopilotRoutes = require('./routes/autopilot');
+const uploadsRoutes = require('./routes/uploads');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/chat', requireApiKey, chatRoutes);
 app.use('/api/ai-status', aiStatusRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
 app.use('/api/autopilot', requireApiKeyStrict, autopilotRoutes);
+app.use('/api/uploads', uploadsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

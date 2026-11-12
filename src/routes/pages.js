@@ -21,4 +21,8 @@ router.get('/owner', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'public', 'owner.html'));
 });
 
+router.get('/files', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'public', 'files.html'));
+});
+
 module.exports = router;

@@ -22,6 +22,11 @@ const config = {
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean)),
   storeTimeoutMs: Number(process.env.STORE_TIMEOUT_MS) || 15000,
+  githubToken: process.env.GITHUB_TOKEN || '',
+  githubRepo: process.env.GITHUB_REPO || 'redeemedwarrior333/Redeemed-Warrior-aI',
+  githubBranch: process.env.GITHUB_BRANCH || 'main',
+  githubApiBase: (process.env.GITHUB_API_BASE || 'https://api.github.com').replace(/\/+$/, ''),
+  maxUploadBytes: Number(process.env.MAX_UPLOAD_BYTES) || 5 * 1024 * 1024,
   accessRecheckIntervalMs: Number(process.env.ACCESS_RECHECK_INTERVAL_MS) || 24 * 60 * 60 * 1000,
   rateLimitWindowMs: 60 * 1000,
   maxHistoryMessages: 20,

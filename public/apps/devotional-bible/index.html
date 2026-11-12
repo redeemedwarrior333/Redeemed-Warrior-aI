@@ -832,7 +832,18 @@ function premiumActive() {
   return true;
 }
 async function verifyPremium() {
-  if (!state.auth || !state.premium) return premiumActive();
+  if (!state.auth) return premiumActive();
+  if (!state.premium) {
+    try {
+      const me = await api('/api/auth/me');
+      if (me.member && me.member.role === 'owner') {
+        state.premium = { appId: 'owner', appName: 'Owner Access', accessUntil: null, owner: true };
+        store.set('premium', state.premium);
+        return true;
+      }
+    } catch {}
+    return premiumActive();
+  }
   try {
     const r = await api('/api/store/my-apps/' + encodeURIComponent(state.premium.appId) + '/access');
     if (r.hasAccess) {
@@ -1249,8 +1260,8 @@ function renderMembership() {
     ${active ? `
       <div class="card gold-card">
         <h3>👑 Your Premium is active</h3>
-        <p class="muted" style="margin-top:6px">${state.premium.accessUntil ? 'Access until ' + new Date(state.premium.accessUntil).toLocaleDateString() + '.' : 'Full annual access.'}</p>
-        <p class="hint" style="margin-top:6px">Purchased as: ${esc(state.premium.appName || state.premium.appId)}</p>
+        <p class="muted" style="margin-top:6px">${state.premium.owner ? 'Owner privileges — unlimited access to everything, always.' : state.premium.accessUntil ? 'Access until ' + new Date(state.premium.accessUntil).toLocaleDateString() + '.' : 'Full annual access.'}</p>
+        <p class="hint" style="margin-top:6px">${state.premium.owner ? 'Verified server-side by your owner email.' : 'Purchased as: ' + esc(state.premium.appName || state.premium.appId)}</p>
         <div class="action-row"><button class="btn btn-ghost btn-sm" id="btnRestore">Restore purchase check</button></div>
       </div>` : `
       <div class="card gold-card">
@@ -1344,7 +1355,7 @@ function renderAccount() {
     <div class="view-head"><p class="eyebrow">Your account</p><h2>Account</h2></div>
     <div class="card">
       ${a ? `
-        <p class="muted">Signed in as <strong>${esc(a.member.email)}</strong></p>
+        <p class="muted">Signed in as <strong>${esc(a.member.email)}</strong>${a.member.role === 'owner' ? ' <span class="pill pill-open">Owner 👑</span>' : ''}</p>
         <p class="hint" style="margin-top:4px">Your membership, purchases and Premium access are tied to this account. Favorites and progress are saved on this device.</p>
         <div class="action-row">
           ${premiumActive() ? '<span class="pill pill-open">Premium active 👑</span>' : '<button class="btn btn-gold btn-sm" data-goto="membership">Unlock Premium</button>'}
@@ -1384,6 +1395,7 @@ function renderAccount() {
   const out = el.querySelector('#btnSignOut');
   if (out) out.addEventListener('click', () => {
     state.auth = null; store.set('auth', null);
+    state.premium = null; store.set('premium', null);
     toast('Signed out. Peace be with you, Warrior.');
     renderAccount();
   });
@@ -1404,7 +1416,13 @@ async function doAuth(path, el, errEl) {
     const r = await api(path, { method: 'POST', body: { email, password } });
     state.auth = r;
     store.set('auth', r);
-    toast('Welcome, Warrior! ❤️');
+    if (r.member && r.member.role === 'owner') {
+      state.premium = { appId: 'owner', appName: 'Owner Access', accessUntil: null, owner: true };
+      store.set('premium', state.premium);
+      toast('Owner Mode unlocked 👑 Everything is open.');
+    } else {
+      toast('Welcome, Warrior! ❤️');
+    }
     renderAccount();
   } catch (e) {
     errEl().textContent = e.message;

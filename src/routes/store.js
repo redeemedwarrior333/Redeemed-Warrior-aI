@@ -1,6 +1,7 @@
 const express = require('express');
 
 const requireMember = require('../middleware/memberAuth');
+const members = require('../services/members');
 const storeClient = require('../services/storeClient');
 const redemptions = require('../services/redemptions');
 
@@ -97,6 +98,18 @@ router.get('/my-apps', (req, res) => {
 
 router.get('/my-apps/:appId/access', async (req, res, next) => {
   try {
+    if (members.isOwner(req.member)) {
+      return res.json({
+        appId: req.params.appId,
+        name: 'Owner Access',
+        hasAccess: true,
+        status: 'active',
+        accessUntil: null,
+        owner: true,
+        reason: null
+      });
+    }
+
     const record = redemptions
       .listByMember(req.member.memberId)
       .find((r) => r.app.id === req.params.appId);

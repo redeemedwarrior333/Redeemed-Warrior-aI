@@ -1,11 +1,12 @@
 const express = require('express');
 
 const members = require('../services/members');
+const requireMember = require('../middleware/memberAuth');
 
 const router = express.Router();
 
 function publicMember(member) {
-  return { memberId: member.memberId, email: member.email };
+  return { memberId: member.memberId, email: member.email, role: members.isOwner(member) ? 'owner' : 'member' };
 }
 
 router.post('/register', (req, res) => {
@@ -26,6 +27,10 @@ router.post('/login', (req, res) => {
   }
   const token = members.issueToken(result.member);
   res.json({ member: publicMember(result.member), token });
+});
+
+router.get('/me', requireMember, (req, res) => {
+  res.json({ member: publicMember(req.member) });
 });
 
 module.exports = router;

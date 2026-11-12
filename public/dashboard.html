@@ -70,6 +70,12 @@
     <input id="password" type="password" autocomplete="current-password" placeholder="Choose a safe password">
     <button class="primary" id="authBtn">Create account</button>
     <button class="link" id="authToggle">I already have an account — log in</button>
+    <button class="link" id="forgotToggle">Forgot password?</button>
+    <div id="forgotBox" class="hidden" style="margin-top:10px">
+      <p class="sub" style="margin:0 0 8px">Enter your email and the platform owner will set you up with a temporary password.</p>
+      <input id="forgotEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <button class="primary" id="forgotBtn" style="margin-top:8px">Send my request</button>
+    </div>
     <div class="msg error" id="authMsg"></div>
   </div>
 
@@ -199,7 +205,33 @@
     refresh();
   }
 
+  const forgotToggle = document.getElementById('forgotToggle');
+  const forgotBox = document.getElementById('forgotBox');
+  const forgotEmail = document.getElementById('forgotEmail');
+  const forgotBtn = document.getElementById('forgotBtn');
+
+  forgotToggle.addEventListener('click', function () {
+    forgotBox.classList.toggle('hidden');
+    hide(authMsg);
+  });
+
+  forgotBtn.addEventListener('click', async function () {
+    hide(authMsg);
+    const addr = forgotEmail.value.trim();
+    if (!addr) { show(authMsg, 'Please enter your email first.', 'error'); return; }
+    forgotBtn.disabled = true;
+    try {
+      const r = await api('/api/auth/forgot', { email: addr });
+      show(authMsg, (r.data && r.data.message) || 'Request sent. The platform owner will give you a temporary password.', 'ok');
+      forgotBox.classList.add('hidden');
+    } catch (e) {
+      show(authMsg, 'Could not reach the server. Check your connection.', 'error');
+    }
+    forgotBtn.disabled = false;
+  });
+
   authToggle.addEventListener('click', function () {
+    forgotBox.classList.add('hidden');
     mode = mode === 'register' ? 'login' : 'register';
     authTitle.textContent = mode === 'register' ? 'Create your free member account' : 'Welcome back, warrior';
     authBtn.textContent = mode === 'register' ? 'Create account' : 'Log in';

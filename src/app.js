@@ -12,6 +12,7 @@ const appsRoutes = require('./routes/apps');
 const pagesRoutes = require('./routes/pages');
 const authRoutes = require('./routes/auth');
 const storeRoutes = require('./routes/store');
+const ownerRoutes = require('./routes/owner');
 const autopilotRoutes = require('./routes/autopilot');
 
 const app = express();
@@ -25,6 +26,7 @@ app.use('/health', healthRoutes);
 app.use('/', pagesRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/store', storeRoutes);
+app.use('/api/owner', ownerRoutes);
 app.use('/api/chat', requireApiKey, chatRoutes);
 app.use('/api/apps', requireApiKey, appsRoutes);
 app.use('/api/autopilot', requireApiKeyStrict, autopilotRoutes);

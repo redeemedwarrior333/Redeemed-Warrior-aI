@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Owner Dashboard — Redeemed Warrior</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#E2449A; --pink-deep:#C22B7E; --hot:#F05AA8;
+  --blush:#F9E3EC; --rose:#C48B9F; --rose-deep:#9E5F79;
+  --gold:#D4AF7A; --gold-deep:#B08D4F; --gold-light:#EFD9B4;
+  --ivory:#FDF9F4; --cream:#FAF3EA; --ink:#2A1520; --ink-soft:#5C3A4B;
+  --night:#330010; --night-2:#5C0F33; --black:#1A0008;
+  --ok:#2E7D5B; --warn:#B3392E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--ivory);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px calc(40px + env(safe-area-inset-bottom))}
+.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-deep);font-weight:600}
+.card{background:#fff;border:1px solid #F0DFE8;border-radius:20px;box-shadow:0 10px 30px rgba(51,0,16,.1);padding:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:12px 22px;font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 6px 18px rgba(176,141,79,.35)}
+.btn-pink{background:linear-gradient(135deg,var(--hot),var(--pink-deep));color:#fff;box-shadow:0 6px 18px rgba(226,68,154,.35)}
+.btn-ghost{background:transparent;border:1.5px solid var(--rose);color:var(--rose-deep)}
+.btn-sm{padding:8px 16px;font-size:.85rem}
+.input{width:100%;padding:12px 14px;border:1.5px solid #E8D3DD;border-radius:12px;font-family:inherit;font-size:1rem;background:#fff;color:var(--ink)}
+.input:focus{outline:none;border-color:var(--gold)}
+label{font-size:.85rem;font-weight:600;color:var(--ink-soft)}
+.err{color:var(--warn);font-size:.9rem;min-height:1.2em}
+.ok-msg{color:var(--ok);font-size:.9rem}
+.muted{color:var(--ink-soft)}
+.hint{font-size:.85rem;color:var(--ink-soft)}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:600}
+.pill-open{background:#E2F1E9;color:var(--ok)}
+.pill-locked{background:#F4E3E1;color:var(--warn)}
+.topbar{background:linear-gradient(135deg,var(--night),var(--night-2));color:#fff;padding:18px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(51,0,16,.3);position:sticky;top:0;z-index:10}
+.topbar h1{font-size:1.5rem;line-height:1.2}
+.topbar .sub{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light)}
+.crown{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0}
+.stat{background:linear-gradient(150deg,#fff,var(--blush));border:1px solid #F0DFE8;border-radius:16px;padding:14px 16px}
+.stat b{display:block;font-size:1.7rem;font-family:'Cormorant Garamond',serif;color:var(--pink-deep)}
+.stat span{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #F0DFE8}
+.row:last-child{border-bottom:none}
+section{margin-top:18px}
+h2{font-size:1.5rem;margin-bottom:4px}
+.login-box{max-width:420px;margin:60px auto}
+.hidden{display:none!important}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--night);color:#fff;padding:12px 20px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s ease;z-index:99;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="crown">👑</div>
+  <div>
+    <h1>Owner Dashboard</h1>
+    <span class="sub">Redeemed Warrior</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="login" class="card login-box">
+    <p class="eyebrow">Private area</p>
+    <h2 style="margin:4px 0 10px">Owner Sign In</h2>
+    <p class="hint" style="margin-bottom:14px">Sign in with the owner email listed in <strong>OWNER_EMAILS</strong>. Everyone else is turned away by the server.</p>
+    <div style="display:grid;gap:12px">
+      <div><label for="oEmail">Email</label><input class="input" id="oEmail" type="email" autocomplete="email" /></div>
+      <div><label for="oPass">Password</label><input class="input" id="oPass" type="password" autocomplete="current-password" /></div>
+      <p class="err" id="oErr"></p>
+      <button class="btn btn-gold" id="btnOwnerLogin">Sign In</button>
+    </div>
+  </div>
+
+  <div id="panel" class="hidden">
+    <div class="stats" id="stats"></div>
+
+    <section class="card">
+      <h2>Password Reset Requests</h2>
+      <p class="hint" style="margin-bottom:6px">Members who tapped "Forgot password?" in the app. Create a temporary password, give it to them, and they can change it under Account.</p>
+      <div id="resets"></div>
+    </section>
+
+    <section class="card">
+      <h2>Members</h2>
+      <p class="hint" style="margin-bottom:6px">Newest first (latest 200).</p>
+      <div id="memberList"></div>
+    </section>
+
+    <section class="card">
+      <h2>Store Redemptions</h2>
+      <p class="hint" style="margin-bottom:6px">Every redemption code claimed through the platform.</p>
+      <div id="redemptions"></div>
+    </section>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn btn-ghost btn-sm" id="btnRefresh">Refresh everything</button>
+      <button class="btn btn-ghost btn-sm" id="btnLogout">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+const API = window.location.origin;
+let token = sessionStorage.getItem('rw_owner_token') || '';
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error((data.error && data.error.message) || 'Something went wrong.');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+async function loadAll() {
+  try {
+    const [stats, resets, members, redemptions] = await Promise.all([
+      api('/api/owner/stats'),
+      api('/api/owner/reset-requests'),
+      api('/api/owner/members'),
+      api('/api/owner/redemptions')
+    ]);
+    document.getElementById('stats').innerHTML = `
+      <div class="stat"><b>${stats.members}</b><span>Members</span></div>
+      <div class="stat"><b>${stats.redemptions}</b><span>Redemptions</span></div>
+      <div class="stat"><b>${stats.activeRedemptions}</b><span>Active accesses</span></div>
+      <div class="stat"><b>${stats.resetRequests}</b><span>Open reset requests</span></div>
+      <div class="stat"><b>${Math.round(stats.uptimeSeconds / 3600)}h</b><span>Server uptime</span></div>`;
+
+    const rEl = document.getElementById('resets');
+    rEl.innerHTML = resets.requests.length
+      ? resets.requests.map((r) => `
+        <div class="row">
+          <div><strong>${esc(r.email)}</strong><p class="hint" style="margin:0">${esc(new Date(r.requestedAt).toLocaleString())}</p></div>
+          <button class="btn btn-gold btn-sm" data-reset="${esc(r.id)}">Create temp password</button>
+        </div>`).join('') + '<div id="tempOut"></div>'
+      : '<p class="hint">No open requests right now. ✓</p>';
+    rEl.querySelectorAll('[data-reset]').forEach((b) => b.addEventListener('click', async () => {
+      b.disabled = true; b.textContent = 'Creating…';
+      try {
+        const out = await api('/api/owner/reset-requests/' + encodeURIComponent(b.dataset.reset) + '/resolve', { method: 'POST' });
+        b.textContent = 'Done ✓';
+        const box = rEl.querySelector('#tempOut');
+        box.innerHTML = `<p class="ok-msg" style="margin-top:10px">Temp password for <strong>${esc(out.email)}</strong>:</p>
+          <div style="display:flex;gap:10px;margin-top:6px">
+            <input class="input" id="tempPw" readonly value="${esc(out.tempPassword)}" />
+            <button class="btn btn-ghost btn-sm" id="btnCopy">Copy</button>
+          </div>`;
+        box.querySelector('#btnCopy').addEventListener('click', () => {
+          box.querySelector('#tempPw').select();
+          if (navigator.clipboard) navigator.clipboard.writeText(out.tempPassword).catch(() => {});
+          toast('Copied ✓ Text it to the member.');
+        });
+      } catch (e) { b.disabled = false; b.textContent = 'Create temp password'; toast(e.message); }
+    }));
+
+    document.getElementById('memberList').innerHTML = members.members.length
+      ? members.members.map((m) => `
+        <div class="row">
+          <div><strong>${esc(m.email)}</strong><p class="hint" style="margin:0">Joined ${esc(new Date(m.createdAt).toLocaleDateString())}</p></div>
+          ${m.role === 'owner' ? '<span class="pill pill-open">Owner 👑</span>' : '<span class="pill pill-locked">Member</span>'}
+        </div>`).join('')
+      : '<p class="hint">No members yet.</p>';
+
+    document.getElementById('redemptions').innerHTML = redemptions.redemptions.length
+      ? redemptions.redemptions.map((r) => `
+        <div class="row">
+          <div><strong>${esc(r.app.name || 'App')}</strong><p class="hint" style="margin:0">Code ${esc(r.code)} · ${esc(new Date(r.claimedAt).toLocaleDateString())}</p></div>
+          ${r.hasAccess ? '<span class="pill pill-open">Active</span>' : '<span class="pill pill-locked">' + esc(r.status) + '</span>'}
+        </div>`).join('')
+      : '<p class="hint">No redemptions yet.</p>';
+  } catch (e) {
+    if (e.status === 401 || e.status === 403) { signOut(); return; }
+    toast(e.message);
+  }
+}
+
+function signOut() {
+  token = '';
+  sessionStorage.removeItem('rw_owner_token');
+  document.getElementById('panel').classList.add('hidden');
+  document.getElementById('login').classList.remove('hidden');
+}
+
+document.getElementById('btnOwnerLogin').addEventListener('click', async () => {
+  const email = document.getElementById('oEmail').value.trim();
+  const password = document.getElementById('oPass').value;
+  const errEl = document.getElementById('oErr');
+  errEl.textContent = '';
+  try {
+    const r = await api('/api/auth/login', { method: 'POST', body: { email, password } });
+    if (r.member.role !== 'owner') {
+      errEl.textContent = 'This account is not an owner. Only the email in OWNER_EMAILS can enter.';
+      return;
+    }
+    token = r.token;
+    sessionStorage.setItem('rw_owner_token', token);
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('panel').classList.remove('hidden');
+    loadAll();
+  } catch (e) {
+    errEl.textContent = e.message;
+  }
+});
+document.getElementById('btnRefresh').addEventListener('click', () => { loadAll(); toast('Refreshed ✓'); });
+document.getElementById('btnLogout').addEventListener('click', signOut);
+document.getElementById('oPass').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('btnOwnerLogin').click(); });
+
+if (token) {
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('panel').classList.remove('hidden');
+  loadAll();
+}
+</script>
+</body>
+</html>

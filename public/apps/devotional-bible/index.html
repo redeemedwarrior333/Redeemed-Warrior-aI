@@ -1379,6 +1379,50 @@ function renderMembership() {
   });
 }
 
+async function loadOwnerZone(el) {
+  const zone = el.querySelector('#ownerZone');
+  if (!zone) return;
+  zone.innerHTML = '<p class="hint">Loading reset requests…</p>';
+  try {
+    const data = await api('/api/owner/reset-requests');
+    if (!data.requests.length) {
+      zone.innerHTML = '<p class="hint">👑 Owner tools — no password reset requests right now. ✓</p>';
+      return;
+    }
+    zone.innerHTML = '<h3 style="margin:0 0 6px">👑 Password reset requests</h3>' +
+      data.requests.map((r) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F0DFE8">
+          <div><strong style="font-size:.9rem">${esc(r.email)}</strong><p class="hint" style="margin:0">${esc(new Date(r.requestedAt).toLocaleString())}</p></div>
+          <button class="btn btn-gold btn-sm" data-reset="${esc(r.id)}">Create temp password</button>
+        </div>`).join('') +
+      '<div id="tempOut"></div>';
+    zone.querySelectorAll('[data-reset]').forEach((b) => b.addEventListener('click', async () => {
+      b.disabled = true; b.textContent = 'Creating…';
+      try {
+        const out = await api('/api/owner/reset-requests/' + encodeURIComponent(b.dataset.reset) + '/resolve', { method: 'POST' });
+        b.textContent = 'Done ✓';
+        const box = zone.querySelector('#tempOut');
+        box.innerHTML = `<p class="hint" style="margin-bottom:0">Give this temporary password to <strong>${esc(out.email)}</strong> — text it or tell them. They sign in with it, then change it under Account.</p>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <input class="input" id="tempPw" readonly value="${esc(out.tempPassword)}" />
+            <button class="btn btn-ghost btn-sm" id="btnCopyTemp">Copy</button>
+          </div>`;
+        box.querySelector('#btnCopyTemp').addEventListener('click', () => {
+          const input = box.querySelector('#tempPw');
+          input.select();
+          if (navigator.clipboard) navigator.clipboard.writeText(input.value).catch(() => {});
+          toast('Copied ✓');
+        });
+      } catch (e) {
+        b.disabled = false; b.textContent = 'Create temp password';
+        toast(e.message);
+      }
+    }));
+  } catch {
+    zone.innerHTML = '<p class="hint">Could not load reset requests.</p>';
+  }
+}
+
 function renderAccount() {
   const el = document.getElementById('view-account');
   const a = state.auth;
@@ -1392,7 +1436,8 @@ function renderAccount() {
         <div class="action-row">
           ${premiumActive() ? '<span class="pill pill-open">Premium active 👑</span>' : '<button class="btn btn-gold btn-sm" data-goto="membership">Unlock Premium</button>'}
           <button class="btn btn-ghost btn-sm" id="btnSignOut">Sign out</button>
-        </div>` : `
+        </div>
+        <div id="ownerZone" style="margin-top:14px"></div>` : `
         <p class="muted">Create a free account or sign in. Your account holds your membership and Premium purchases — verified through the Redeemed Warrior Store.</p>
         <div style="display:grid;gap:14px;margin-top:16px">
           <div>
@@ -1409,6 +1454,15 @@ function renderAccount() {
             <button class="btn btn-ghost" id="btnLogin">Sign in</button>
           </div>
           <p class="hint">Your password is stored securely (hashed) on the Redeemed Warrior server. We never see or store it in plain text.</p>
+          <div style="margin-top:12px">
+            <button class="btn btn-ghost btn-sm" id="btnForgot">Forgot password?</button>
+          </div>
+          <div id="forgotBox" class="hidden" style="margin-top:12px;padding:14px;border:1px solid #F0DFE8;border-radius:14px;background:var(--cream)">
+            <p class="hint" style="margin-top:0">Enter your email and the platform owner will set you up with a temporary password.</p>
+            <input class="input" id="fpEmail" type="email" placeholder="Your email" style="margin-top:8px" />
+            <p class="err" id="fpErr"></p>
+            <button class="btn btn-pink btn-sm" id="btnSendForgot" style="margin-top:8px">Send my request</button>
+          </div>
         </div>`}
     </div>
     <div class="card" style="margin-top:16px">
@@ -1417,6 +1471,15 @@ function renderAccount() {
       <div style="display:flex;gap:10px;margin-top:10px">
         <input class="input" id="nameInput" placeholder="e.g. Sarah" value="${esc(state.profile.name || '')}" />
         <button class="btn btn-gold btn-sm" id="btnSaveName">Save</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Change password</h3>
+      <div style="display:grid;gap:10px;margin-top:10px">
+        <input class="input" id="curPass" type="password" placeholder="Current password" autocomplete="current-password" />
+        <input class="input" id="newPass" type="password" placeholder="New password (8+ characters)" autocomplete="new-password" />
+        <p class="err" id="pwErr"></p>
+        <div><button class="btn btn-gold btn-sm" id="btnChangePw">Update password</button></div>
       </div>
     </div>`;
   const roleLine = el.querySelector('#serverRole');
@@ -1434,6 +1497,7 @@ function renderAccount() {
         toast('Owner Mode unlocked 👑 Everything is open.');
         render();
       }
+      if (me.member.role === 'owner') loadOwnerZone(el);
     }).catch((e) => {
       if (e.status === 401) {
         clearStaleAuth();
@@ -1444,6 +1508,42 @@ function renderAccount() {
       }
     });
   }
+  if (a && a.member.role === 'owner') loadOwnerZone(el);
+  const forgotBtn = el.querySelector('#btnForgot');
+  if (forgotBtn) forgotBtn.addEventListener('click', () => {
+    el.querySelector('#forgotBox').classList.toggle('hidden');
+  });
+  const sendForgot = el.querySelector('#btnSendForgot');
+  if (sendForgot) sendForgot.addEventListener('click', async () => {
+    const email = el.querySelector('#fpEmail').value.trim();
+    const fpErr = el.querySelector('#fpErr');
+    if (!/^\S+@\S+\.\S+$/.test(email)) { fpErr.textContent = 'Please enter a valid email address.'; return; }
+    sendForgot.disabled = true; sendForgot.textContent = 'Sending…';
+    try {
+      const r = await api('/api/auth/forgot', { method: 'POST', body: { email } });
+      el.querySelector('#forgotBox').innerHTML = `<p class="ok-msg" style="margin:0">✅ ${esc(r.message)}</p>`;
+    } catch (e) {
+      fpErr.textContent = e.message;
+      sendForgot.disabled = false; sendForgot.textContent = 'Send my request';
+    }
+  });
+  const changePw = el.querySelector('#btnChangePw');
+  if (changePw) changePw.addEventListener('click', async () => {
+    const cur = el.querySelector('#curPass').value;
+    const next = el.querySelector('#newPass').value;
+    const pwErr = el.querySelector('#pwErr');
+    pwErr.textContent = '';
+    changePw.disabled = true; changePw.textContent = 'Updating…';
+    try {
+      const r = await api('/api/auth/change-password', { method: 'POST', body: { currentPassword: cur, newPassword: next } });
+      toast(r.message + ' ❤️');
+      el.querySelector('#curPass').value = '';
+      el.querySelector('#newPass').value = '';
+    } catch (e) {
+      pwErr.textContent = e.message;
+    }
+    changePw.disabled = false; changePw.textContent = 'Update password';
+  });
   const err = () => el.querySelector('#authErr');
   const reg = el.querySelector('#btnRegister');
   if (reg) reg.addEventListener('click', () => doAuth('/api/auth/register', el, err));

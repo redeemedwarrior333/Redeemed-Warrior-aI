@@ -1,5 +1,7 @@
 const crypto = require('crypto');
 
+const config = require('../config');
+
 const members = new Map();
 const tokens = new Map();
 
@@ -74,6 +76,11 @@ function memberForToken(token) {
   return null;
 }
 
+function isOwner(member) {
+  if (!member || !member.email) return false;
+  return config.ownerEmails.has(normalizeEmail(member.email));
+}
+
 function get(memberId) {
   for (const member of members.values()) {
     if (member.memberId === memberId) return member;
@@ -81,4 +88,4 @@ function get(memberId) {
   return null;
 }
 
-module.exports = { members, tokens, register, login, issueToken, memberForToken, get };
+module.exports = { members, tokens, register, login, issueToken, memberForToken, isOwner, get };

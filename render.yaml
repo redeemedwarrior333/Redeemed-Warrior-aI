@@ -23,6 +23,8 @@ services:
         value: "10"
       - key: RW_STORE_API_KEY
         sync: false
+      - key: OWNER_EMAILS
+        sync: false
       - key: STRIPE_SECRET_KEY
         sync: false
       - key: RW_STORE_BASE_URL

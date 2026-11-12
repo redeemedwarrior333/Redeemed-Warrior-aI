@@ -83,6 +83,10 @@ Members can redeem Store purchase codes to unlock apps: server-to-server calls w
 
 Member dashboard: open `/dashboard` on your deployment.
 
+### Owner account (free full access)
+
+Set `OWNER_EMAILS` (comma-separated) in the server environment. Any member who registers or signs in with one of those emails gets the `owner` role, verified server-side: full Premium access in hosted apps with no purchase code needed, never limited by subscriptions. Regular members are unaffected.
+
 > Note: the Store's `/api/rw/redeem/*` endpoints must be live on the Store for redemption to work. The Builder side is complete and ready.
 
 ### Add it to your website

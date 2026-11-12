@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Redeemed Warrior Devotional Bible</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/.sfs/css2?family=Cormorant+Garamond:wght@400;700&family=Jost:wght@400;700&display=swap">
+<style>
+:root{
+  --brand-primary:#e91e7f;
+  --brand-accent:#d4af6a;
+  --brand-bg:#0f0910;
+  --brand-text:#fbf6ee;
+  --font-display:"Cormorant Garamond",serif;
+  --font-body:"Jost",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:100%;scroll-behavior:smooth;background:var(--brand-bg);color:var(--brand-text);}
+body{font-family:var(--font-body);line-height:1.5;min-height:100vh;display:flex;flex-direction:column;}
+a{color:var(--brand-primary);text-decoration:none;}
+a:focus-visible,button:focus-visible{outline:3px solid var(--brand-accent);outline-offset:2px;}
+header,nav,main,section,footer{padding:1rem;}
+header{background:linear-gradient(135deg,var(--brand-primary),var(--brand-accent));color:#fff;}
+h1,h2,h3{font-family:var(--font-display);margin-bottom:.5rem;}
+button{
+  font-family:var(--font-body);
+  background:var(--brand-primary);
+  color:#fff;
+  border:none;
+  padding:.75rem 1.5rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .3s;
+}
+button:hover,button:focus-visible{background:var(--brand-accent);}
+svg{display:block;max-width:100%;}
+.container{max-width:1200px;margin:auto;}
+nav{display:flex;justify-content:space-between;align-items:center;}
+nav ul{display:none;list-style:none;gap:1rem;}
+nav ul li{margin:0;}
+nav a{color:#fff;font-weight:600;}
+nav button.menu-toggle{background:none;color:#fff;font-size:1.5rem;}
+@media(min-width:768px){
+  nav ul{display:flex;}
+  nav button.menu-toggle{display:none;}
+}
+section{margin:2rem 0;}
+.card{
+  background:rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:1.5rem;
+  margin-bottom:1.5rem;
+  backdrop-filter:blur(8px);
+}
+.card h3{color:var(--brand-accent);}
+.grid{
+  display:grid;
+  gap:1rem;
+}
+@media(min-width:768px){
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+}
+footer{
+  background:rgba(0,0,0,.4);
+  text-align:center;
+  font-size:.875rem;
+  margin-top:auto;
+}
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
+}
+.crown{animation:float 4s ease-in-out infinite;}
+.hero{
+  text-align:center;
+  margin:2rem 0;
+}
+.hero img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+}
+.APP_URL{display:none;}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav aria-label="Primary navigation">
+      <a href="#" aria-label="Redeemed Warrior Home"><strong>Redeemed Warrior</strong></a>
+      <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">☰</button>
+      <ul id="primary-menu">
+        <li><a href="#welcome">Home</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#scripture">Scripture</a></li>
+        <li><a href="#devotional">Devotional</a></li>
+        <li><a href="#prayer">Prayer</a></li>
+        <li><a href="#bible">Bible</a></li>
+        <li><a href="#study">Study</a></li>
+        <li><a href="#challenges">Challenges</a></li>
+      </ul>
+    </nav>
+    <h1 style="font-size:2rem;margin-top:.5rem;color:#fff;">Redeemed Warrior Devotional Bible</h1>
+    <p style="color:#fff;">Redeemed by Grace. Strengthened by Purpose. Built to Rise.</p>
+  </div>
+</header>
+
+<main class="container">
+  <section id="hero" class="hero" aria-label="Inspirational image">
+    <img src="https://raw.githubusercontent.com/redeemedwarrior333/Redeemed-Warrior-aI/vibe/promo-assets-2fd8a6/uploads/devotional-bible-promo.jpg" alt="Redeemed Warrior Devotional Bible — Read. Pray. Reflect. Grow.">
+  </section>
+
+  <section id="welcome" class="grid-2" aria-label="Welcome screen">
+    <div>
+      <h2>Read • Pray • Reflect • Grow</h2>
+      <p>Welcome, Warrior. Dive into God’s Word, lift your spirit, and let His love transform you.</p>
+      <button onclick="location.href=APP_URL">Start Your Faith Journey</button>
+      <button style="background:transparent;border:2px solid var(--brand-primary);margin-left:.5rem;" onclick="location.href=APP_URL">Sign In</button>
+      <button style="background:transparent;border:2px solid var(--brand-primary);margin-left:.5rem;" onclick="location.href=APP_URL">Explore Free Features</button>
+    </div>
+    <div aria-hidden="true">
+      <svg class="crown" viewBox="0 0 120 120" aria-hidden="true">
+        <path d="M20 70 L30 40 L40 70 L50 30 L60 70 L70 20 L80 70 L90 40 L100 70" stroke="var(--brand-primary)" stroke-width="4" fill="none"/>
+        <polygon points="55,5 45,25 65,25" fill="var(--brand-accent)"/>
+      </svg>
+      <svg viewBox="0 0 100 120" style="margin-top:1rem;">
+        <line x1="50" y1="10" x2="50" y2="90" stroke="var(--brand-primary)" stroke-width="6"/>
+        <line x1="30" y1="30" x2="70" y2="30" stroke="var(--brand-primary)" stroke-width="6"/>
+        <line x1="30" y1="50" x2="70" y2="50" stroke="var(--brand-primary)" stroke-width="6"/>
+      </svg>
+    </div>
+  </section>
+
+  <section id="dashboard" aria-label="Daily dashboard">
+    <h2 class="card">Good morning, Warrior!</h2>
+    <div class="card">
+      <p id="date"></p>
+      <h3>Scripture of the Day</h3>
+      <blockquote>"I can do all things through Him who gives me strength." – Philippians 4:13 (ESV)</blockquote>
+      <p>Let this promise empower every step you take today.</p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <h3>Today's Devotional</h3>
+        <p><strong>Title:</strong> Courage in the Quiet</p>
+        <p>When the world roars, find your strength in the gentle whispers of God’s love.</p>
+        <a href="#devotional" class="button">Read More</a>
+      </article>
+      <article class="card">
+        <h3>Today's Prayer</h3>
+        <p>Father, grant me peace amid the storm, and a heart that trusts Your perfect timing.</p>
+        <a href="#prayer" class="button">Enter Prayer</a>
+      </article>
+    </div>
+    <div class="card">
+      <h3>Spiritual Encouragement</h3>
+      <p>"She is clothed in strength and dignity; she laughs without fear of the future." – Proverbs 31:25 (NLT)</p>
+    </div>
+  </section>
+
+  <section id="scripture" aria-label="Scripture of the day">
+    <h2 class="card">Scripture of the Day</h2>
+    <article class="card">
+      <h3>Philippians 4:13 (ESV)</h3>
+      <p>"I can do all things through Him who gives me strength."</p>
+      <p><strong>Context:</strong> Paul writes from prison, urging believers to rely on Christ’s power, not their own.</p>
+      <p><strong>Application:</strong> When doubts arise, recall that Christ equips you for every challenge.</p>
+      <p><strong>Reflection:</strong> What one task can you surrender to God today, trusting His strength?</p>
+      <button onclick="location.href=APP_URL">Open Scripture in the App</button>
+      <button onclick="location.href=APP_URL">Save to Favorites</button>
+    </article>
+  </section>
+
+  <section id="devotional" aria-label="Daily devotional">
+    <h2 class="card">Daily Devotional</h2>
+    <article class="card">
+      <h3>Courage in the Quiet</h3>
+      <p><strong>Scripture:</strong> Psalm 46:10 (NIV) – “Be still, and know that I am God.”</p>
+      <p><strong>Teaching:</strong> In the hustle, stillness reveals God’s gentle guidance. He speaks most clearly when we pause.</p>
+      <p><strong>Biblical Explanation:</strong> The psalmist reminds Israel that God is a refuge, even when the earth trembles.</p>
+      <p><strong>Real‑Life Application:</strong> Set aside five quiet minutes today. Breathe, pray, and listen for God’s heart.</p>
+      <p><strong>Reflection Question:</strong> When was the last time silence led you to a decision?</p>
+      <p><strong>Personal Encouragement:</strong> You are not alone; the Almighty is beside you, steady as a stone.</p>
+      <p><strong>Closing Prayer:</strong> “Lord, help me find stillness in You. May Your peace guard my heart. Amen.”</p>
+      <button onclick="location.href=APP_URL">Read Today's Devotional in the App</button>
+    </article>
+  </section>
+
+  <section id="prayer" aria-label="Daily prayer center">
+    <h2 class="card">Prayer Center</h2>
+    <article class="card">
+      <h3>Morning Prayer</h3>
+      <p>Heavenly Father, thank You for a new dawn. Fill my heart with gratitude and guide my steps.</p>
+      <p><strong>Scripture:</strong> Lamentations 3:22‑23 (NIV) – “The faithful love of the LORD never ends! ... they are new every morning.”</p>
+      <button onclick="location.href=APP_URL">Open the Prayer Center</button>
+      <button onclick="location.href=APP_URL">Save Prayer</button>
+    </article>
+    <div class="grid-3">
+      <article class="card"><h4>Evening</h4><p>Lord, as I rest, forgive my shortcomings and grant peaceful sleep.</p></article>
+      <article class="card"><h4>Healing</h4><p>Jesus, touch my brokenness; bring restoration and hope.</p></article>
+      <article class="card"><h4>Protection</h4><p>Shield my family and me from all harm, Lord.</p></article>
+    </div>
+  </section>
+
+  <section id="bible" aria-label="Bible reading area">
+    <h2 class="card">Bible Reading</h2>
+    <article class="card">
+      <p>Explore the full 66‑book canon with elegant navigation.</p>
+      <button onclick="location.href=APP_URL">Enter Bible</button>
+    </article>
+  </section>
+
+  <section id="study" aria-label="Bible study center">
+    <h2 class="card">Study Center</h2>
+    <article class="card">
+      <h3>Women of the Bible</h3>
+      <p>Discover the faith of Deborah, Esther, Ruth, Mary, Hannah, Abigail, Sarah, Rahab, Lydia, and more.</p>
+      <button onclick="location.href=APP_URL">Explore Collection</button>
+    </article>
+  </section>
+
+  <section id="challenges" aria-label="Faith challenges">
+    <h2 class="card">Faith Challenges</h2>
+    <div class="grid-2">
+      <article class="card">
+        <h3>7‑Day Prayer Sprint</h3>
+        <p>Commit to a focused prayer each morning and evening for a week. Track your progress and receive daily prompts.</p>
+        <button onclick="location.href=APP_URL">Start Challenge</button>
+      </article>
+      <article class="card">
+        <h3>30‑Day Scripture Memory</h3>
+        <p>Memorize a verse each day, with reflection prompts to embed God's truth in your heart.</p>
+        <button onclick="location.href=APP_URL">Start Challenge</button>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 Redeemed Warrior Ministries. All rights reserved.</p>
+  <nav aria-label="Footer navigation">
+    <a href="#welcome">Home</a> |
+    <a href="#dashboard">Dashboard</a> |
+    <a href="#scripture">Scripture</a> |
+    <a href="#devotional">Devotional</a> |
+    <a href="#prayer">Prayer</a> |
+    <a href="#bible">Bible</a> |
+    <a href="#study">Study</a> |
+    <a href="#challenges">Challenges</a>
+  </nav>
+</footer>
+
+<script>
+  const APP_URL = 'https://apps.godsredeemedwarrior.org/apps/devotional-bible';
+  const toggle = document.querySelector('.menu-toggle');
+  const menu = document.getElementById('primary-menu');
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true' || false;
+    toggle.setAttribute('aria-expanded', !expanded);
+    menu.style.display = expanded ? 'none' : 'flex';
+  });
+  document.getElementById('date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+</script>
+</body>
+</html>

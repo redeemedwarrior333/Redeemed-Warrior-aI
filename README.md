@@ -68,7 +68,8 @@ The AI responds with a full blueprint: vision, core features, screens, data mode
 | `API_KEY` | Password that protects your API. Leave empty only for private testing. |
 | `AI_BASE_URL` | Your AI provider's URL (default: Google AI Studio / Gemini) |
 | `AI_API_KEY` | Your AI provider key |
-| `AI_MODEL` | Which AI model to use (default: `gemini-2.5-flash`, a cost-conscious choice) |
+| `AI_MODEL` | Which AI model to use (default: `gemini-3.5-flash-lite` — Google retired the old 2.5/`-latest` names, which caused 400 errors) |
+| `AI_FALLBACK_BASE_URL` / `AI_FALLBACK_API_KEY` / `AI_FALLBACK_MODEL` | Optional backup AI provider. If the primary fails (quota, outage, retired model), requests automatically retry against the backup. Recommended free backup: [Groq](https://console.groq.com) — base URL `https://api.groq.com/openai/v1`, model `openai/gpt-oss-120b` (1,000 free requests/day) |
 | `RATE_LIMIT_MAX` | Requests allowed per minute per visitor (default 60) |
 
 ### Security notes

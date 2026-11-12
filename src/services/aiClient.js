@@ -12,30 +12,36 @@ class ApiError extends Error {
 function mapUpstreamStatus(status) {
   if (status === 401 || status === 403) return 502;
   if (status === 429) return 429;
-  if (status >= 500) return 502;
   return 502;
 }
 
-async function chatCompletion({ messages, stream = false, temperature }) {
-  if (!config.aiApiKey) {
-    const err = new ApiError(
-      503,
-      'The AI provider is not configured yet. Add AI_API_KEY to your .env file and restart the server.'
-    );
-    err.expected = true;
-    throw err;
+function providers() {
+  const list = [];
+  if (config.aiApiKey) {
+    list.push({ name: 'primary', baseUrl: config.aiBaseUrl, apiKey: config.aiApiKey, model: config.aiModel });
   }
+  if (config.aiFallbackApiKey) {
+    list.push({
+      name: 'fallback',
+      baseUrl: config.aiFallbackBaseUrl || config.aiBaseUrl,
+      apiKey: config.aiFallbackApiKey,
+      model: config.aiFallbackModel || config.aiModel
+    });
+  }
+  return list;
+}
 
+async function chatWithProvider(provider, { messages, stream = false, temperature }) {
   let response;
   try {
-    response = await fetch(`${config.aiBaseUrl}/chat/completions`, {
+    response = await fetch(`${provider.baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${config.aiApiKey}`
+        Authorization: `Bearer ${provider.apiKey}`
       },
       body: JSON.stringify({
-        model: config.aiModel,
+        model: provider.model,
         messages,
         stream,
         ...(temperature !== undefined ? { temperature } : {})
@@ -72,6 +78,28 @@ async function chatCompletion({ messages, stream = false, temperature }) {
   }
 
   return response.body;
+}
+
+async function chatCompletion(options) {
+  const list = providers();
+  if (!list.length) {
+    const err = new ApiError(
+      503,
+      'The AI provider is not configured yet. Add AI_API_KEY to your .env file and restart the server.'
+    );
+    err.expected = true;
+    throw err;
+  }
+
+  let lastError;
+  for (const provider of list) {
+    try {
+      return await chatWithProvider(provider, options);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
 }
 
 module.exports = { chatCompletion, ApiError };

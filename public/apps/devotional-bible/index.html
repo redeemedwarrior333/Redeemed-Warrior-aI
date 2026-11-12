@@ -1,0 +1,1634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Redeemed Warrior Devotional Bible — Read. Pray. Reflect. Grow.</title>
+<meta name="theme-color" content="#2A0E1E" />
+<meta name="description" content="A beautiful place to encounter God's Word, strengthen your faith, find encouragement, and grow closer to Jesus every single day." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --pink:#E2449A; --pink-deep:#C22B7E; --hot:#F05AA8;
+  --blush:#F9E3EC; --rose:#C48B9F; --rose-deep:#9E5F79;
+  --gold:#D4AF7A; --gold-deep:#B08D4F; --gold-light:#EFD9B4;
+  --ivory:#FDF9F4; --cream:#FAF3EA; --ink:#2A1520; --ink-soft:#5C3A4B;
+  --night:#2A0E1E; --night-2:#3B1428; --black:#1C1016;
+  --ok:#2E7D5B; --warn:#B3392E;
+  --radius:20px; --shadow:0 10px 30px rgba(42,14,30,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--ivory);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Cormorant Garamond',serif;line-height:1.15}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;font-size:1rem}
+a{color:var(--pink-deep)}
+.hidden{display:none!important}
+.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-deep);font-weight:600}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.card{background:#fff;border:1px solid #F0DFE8;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.gold-card{background:linear-gradient(160deg,#fff 60%,var(--blush));border:1px solid var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease,opacity .15s}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 6px 18px rgba(176,141,79,.35)}
+.btn-pink{background:linear-gradient(135deg,var(--hot),var(--pink-deep));color:#fff;box-shadow:0 6px 18px rgba(226,68,154,.35)}
+.btn-ghost{background:transparent;border:1.5px solid var(--rose);color:var(--rose-deep)}
+.btn-sm{min-height:40px;padding:8px 16px;font-size:.85rem}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:600;background:var(--blush);color:var(--rose-deep)}
+.chip-gold{background:#F6ECD9;color:var(--gold-deep)}
+.chip-dark{background:var(--night);color:var(--gold-light)}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:600}
+.pill-locked{background:#F4E3E1;color:var(--warn)}
+.pill-open{background:#E2F1E9;color:var(--ok)}
+.muted{color:var(--ink-soft)}
+.hint{font-size:.85rem;color:var(--ink-soft)}
+.err{color:var(--warn);font-size:.9rem}
+.ok-msg{color:var(--ok);font-size:.9rem}
+input.input,textarea.input{width:100%;min-height:48px;padding:12px 16px;border:1.5px solid #E7D2DD;border-radius:14px;background:#fff;color:var(--ink)}
+input.input:focus,textarea.input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+label.label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border:0;margin:18px 0}
+.verse-text{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-style:italic;color:var(--night)}
+.verse-ref{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (min-width:720px){ .card{padding:28px} .verse-text{font-size:1.6rem} }
+
+/* ---------- Welcome screen ---------- */
+#welcome{position:fixed;inset:0;z-index:60;overflow-y:auto;background:
+  radial-gradient(1200px 600px at 80% -10%,rgba(240,90,168,.25),transparent 60%),
+  radial-gradient(900px 500px at 10% 110%,rgba(212,175,122,.22),transparent 60%),
+  linear-gradient(180deg,var(--night) 0%,var(--night-2) 55%,#4A1A33 100%);
+  color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px;gap:14px}
+#welcome .glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 50% 18%,rgba(239,217,180,.18),transparent 70%);animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+#welcome h1{font-size:clamp(2.1rem,7vw,3.4rem);letter-spacing:.06em}
+#welcome .tagline{font-size:1.05rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light)}
+#welcome .motto{color:var(--blush);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem}
+#welcome .emblem{animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+#welcome .btn{min-width:260px}
+#welcome .foot{margin-top:14px;color:rgba(255,255,255,.75);font-size:.85rem;max-width:420px}
+.sparkle{position:absolute;color:var(--gold-light);animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.9;transform:scale(1.1)}}
+
+/* ---------- App shell ---------- */
+#app{min-height:100vh;padding-bottom:96px}
+.app-header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--night),var(--night-2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(42,14,30,.25)}
+.app-header .logo{display:flex;align-items:center;gap:10px;min-width:0}
+.app-header h1{font-size:1.15rem;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-header .sub{font-size:.68rem;letter-spacing:.24em;color:var(--gold-light);text-transform:uppercase}
+.app-header .hbtn{margin-left:auto;background:rgba(255,255,255,.1);border:1px solid rgba(239,217,180,.4);color:var(--gold-light);border-radius:999px;padding:8px 14px;font-size:.8rem;font-weight:600}
+main{padding:22px 0 30px}
+.view{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.view-head{margin-bottom:18px}
+.view-head h2{font-size:2rem;color:var(--night)}
+nav.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:#fff;border-top:1px solid #F0DFE8;box-shadow:0 -6px 24px rgba(42,14,30,.08);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+nav.tabbar button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;font-weight:600;color:var(--rose-deep);padding:6px 10px;border-radius:14px;min-width:60px}
+nav.tabbar button.active{color:var(--pink-deep);background:var(--blush)}
+nav.tabbar svg{width:22px;height:22px}
+nav.tabbar button.more-dim{color:var(--rose)}
+#moreSheet{position:fixed;inset:0;z-index:50;background:rgba(28,16,22,.45);display:flex;align-items:flex-end}
+#moreSheet .sheet{background:var(--ivory);width:100%;border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr;gap:12px;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+#moreSheet button.mitem{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:#fff;border:1px solid #F0DFE8;border-radius:16px;padding:14px;font-weight:600;color:var(--ink);text-align:left}
+#moreSheet button.mitem svg{width:22px;height:22px;color:var(--pink-deep)}
+#moreSheet .close-row{grid-column:1/-1;display:flex;justify-content:center}
+
+/* ---------- Home ---------- */
+.greet-card{background:linear-gradient(150deg,var(--night),var(--night-2) 70%,#4A1A33);color:#fff;border-radius:26px;padding:26px 22px;position:relative;overflow:hidden;border:1px solid rgba(212,175,122,.4)}
+.greet-card::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(240,90,168,.35),transparent 70%)}
+.greet-card h2{font-size:2rem}
+.greet-card .date{color:var(--gold-light);letter-spacing:.18em;text-transform:uppercase;font-size:.75rem}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;margin:26px 0 12px}
+.section-title h3{font-size:1.5rem}
+.grid-2{display:grid;gap:16px}
+@media (min-width:760px){.grid-2{grid-template-columns:1fr 1fr}}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+/* ---------- Bible reader ---------- */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.book-btn{background:#fff;border:1px solid #F0DFE8;border-radius:14px;padding:12px;text-align:left;font-weight:600;color:var(--ink);display:flex;flex-direction:column;gap:2px}
+.book-btn small{color:var(--rose-deep);font-weight:500;font-size:.72rem}
+.book-btn:hover{border-color:var(--gold)}
+.testament-label{margin:18px 0 8px}
+.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px}
+.chapter-grid button{background:#fff;border:1px solid #F0DFE8;border-radius:10px;min-height:44px;font-weight:600;color:var(--ink)}
+.chapter-grid button.read{background:var(--blush);border-color:var(--rose);color:var(--rose-deep)}
+.passage p{margin-bottom:.7em;font-size:1.05rem}
+.passage .vnum{color:var(--rose-deep);font-size:.75em;font-weight:700;vertical-align:super;margin-right:2px}
+.search-row{display:flex;gap:8px;margin-bottom:14px}
+.search-row .input{flex:1}
+
+/* ---------- Challenges ---------- */
+.challenge-card{display:flex;flex-direction:column;gap:10px}
+.progress-track{height:10px;background:var(--blush);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--hot));border-radius:999px;transition:width .4s ease}
+.day-row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed #EFD7E2}
+.day-row:last-child{border-bottom:0}
+.day-num{flex:0 0 40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--blush);color:var(--rose-deep)}
+.day-row.done .day-num{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff}
+
+/* ---------- Membership ---------- */
+.plan-grid{display:grid;gap:16px}
+@media (min-width:820px){.plan-grid{grid-template-columns:repeat(3,1fr)}}
+.plan{position:relative}
+.plan.premium{border:2px solid var(--gold)}
+.plan .price{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--pink-deep)}
+.plan ul{list-style:none;margin-top:10px;display:grid;gap:8px}
+.plan li{display:flex;gap:8px;align-items:flex-start;font-size:.92rem}
+.plan li svg{flex:0 0 18px;margin-top:3px}
+.locked-strip{background:linear-gradient(135deg,var(--night),var(--night-2));color:var(--gold-light);border-radius:14px;padding:14px 16px;display:flex;gap:10px;align-items:center;font-size:.9rem;margin-top:12px}
+
+/* ---------- Misc ---------- */
+.fav-item{padding:14px 0;border-bottom:1px dashed #EFD7E2}
+.fav-item:last-child{border-bottom:0}
+.listen-btn{display:inline-flex;align-items:center;gap:6px;color:var(--rose-deep);font-weight:600;font-size:.85rem}
+.settings-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px dashed #EFD7E2}
+.switch{position:relative;width:52px;height:30px;flex:0 0 52px}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#E7D2DD;border-radius:999px;transition:.2s}
+.slider::before{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.switch input:checked + .slider{background:var(--pink)}
+.switch input:checked + .slider::before{transform:translateX(22px)}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);z-index:70;background:var(--night);color:#fff;padding:12px 20px;border-radius:999px;font-size:.9rem;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fade .25s ease;max-width:90vw;text-align:center}
+footer.app-foot{text-align:center;color:var(--rose-deep);font-size:.8rem;padding:30px 16px 10px}
+</style>
+</head>
+<body>
+
+<div id="welcome">
+  <div class="glow"></div>
+  <svg class="sparkle" style="top:12%;left:14%" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+  <svg class="sparkle" style="top:22%;right:16%;animation-delay:1s" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+  <svg class="sparkle" style="bottom:24%;left:20%;animation-delay:2s" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+  <svg class="emblem" width="120" height="96" viewBox="0 0 120 96" fill="none" aria-hidden="true">
+    <path d="M8 74 Q60 46 112 74 Q96 88 60 88 Q24 88 8 74Z" fill="rgba(239,217,180,.14)" stroke="#EFD9B4" stroke-width="1.4"/>
+    <path d="M60 30 v34 M48 40 h24 M50 52 h20" stroke="#EFD9B4" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M28 34 L34 18 L44 30 L52 14 L60 28 L68 14 L76 30 L86 18 L92 34 Q60 48 28 34Z" fill="url(#crownG)" stroke="#B08D4F" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="34" cy="16" r="3.4" fill="#F05AA8"/><circle cx="60" cy="12" r="3.8" fill="#EFD9B4"/><circle cx="86" cy="16" r="3.4" fill="#F05AA8"/>
+    <defs><linearGradient id="crownG" x1="28" y1="14" x2="92" y2="40"><stop stop-color="#EFD9B4"/><stop offset="1" stop-color="#D4AF7A"/></linearGradient></defs>
+  </svg>
+  <p class="eyebrow" style="color:var(--gold-light)">Redeemed Warrior</p>
+  <h1>Devotional Bible</h1>
+  <p class="tagline">Read &bull; Pray &bull; Reflect &bull; Grow</p>
+  <p class="motto">"She is clothed with strength and dignity, and she laughs at the time to come." — Proverbs 31:25</p>
+  <div style="display:grid;gap:12px;margin-top:18px">
+    <button class="btn btn-gold" id="btnStart">Start Your Faith Journey</button>
+    <button class="btn btn-ghost" style="border-color:rgba(239,217,180,.5);color:#fff" id="btnWelcomeSignIn">Sign In</button>
+    <button class="btn btn-ghost" style="border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)" id="btnExplore">Explore Free Features</button>
+  </div>
+  <p class="foot">A beautiful place to encounter God's Word, strengthen your faith, and grow closer to Jesus every single day. You are redeemed. You are loved. You are chosen.</p>
+</div>
+
+<div id="app" class="hidden">
+  <header class="app-header">
+    <div class="logo">
+      <svg width="30" height="24" viewBox="0 0 120 96" fill="none" aria-hidden="true">
+        <path d="M28 34 L34 18 L44 30 L52 14 L60 28 L68 14 L76 30 L86 18 L92 34 Q60 48 28 34Z" fill="#EFD9B4"/>
+        <path d="M60 40 v30 M50 48 h20 M52 58 h16" stroke="#F05AA8" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Devotional Bible</h1>
+        <span class="sub">Redeemed Warrior</span>
+      </div>
+    </div>
+    <button class="hbtn" id="btnAccount">Account</button>
+  </header>
+
+  <main class="wrap">
+    <section id="view-home" class="view"></section>
+    <section id="view-bible" class="view hidden"></section>
+    <section id="view-devotionals" class="view hidden"></section>
+    <section id="view-prayer" class="view hidden"></section>
+    <section id="view-study" class="view hidden"></section>
+    <section id="view-favorites" class="view hidden"></section>
+    <section id="view-challenges" class="view hidden"></section>
+    <section id="view-membership" class="view hidden"></section>
+    <section id="view-account" class="view hidden"></section>
+    <section id="view-reminders" class="view hidden"></section>
+    <section id="view-about" class="view hidden"></section>
+  </main>
+
+  <nav class="tabbar" aria-label="Main navigation">
+    <button data-nav="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
+    <button data-nav="bible"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-5a3 3 0 0 0-3 3 3 3 0 0 0-3-3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/></svg>Bible</button>
+    <button data-nav="devotionals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21Z"/></svg>Devotionals</button>
+    <button data-nav="prayer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Prayer</button>
+    <button data-nav="study"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v6c0 1.7 2.7 3 6 3s6-1.3 6-3V9"/></svg>Study</button>
+    <button data-nav="more" class="more-dim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
+  </nav>
+
+  <div id="moreSheet" class="hidden">
+    <div class="sheet">
+      <button class="mitem" data-nav="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21Z"/></svg>Favorites</button>
+      <button class="mitem" data-nav="challenges"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8m-4-4v4M6 4h12v4a6 6 0 0 1-12 0z"/><path d="M6 6H4a2 2 0 0 0 0 4h2m12-4h2a2 2 0 0 1 0 4h-2"/></svg>Faith Challenges</button>
+      <button class="mitem" data-nav="membership"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 5-6 5 6 4-4v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Membership</button>
+      <button class="mitem" data-nav="reminders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Daily Reminders</button>
+      <button class="mitem" data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Account</button>
+      <button class="mitem" data-nav="about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8v.5"/></svg>About &amp; Privacy</button>
+      <div class="close-row"><button class="btn btn-ghost btn-sm" id="btnCloseSheet">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="toastHost"></div>
+
+<script>
+'use strict';
+
+const TRANSLATION = 'World English Bible (public domain)';
+
+const VERSES = [
+  { ref:'John 3:16', text:'For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.',
+    explain:'This is the heartbeat of the gospel: God\'s love moved first. He gave His Son so that everyone who believes would have eternal life — not earned, but received.',
+    context:'Jesus spoke these words at night to Nicodemus, a Pharisee searching for truth, explaining that new life comes from God\'s Spirit, not human effort.',
+    apply:'Stop trying to earn God\'s love today. It is already yours. Receive it, rest in it, and let it flow out of you toward someone else.',
+    question:'Where in your life do you still feel you have to earn love — and what would change if you believed it was already given?' },
+  { ref:'Proverbs 31:25', text:'She is clothed with strength and dignity; she can laugh at the time to come.',
+    explain:'The woman of God does not tremble at the future — she laughs at it. Her confidence is not in circumstances but in the God who already stands there.',
+    context:'Proverbs 31 paints a portrait of the excellent wife, written by a queen mother to teach her son what virtue looks like. Strength and dignity are her clothing — chosen daily, like a garment.',
+    apply:'Get dressed in strength and dignity this morning, on purpose. Speak kindly about your future out loud, even once.',
+    question:'What is one thing about tomorrow that scares you? Hand that exact thing to God in prayer today.' },
+  { ref:'Isaiah 41:10', text:'Don\'t be afraid, for I am with you. Don\'t be anxious, for I am your God. I will strengthen you. Yes, I will help you. I will uphold you with my righteous right hand.',
+    explain:'God answers fear not with a lecture but with His presence. "I am with you" is the foundation; "I will strengthen you" is the promise.',
+    context:'Isaiah spoke to Israel in exile — a small, frightened nation surrounded by empires. God\'s answer to their fear was not a change of situation but a promise of companionship.',
+    apply:'When anxiety rises today, name it out loud and answer it with His words: "I am not alone. God is with me."',
+    question:'Which phrase touches you most: "I am with you," "I will strengthen you," or "I will uphold you"? Why?' },
+  { ref:'Philippians 4:6-7', text:'In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.',
+    explain:'Paul does not say "feel less anxious." He says "pray more specifically." Anxiety shrinks when requests become prayers; peace stands guard like a soldier at the door of your heart.',
+    context:'Paul wrote this from prison, chained yet peaceful. His peace was not the absence of trouble — it was the presence of God guarding his mind in the middle of it.',
+    apply:'Take your biggest worry right now and turn it into one specific sentence of prayer, ending with "thank You."',
+    question:'What is one worry you have been carrying that you could hand over in prayer before tonight?' },
+  { ref:'Jeremiah 29:11', text:'For I know the plans that I have for you,\' declares the LORD, \'plans for peace, and not for evil, to give you a future and a hope.',
+    explain:'God\'s plans are not random. Even in seasons that feel like exile, He is writing a future and a hope over your life.',
+    context:'Jeremiah wrote to Israelites carried off to Babylon. They wanted to go home immediately; God said to settle, plant, and trust His seventy-year timeline. The promise came in the middle of the waiting.',
+    apply:'If you are in a waiting season, build faithfully where you are. Plant something — a habit, a kindness, a prayer.',
+    question:'Do you trust the Planner more than the plan? What would that trust change this week?' },
+  { ref:'Psalm 23:1-3', text:'The LORD is my shepherd: I shall lack nothing. He makes me to lie down in green pastures. He leads me beside still waters. He restores my soul.',
+    explain:'A shepherd leads, feeds, and restores. Rest is not laziness — it is obedience. God Himself makes space for your soul to breathe.',
+    context:'David, who spent his youth shepherding, wrote this psalm from experience: sheep survive only under a watchful shepherd\'s care.',
+    apply:'Schedule ten minutes of stillness with God today — no phone, no noise. Let Him restore your soul.',
+    question:'When did you last let God lead you beside still waters? What is stealing your rest?' },
+  { ref:'Romans 8:28', text:'We know that all things work together for good for those who love God, for those who are called according to his purpose.',
+    explain:'Not everything is good — but God weaves everything together for good. Even the broken threads become part of a beautiful design.',
+    context:'Paul wrote to believers in Rome under pressure and persecution, anchoring them in God\'s unstoppable purpose rather than their shifting circumstances.',
+    apply:'Name one painful thing from your past and ask God to show you one good thing He is weaving from it.',
+    question:'Where can you already see God turning something hard into something good in your story?' },
+  { ref:'Joshua 1:9', text:'Haven\'t I commanded you? Be strong and courageous. Don\'t be afraid. Don\'t be dismayed, for the LORD your God is with you wherever you go.',
+    explain:'Courage is not the absence of fear; it is obedience while afraid, anchored in God\'s presence "wherever you go."',
+    context:'Joshua took leadership after Moses died — overwhelming shoes to fill. God repeated "be strong and courageous" three times in four verses because the task was terrifying.',
+    apply:'Do the brave thing you have been postponing — the call, the conversation, the first step — and carry His presence into it.',
+    question:'What "new land" is God asking you to step into with courage this season?' },
+  { ref:'Zephaniah 3:17', text:'The LORD your God is among you, a mighty one who will save. He will rejoice over you with joy. He will quiet you in his love. He will rejoice over you with singing.',
+    explain:'God is not distant or disappointed — He rejoices over you. Picture Him singing over you the way a mother sings over her child.',
+    context:'Zephaniah prophesied judgment, but ended with restoration: God in the midst of His people, celebrating, calming, singing.',
+    apply:'Let yourself be loved today without performing. Sit quietly for two minutes and imagine God rejoicing over you.',
+    question:'Does it change anything to know God sings over you — not sighs over you?' },
+  { ref:'Isaiah 40:31', text:'But those who wait for the LORD will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.',
+    explain:'Waiting on God is not wasted time — it is where strength is exchanged: our weakness for His power.',
+    context:'Isaiah comforted exiles who thought God had forgotten them. Eagles wait on the wind currents before they soar — waiting is part of flying.',
+    apply:'Instead of white-knuckling your week, start each morning with one minute of waiting on God before the phone.',
+    question:'Are you running on your own strength or on His? How can you tell the difference?' },
+  { ref:'Psalm 34:18', text:'The LORD is near to those who have a broken heart, and saves those who have a crushed spirit.',
+    explain:'Brokenness does not push God away — it draws Him near. Your lowest place is where His presence is closest.',
+    context:'David wrote this after escaping danger among the Philistines. He knew crushing seasons personally, and he testified: God bends down to the broken.',
+    apply:'If your heart is heavy, you do not have to pretend to be strong today. Tell God exactly how it feels — He is already near.',
+    question:'What would it look like to let God comfort one wounded place in your heart this week?' },
+  { ref:'Lamentations 3:22-23', text:'It is because of the LORD\'s loving kindnesses that we are not consumed, because his compassion doesn\'t fail. They are new every morning. Great is your faithfulness.',
+    explain:'God\'s mercy is not a one-time gift — it is delivered fresh every single morning, like manna.',
+    context:'Lamentations was written over the ruins of Jerusalem. In the middle of grief, the writer found this: compassion that never runs out.',
+    apply:'Yesterday\'s failure does not define today. Receive this morning\'s fresh mercy — and extend a little of it to someone else.',
+    question:'What do you need fresh mercy for today — and who around you needs some too?' },
+  { ref:'Matthew 11:28-29', text:'"Come to me, all you who labor and are heavily burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and lowly in heart, and you will find rest for your souls.',
+    explain:'Jesus invites the exhausted — not the impressive. Rest is found in His gentleness, not in trying harder.',
+    context:'Jesus spoke to people crushed under religious rules and daily hardship. His yoke — His way of living with God — is custom-fit and light.',
+    apply:'Bring Jesus your heaviest burden today in prayer, then deliberately lay down one "should" that He never asked of you.',
+    question:'What burden are you carrying that Jesus is gently asking you to hand over?' },
+  { ref:'2 Corinthians 12:9', text:'"My grace is sufficient for you, for my power is made perfect in weakness." Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.',
+    explain:'Your weakness is not a disqualification — it is the exact place where Christ\'s power shows up strongest.',
+    context:'Paul begged God three times to remove his "thorn." God answered not with removal but with sufficient grace — and Paul learned to see weakness differently.',
+    apply:'Stop hiding the weak spot. Bring it into the light with God and one trusted person this week.',
+    question:'What weakness have you been ashamed of that God might want to fill with His power?' },
+  { ref:'Ephesians 2:8-10', text:'For by grace you have been saved through faith, and that not of yourselves; it is the gift of God, not of works, that no one would boast. For we are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we would walk in them.',
+    explain:'You are saved by gift, not grind — and you are God\'s workmanship, His masterpiece, made for purposes He prepared ahead of time.',
+    context:'Paul reminded Gentile believers in Ephesus: their status came from grace alone. Yet that grace activates us — good works are the path prepared, not the price demanded.',
+    apply:'Walk in one prepared good work today: an encouragement, a gift, a serving hand. Grace first, works second.',
+    question:'Which good work might God have prepared in advance for you to walk in today?' },
+  { ref:'Psalm 46:5', text:'God is within her. She shall not be moved. God will help her at dawn.',
+    explain:'Steadfastness comes from indwelling: because God is within her, she is not shaken. Help is as certain as the dawn.',
+    context:'Psalm 46 celebrates God as a fortress refuge — Jerusalem\'s river made glad. "Her" is the city of God, and by grace every woman who dwells with Him.',
+    apply:'When everything shakes, anchor in the unshakable: "God is within me. I will not be moved." Say it slowly, twice.',
+    question:'What is shaking around you right now — and what does it mean that God is within you in the middle of it?' },
+  { ref:'1 Peter 5:7', text:'Casting all your worries on him, because he cares for you.',
+    explain:'Worry is a weight meant to be thrown, not carried. The reason to cast it: He personally cares for you.',
+    context:'Peter wrote to scattered, suffering believers. He had seen Jesus care personally for the anxious — and he had been the anxious one in the boat.',
+    apply:'Do a physical "cast": write your worry on paper, pray over it, then throw the paper away as an act of trust.',
+    question:'What worry have you been re-carrying after already giving it to God once?' },
+  { ref:'Romans 8:38-39', text:'For I am persuaded that neither death, nor life, nor angels, nor rulers, nor things present, nor things to come, nor powers, nor height, nor depth, nor any other created thing will be able to separate us from God\'s love which is in Christ Jesus our Lord.',
+    explain:'God\'s love has no exit clause. Nothing in the list — and nothing you could add to it — can separate you from Him.',
+    context:'Paul, who had been beaten, shipwrecked and imprisoned, wrote the boldest conclusion in Scripture: absolutely nothing can cut the cord of God\'s love.',
+    apply:'Whatever today holds, begin from this settled place: you are unconditionally, unbreakably loved.',
+    question:'Do you live like someone who is unseparable from God\'s love? What would change if you did?' },
+  { ref:'Proverbs 3:5-6', text:'Trust in the LORD with all your heart, and don\'t lean on your own understanding. In all your ways acknowledge him, and he will make your paths straight.',
+    explain:'Trust means transferring your full weight onto God, even when your own understanding says the ground is unsafe.',
+    context:'Proverbs trains young people in wisdom. The first lesson: wisdom begins with surrender, not cleverness — acknowledge Him in every way, not just the religious ones.',
+    apply:'Choose one decision you are wrestling with and pray, "Your understanding, not mine," before making a move.',
+    question:'Where have you been leaning on your own understanding until it hurts?' },
+  { ref:'Hebrews 11:1', text:'Now faith is assurance of things hoped for, a conviction of things not seen.',
+    explain:'Faith is not wishful thinking — it is standing on the solid ground of God\'s promises before they become visible.',
+    context:'Hebrews 11 lists ordinary people who acted on God\'s word without seeing the outcome: Noah building, Abraham leaving, Sarah receiving.',
+    apply:'Take one step of obedience this week that only makes sense if God is real and faithful.',
+    question:'What is one "unseen" promise you are learning to stand on right now?' }
+];
+
+const DEVOTIONALS = [
+  { title:'Healing From Past Wounds', ref:'Psalm 147:3', text:'He heals the broken in heart, and binds up their wounds.',
+    teaching:'God is not squeamish about your pain. He does not heal from a distance — He comes close, like a physician kneeling beside a wound, cleansing what infection has touched and binding what is torn. Healing is often a process, not an instant. Some mornings you will feel new; other mornings the scar aches. Both are part of mending.',
+    bible:'The Hebrew picture here is of a shepherd-bandager: one who knows every sheep by name and personally dresses each injury. The same hands that hung the stars take time to bandage broken hearts.',
+    application:'Bring the oldest wound you have — not the newest — into prayer this week. Ask God to show you where He was in that moment, because He was there.',
+    question:'What wound have you never actually shown to God in prayer?',
+    encourage:'Your past does not disqualify you from God\'s tenderness. It is the very place He wants to prove it.',
+    prayer:'Father, You see the places in me that still hurt. I stop hiding them from You. Heal what only You can heal, and teach me to let You tend it as long as it takes. Amen.' },
+  { title:'Overcoming Fear', ref:'Psalm 27:1', text:'The LORD is my light and my salvation. Whom shall I fear? The LORD is the strength of my life. Of whom shall I be afraid?',
+    teaching:'Fear exaggerates everything except God. David does not pretend threats do not exist — he simply puts them next to the LORD and watches them shrink. Courage grows in the soil of relationship: the more you know who is with you, the less the shadows matter.',
+    bible:'David wrote this during seasons when real armies hunted him. His confidence was not denial but memory — a shepherd boy who had already seen God deliver a lion, a bear, and a giant.',
+    application:'Write your fear down as a sentence. Then write God\'s character next to it as a bigger sentence. Read both out loud.',
+    question:'Is your fear bigger than your picture of God, or is your picture of God too small?',
+    encourage:'You were not given a spirit of fear. You were given power, love, and a sound mind.',
+    prayer:'Lord, when fear whispers, let me hear Your voice louder. Be my light in the dark places and my strength when I feel weak. I choose courage because You are with me. Amen.' },
+  { title:'Walking in Faith', ref:'2 Corinthians 5:7', text:'For we walk by faith, not by sight.',
+    teaching:'Faith is a walk, not a leap — one obedient step after another, often without seeing the whole road. Sight says "wait until it makes sense." Faith says "move because He said so." The road reveals itself to walkers, not to waiters.',
+    bible:'Abraham left Ur "not knowing where he went." Every patriarch walked before they saw. The life of faith in Scripture is a series of steps taken on promise alone.',
+    application:'Identify one step God has already put in your heart — forgive, start, give, serve — and take it this week without a guarantee of the outcome.',
+    question:'What step have you been waiting to "see" before you take?',
+    encourage:'You do not need to see the whole staircase. The One who called you is already at the top.',
+    prayer:'Father, I stop demanding to see the whole plan. I take the next step with You, trusting You with the rest. Strengthen my feet as I walk. Amen.' },
+  { title:'Trusting God\'s Timing', ref:'Ecclesiastes 3:11', text:'He has made everything beautiful in its time.',
+    teaching:'God is never late, though He is rarely early. "In its time" means the beauty is attached to the timing — rush it, and you get a bud instead of a bloom. Waiting is not punishment; it is preparation. What He is building in you while you wait is often worth more than what you are waiting for.',
+    bible:'Sarah laughed at the timeline of a promise; twenty-five years passed before Isaac. Yet the child of promise arrived exactly when human possibility had expired — so no one but God could take credit.',
+    application:'Surrender your deadline to God today: "Your time, not mine." Then do the next faithful thing while you wait.',
+    question:'What are you trying to force into bloom before its season?',
+    encourage:'Delay is not denial. God\'s "in its time" is always worth the wait.',
+    prayer:'Lord, I release my timeline into Your hands. Teach me to wait well — with hope, with peace, and with my heart open. Make everything beautiful in Your time. Amen.' },
+  { title:'Discovering Your Purpose', ref:'Ephesians 2:10', text:'For we are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we would walk in them.',
+    teaching:'You are not an accident with a job; you are a masterpiece with an assignment. Purpose is not primarily something you find — it is something you walk in, prepared by God beforehand. Your gifts, your story, even your scars, are all raw material for the works He prepared.',
+    bible:'"Workmanship" translates the Greek "poiema" — from which we get "poem." You are God\'s poem: every line intentional, no stanza wasted.',
+    application:'List three things you love doing and three needs you notice around you. Purpose usually lives where they overlap. Do one small act from that list this week.',
+    question:'What has God uniquely shaped you to notice, carry, or create?',
+    encourage:'You do not have to chase purpose. Walk with God, and you will find yourself walking in it.',
+    prayer:'Father, show me the works You prepared for me before I was born. Align my desires with Your design, and let my life read like Your poem. Amen.' },
+  { title:'Spiritual Warfare', ref:'Ephesians 6:11', text:'Put on the whole armor of God, that you may be able to stand against the wiles of the devil.',
+    teaching:'Much of what we experience as conflict is more than conflict — it is spiritual, and it is fought differently. The armor is not a costume; it is a character inventory: truth, righteousness, peace, faith, salvation, the Word, and prayer. Notice: every piece is defensive except the Word — and the final command is simply to stand.',
+    bible:'Ephesus was a center of occult practice; Paul\'s readers knew darkness firsthand. He told soldiers of the cross to dress every morning, because the battle begins at sunrise.',
+    application:'Pray the armor on by name each morning this week: "Today I wear truth... righteousness... peace..." Watch how differently you respond to conflict.',
+    question:'Which piece of armor have you been leaving off — and what has it cost you?',
+    encourage:'You are not fighting for victory; you are fighting from it.',
+    prayer:'Lord, dress me in Your armor today. Where the enemy lies, let me stand on truth. Where he accuses, let me stand forgiven. I stand, in Jesus\' name. Amen.' },
+  { title:'Forgiveness', ref:'Colossians 3:13', text:'Bearing with one another and forgiving each other, if any man has a complaint against any; even as Christ forgave you, so you also do.',
+    teaching:'Forgiveness is not saying the wound did not matter; it is refusing to let the wound keep ruling you. You forgive "as Christ forgave you" — freely, at cost, before apology. Release is a decision you may have to repeat, especially when the memory returns. Forgiveness sets the prisoner free, and the prisoner is you.',
+    bible:'Christ forgave from the cross, before a single apology was offered. That is the pattern and the power: we forgive out of the forgiveness we have received, not out of our own strength.',
+    application:'Name the person and the debt. Pray: "Father, I cancel this debt — not because it was small, but because You were not." Repeat each time bitterness knocks.',
+    question:'Who is one person you need to release from the prison of your unforgiveness?',
+    encourage:'Forgiveness does not excuse their behavior. It releases your future from their grip.',
+    prayer:'Father, You forgave me at great cost. Give me the grace to forgive this debt too. Heal what they broke, and free me from what carrying it has done to me. Amen.' },
+  { title:'Strength in Difficult Seasons', ref:'Isaiah 43:2', text:'When you pass through the waters, I will be with you; and through the rivers, they will not overflow you. When you walk through the fire, you will not be burned, nor will the flame scorch you.',
+    teaching:'God does not promise a life without rivers and fire — He promises company inside them. "When," not "if." The promise is not that the water shrinks, but that it does not swallow you. His presence is the difference between drowning and crossing.',
+    bible:'This spoke to exiles who would literally cross rivers and face fire on the road home. It echoes the furnace of Daniel 3, where a fourth figure walked in the flames.',
+    application:'Whatever season you are in, shift the question from "How do I escape this?" to "How do I walk through this with You?"',
+    question:'What "river" are you facing right now — and what would it mean to cross it with Him instead of around it?',
+    encourage:'You are not being punished by the storm. You are being accompanied through it.',
+    prayer:'Father, I am in the water and it is deep. Be with me as You promised. Keep the river from overflowing me, and make this crossing a testimony. Amen.' },
+  { title:'Becoming a Woman of Faith', ref:'Proverbs 31:30', text:'Charm is deceitful, and beauty is vain; but a woman who fears the LORD, she shall be praised.',
+    teaching:'The world grades women on charm and beauty; heaven grades on the fear of the LORD — reverent trust that shapes daily choices. A woman of faith is not perfect; she is anchored. Her praise is not manufactured by the culture; it rises from the fruit of her life.',
+    bible:'The Proverbs 31 portrait is not one woman\'s exhausting to-do list — it is a poem of wisdom in action, the same "Lady Wisdom" of earlier chapters, dressed in everyday faithfulness.',
+    application:'Choose one small act of reverent trust today: a truth spoken in love, a tithe despite the budget, a rest taken despite the guilt.',
+    question:'Whose approval are you dressing for — the world\'s or the Lord\'s?',
+    encourage:'You do not have to be impressive to be praised by God. You have to be His.',
+    prayer:'Lord, make me a woman of faith — anchored, honest, and Yours. Let my worth rest in Your eyes alone, and let my life praise You in the quiet, ordinary places. Amen.' },
+  { title:'Marriage and Relationships', ref:'1 Corinthians 13:4-5', text:'Love is patient and is kind; love doesn\'t envy. Love doesn\'t brag, is not proud, doesn\'t behave itself inappropriately, doesn\'t seek its own way, is not provoked, and keeps no record of wrongs.',
+    teaching:'Paul\'s love list is not a feeling — it is fifteen verbs, most of them choices made when feelings disagree. "Keeps no record of wrongs" is the glue of every covenant: relationships survive on grace-ledgers, not scorecards. Love chooses patience on Tuesday and kindness on Thursday, long after the wedding day.',
+    bible:'Corinth\'s church was divided and litigious — Paul wrote this portrait to a community that had forgotten how to treat each other. It was corrective before it was romantic.',
+    application:'Pick one phrase — "is not provoked" or "keeps no record" — and practice it deliberately in one relationship this week.',
+    question:'What record are you still keeping? What would erasing it require from God and from you?',
+    encourage:'Love is not something you fall into. It is something you walk out, with God\'s help, one choice at a time.',
+    prayer:'Father, teach me to love like You love — patiently, kindly, without ledgers. Heal what is strained, and make my relationships places of grace. Amen.' },
+  { title:'Motherhood', ref:'Isaiah 66:13', text:'As one whom his mother comforts, so I will comfort you.',
+    teaching:'God chose a mother\'s comfort as His own picture of tenderness — that is how precious it is. But mothers are not asked to be endless wells; they are invited to be channels. A mother who lets God comfort her first has something real to pour out. Rest is not neglect; it is how the well refills.',
+    bible:'Isaiah spoke these words to a weary, exiled people. God compared Himself not to a warrior there, but to a comforting mother — Scripture holds both together without apology.',
+    application:'Mothers: receive comfort today, not just give it. Everyone: thank or honor a mother figure — living or remembered — with a specific word.',
+    question:'If God comforts you the way a perfect mother does, what do you most need from Him right now?',
+    encourage:'You are not "just" a mother. You are God\'s living picture of comfort to your children.',
+    prayer:'Father, comfort me as only You can. Fill me where I am emptied, and let my children see Your tenderness through me. Amen.' },
+  { title:'Financial Struggles', ref:'Philippians 4:19', text:'My God will supply every need of yours according to his riches in glory in Christ Jesus.',
+    teaching:'God\'s supply is measured by His riches, not by your income. This is not a promise of luxury; it is a promise of sufficiency — needs met, often in ways that build faith rather than comfort budgets. Paul wrote these words as a formerly hungry man who had learned "both to be abased and to abound."',
+    bible:'Paul thanked the Philippians for a financial gift and immediately pointed past the gift to the Giver. Generosity and trust were woven together in one of the poorest, most joyful churches of the era.',
+    application:'Do one faithful thing with money this week — give something, save something, or release one worry about it in prayer — and watch what God does with trust.',
+    question:'Where is fear making your financial decisions instead of faith?',
+    encourage:'Your Provider has never once gone broke.',
+    prayer:'Father, You see the numbers before I do. Supply what I truly need, teach me wisdom, and free my heart from the tyranny of worry. I trust You with this too. Amen.' },
+  { title:'Restoration', ref:'Joel 2:25', text:'I will restore to you the years that the swarming locust has eaten.',
+    teaching:'God does not only restore things — He restores years. Time you thought was wasted, seasons the locusts ate, He can give back with interest in ways that defy arithmetic. Restoration rarely looks like the original; it looks better, because it carries both the loss and the healing.',
+    bible:'Joel spoke after a literal locust plague had stripped Judah bare. God\'s answer to a devastated land was a promise of overflowing threshing floors — abundance beyond the years of loss.',
+    application:'Name the years the locusts ate — the lost season, the wasted stretch — and pray Joel 2:25 over them by name, out loud.',
+    question:'What loss have you quietly accepted as permanent that God may still be planning to restore?',
+    encourage:'God is not finished with your story. The locusts do not get the last word.',
+    prayer:'Lord of restoration, You know the years that were eaten. Restore them in Your way and Your time, and let my life become proof of Your goodness. Amen.' },
+  { title:'Waiting Seasons', ref:'Psalm 27:14', text:'Wait for the LORD. Be strong, and let your heart take courage. Yes, wait for the LORD.',
+    teaching:'Biblical waiting is active, not passive — the word means to hope intensely, to lean forward. Twice in one verse David commands courage in the waiting, because waiting is where courage is forged. The promise is not speed; it is presence and eventual certainty.',
+    bible:'David wrote this hunted and homeless, anointed but not yet enthroned — years between promise and palace. He learned to wait strong before he ever wore the crown.',
+    application:'Trade "waiting anxiously" for "waiting actively": serve someone, build something, pray specifically — while God works the timeline.',
+    question:'What is the difference for you between waiting on God and just waiting?',
+    encourage:'God is working the timeline even when He is silent on the details.',
+    prayer:'Father, I choose to wait for You — strong, courageous, and leaning forward. Keep my heart from bitterness in the delay, and my eyes on Your faithfulness. Amen.' },
+  { title:'Finding Peace', ref:'John 14:27', text:'Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don\'t let your heart be troubled, neither let it be fearful.',
+    teaching:'Jesus\' peace is a gift before it is a feeling — bequeathed on the night before the cross, the least peaceful night of His life. The world\'s peace depends on circumstances calming; His peace holds while circumstances storm. "Don\'t let" implies choice: peace can be guarded or surrendered.',
+    bible:'"Peace I leave with you" echoes the Jewish farewell "shalom" — but Jesus upgrades it: not as the world gives. His shalom is a person, staying behind in Spirit form.',
+    application:'When trouble rises today, pray: "Lord, I receive Your peace — not as the world gives." Then take one slow breath and one small act of trust.',
+    question:'Whose peace are you living on today — the world\'s conditions, or Christ\'s gift?',
+    encourage:'Peace is not the absence of trouble. It is the presence of Jesus in the middle of it.',
+    prayer:'Lord Jesus, I receive Your peace — the kind the world cannot give and cannot take away. Guard my heart today and quiet my fear. Amen.' },
+  { title:'Building a Relationship With God', ref:'James 4:8', text:'Draw near to God, and he will draw near to you.',
+    teaching:'Relationship with God is built the way every relationship is built: time, honesty, attention. The promise is beautifully reciprocal — your step toward Him is met by His step toward you. You do not have to be eloquent or impressive; you have to show up.',
+    bible:'James wrote to scattered believers whose faith had become busy but distant. His remedy was not more activity but more nearness — with clean hands and honest hearts.',
+    application:'Give God ten unhurried minutes daily this week: a psalm, a prayer, silence. Keep the appointment like it matters — because it does.',
+    question:'What is one honest thing you have never said to God in prayer?',
+    encourage:'God is not hard to reach. He is waiting for you to turn toward Him.',
+    prayer:'Father, I draw near — with my real thoughts and my real heart. Thank You that You always meet the step I take. Amen.' }
+];
+
+const PRAYERS = [
+  { cat:'Morning Prayers', title:'Before My Feet Touch the Floor', verse:'Psalm 5:3', vtext:'In the morning I will lay my requests before you, and will watch expectantly.',
+    text:'Good morning, Lord. Before the noise begins, I give You this day. Order my steps, guard my heart, and let everything I touch carry a little of Your kindness. Be my first thought and my last resort. Amen.' },
+  { cat:'Morning Prayers', title:'A Warrior\'s Morning', verse:'Psalm 118:24', vtext:'This is the day the LORD has made. We will rejoice and be glad in it.',
+    text:'Father, this day is Yours — handmade and handed to me. I refuse to meet it unarmored. Clothe me in strength and dignity, put a song where the sighing was, and walk with me into every room I enter today. Amen.' },
+  { cat:'Evening Prayers', title:'Laying the Day Down', verse:'Psalm 4:8', vtext:'I will both lay myself down in peace and sleep, for you alone, LORD, make me live in safety.',
+    text:'Lord, the day is done. I hand You every unfinished thing, every word I wish I had said differently, every care I am tempted to carry into the night. Watch over me and mine while we sleep. Restore my soul by morning. Amen.' },
+  { cat:'Evening Prayers', title:'Examen of Grace', verse:'Lamentations 3:22-23', vtext:'His compassions don\'t fail. They are new every morning.',
+    text:'Father, as the light fades, show me where You were with me today — I so often miss You in the moment. Thank You for the mercies I noticed and the ones I didn\'t. Sleep now, my soul; mercy comes again at dawn. Amen.' },
+  { cat:'Prayers for Healing', title:'Heal Me, Body and Soul', verse:'Jeremiah 17:14', vtext:'Heal me, O LORD, and I will be healed. Save me, and I will be saved, for you are my praise.',
+    text:'Great Physician, You made this body and You know exactly where it hurts. I ask for healing — full and unhurried. And if You are doing a deeper healing first, give me grace to trust the process. I am in Your hands. Amen.' },
+  { cat:'Prayers for Protection', title:'Hedge of Protection', verse:'Psalm 91:11', vtext:'He will put his angels in charge of you, to guard you in all your ways.',
+    text:'Almighty God, station Your angels around my going out and my coming in. Shield my home, my family, my mind, and my phone from what seeks to steal, kill, or destroy. I run under Your wings and I am safe. Amen.' },
+  { cat:'Prayers for Family', title:'For the Ones I Love', verse:'Joshua 24:15', vtext:'As for me and my house, we will serve the LORD.',
+    text:'Lord, I lift my household to You — every name, every struggle, every hope. Make our home a place of peace where You are welcome at the table. Heal what is strained between us and bind us together in love that outlasts moods. Amen.' },
+  { cat:'Prayers for Children', title:'Over My Children', verse:'Isaiah 54:13', vtext:'All your children will be taught by the LORD, and great will be the peace of your children.',
+    text:'Father, my children are Yours before they are mine. Walk beside them where I cannot go — in classrooms, friendships, and the thoughts they never say out loud. Give them great peace, and give me wisdom to point, not push. Amen.' },
+  { cat:'Prayers for Financial Provision', title:'Provide, Lord', verse:'Philippians 4:19', vtext:'My God will supply every need of yours according to his riches in glory in Christ Jesus.',
+    text:'Jehovah-Jireh, You see the bills before they arrive and the needs I have not spoken. Supply what I truly need, give me wisdom for every decision, and quiet the fear that whispers louder than faith. I trust You as my Provider. Amen.' },
+  { cat:'Prayers for Strength', title:'Strength for Today', verse:'Isaiah 40:31', vtext:'Those who wait for the LORD will renew their strength.',
+    text:'Father, I am running on empty and You are the well that does not run dry. Renew my strength — wings for the impossible, endurance for the long, and just enough grace for this one day. Amen.' },
+  { cat:'Prayers for Anxiety and Fear', title:'Peace, Be Still', verse:'1 Peter 5:7', vtext:'Casting all your worries on him, because he cares for you.',
+    text:'Lord, my thoughts are spinning. I name the worry: You know it already. I cast it — all of it — on You, because You care for me personally. Still my heart as You stilled the sea. I am safe in Your hands. Amen.' },
+  { cat:'Prayers for Forgiveness', title:'Make Me Clean', verse:'1 John 1:9', vtext:'If we confess our sins, he is faithful and righteous to forgive us the sins and to cleanse us from all unrighteousness.',
+    text:'Father, I confess — You already know. I receive Your forgiveness, not because I deserve it, but because Christ paid for it. Wash me clean, and help me forgive myself the way You already have. Amen.' },
+  { cat:'Prayers for Guidance', title:'Order My Steps', verse:'Proverbs 3:5-6', vtext:'Trust in the LORD with all your heart... he will make your paths straight.',
+    text:'Lord, I am standing at a fork. My understanding is tired and my heart wants Your way. Speak clearly through Your Word, Your peace, and wise counsel — and when You speak, give me the courage to obey. Amen.' },
+  { cat:'Prayers for Spiritual Warfare', title:'I Stand and I Fight', verse:'Ephesians 6:11', vtext:'Put on the whole armor of God.',
+    text:'Lord of hosts, I dress for battle in Your armor: truth around my waist, righteousness over my heart, peace on my feet, faith before the fiery darts, salvation over my mind, Your Word in my hand. The battle is Yours, and I stand in Your victory. Amen.' },
+  { cat:'Prayers of Thanksgiving', title:'Thank You, Lord', verse:'Psalm 103:2', vtext:'Praise the LORD, my soul, and don\'t forget all of his benefits.',
+    text:'Father, thank You — for breath in my lungs, for mercy this morning, for the people I love, for the battles You fought quietly on my behalf. Gratitude changes my eyes. Let me never get used to Your goodness. Amen.' },
+  { cat:'Prayers for Restoration', title:'Restore My Years', verse:'Joel 2:25', vtext:'I will restore to you the years that the swarming locust has eaten.',
+    text:'Restoring God, You know what was taken — the time, the trust, the years. I believe You restore what locusts eat. Begin where I gave up hope, and let my testimony outlive my tears. Amen.' }
+];
+
+const WOMEN = [
+  { name:'Deborah', ref:'Judges 4-5', story:'A prophetess and judge of Israel who held court under a palm tree, settling disputes for a nation. When God\'s command came, even the general Barak would not go to war without her — and she went, without hesitation or apology.',
+    challenges:'Leading a nation in a time when women were not expected to lead, while an enemy army with 900 iron chariots oppressed her people for twenty years.',
+    faith:'She heard God clearly and obeyed immediately. Her song in Judges 5 is one of the oldest passages in Scripture — victory sung by a woman who trusted God more than convention.',
+    lessons:'God calls whom He equips. Courage is not the absence of odds; it is the presence of God. Deborah led from a palm tree — a place of wisdom, not a battlefield throne.',
+    scripture:'Judges 4:14 — "Go! ... Hasn\'t the LORD gone out before you?"',
+    today:'Take the leadership God has already handed you — at home, at work, in ministry — without waiting for permission He never withheld.' },
+  { name:'Esther', ref:'Esther 1-10', story:'An orphaned Jewish girl who became queen of Persia, then risked everything — "If I perish, I perish" — to expose a plot that would have destroyed her people.',
+    challenges:'Hiding her identity in a hostile palace, facing a king who could execute her for simply appearing uninvited, and carrying a nation\'s survival on her courage.',
+    faith:'She called for three days of fasting and prayer before acting. Beauty opened the door; bold faith walked through it.',
+    lessons:'Position is purpose in disguise. "For such a time as this" — your placement is not accidental. Fasting and prayer come before the brave step.',
+    scripture:'Esther 4:14 — "Who knows if you haven\'t come to the kingdom for such a time as this?"',
+    today:'Where has God placed you "for such a time as this"? Influence is stewardship, not decoration.' },
+  { name:'Ruth', ref:'Ruth 1-4', story:'A Moabite widow who clung to her grieving mother-in-law and to Israel\'s God: "Where you go, I will go." Gleaning in barley fields by day, she was redeemed by Boaz and became great-grandmother of King David — ancestor of Jesus.',
+    challenges:'Losing her husband, leaving her homeland and gods, living as a foreigner and widow — the poorest of the poor — in a culture that distrusted her people.',
+    faith:'She exchanged everything familiar for loyalty to God\'s people, and worked faithfully in the unseen places while God wove redemption.',
+    lessons:'Loyalty is love in work clothes. Faithfulness in small fields precedes redemption on big stages. God writes foreigners into the lineage of the Messiah.',
+    scripture:'Ruth 1:16 — "Where you go, I will go; and where you stay, I will stay. Your people will be my people, and your God my God."',
+    today:'Faithfulness in your current "field" — however humble — is never wasted. God sees the gleaning.' },
+  { name:'Mary of Nazareth', ref:'Luke 1-2; John 19', story:'A young virgin of Nazareth who answered the angel Gabriel: "Let it be to me according to your word." She carried and raised the Son of God, stood at His cross, and prayed with the church at its birth.',
+    challenges:'A pregnancy that risked her reputation, her betrothal, and possibly her life — followed by a lifetime of treasuring and piercing (Simeon told her a sword would pierce her soul).',
+    faith:'She did not demand explanations; she surrendered her whole future with one sentence of consent, and pondered God\'s works in her heart for decades.',
+    lessons:'God\'s greatest works often begin in ordinary, hidden people who simply say yes. Worship can carry sorrow. Obedience is a long faithfulness, not one moment.',
+    scripture:'Luke 1:38 — "Behold, the servant of the Lord; let it be to me according to your word."',
+    today:'What is God asking you to carry that requires trust more than understanding? Your "yes" matters more than your credentials.' },
+  { name:'Hannah', ref:'1 Samuel 1-2', story:'Barren and tormented by rivalry, Hannah wept so intensely at the tabernacle that the priest mistook her for drunk. She poured out her soul, vowed her son to God, and gave birth to Samuel — prophet to kings.',
+    challenges:'Years of unfulfilled longing, a rival\'s taunting, a husband who didn\'t understand, and a spiritual leader who misread her deepest moment.',
+    faith:'She turned her bitterness into prayer instead of bitterness into poison. After giving Samuel to the Lord, she worshiped — and God gave her three more sons and two daughters.',
+    lessons:'Pour out, don\'t bottle up. Keep vows to God even when the gift is precious. One honest prayer can out-argue years of provocation.',
+    scripture:'1 Samuel 1:15 — "I have poured out my soul before the LORD."',
+    today:'Whatever is making you bitter, take it to the tabernacle, not to the comment section. God still answers poured-out prayers.' },
+  { name:'Abigail', ref:'1 Samuel 25', story:'Intelligent and beautiful, married to a fool named Nabal. When her husband insulted David and 400 armed men marched toward her household, she intercepted them with wise words and generous provision — and David blessed her for stopping him from bloodshed.',
+    challenges:'A destructive marriage, a mortal danger created by her husband\'s arrogance, and a split-second moral decision under pressure.',
+    faith:'She acted with speed, humility, and wisdom — speaking truth to a future king without flattering him, and trusting God with the outcome.',
+    lessons:'Wisdom can stand between rage and ruin. You are not responsible for your husband\'s folly, but you can answer for your own grace. God defends the wise peacemaker.',
+    scripture:'1 Samuel 25:32-33 — "Blessed is your advice, and blessed are you."',
+    today:'When conflict is charging toward your house, be the Abigail: wise words, quick feet, calm courage.' },
+  { name:'Sarah', ref:'Genesis 11-23', story:'Wife of Abraham, called by God to leave everything familiar at seventy-five. She laughed at the promise of a son in her nineties — and then held the laughter of joy in her arms and named him Isaac: "he laughs."',
+    challenges:'Decades of barrenness in a culture that measured worth by children, twice taken into a king\'s harem by her husband\'s fear, and a promise so long delayed she tried to help God through Hagar.',
+    faith:'Hebrews 11 lists her among the faithful: "Sarah herself received power to conceive... since she counted him faithful who had promised." Her laughter of doubt became laughter of joy.',
+    lessons:'God\'s promises do not expire with your body\'s clock. Trying to help God usually complicates the promise. Nothing is too hard for the LORD.',
+    scripture:'Genesis 18:14 — "Is anything too hard for the LORD?"',
+    today:'Is there a promise you have quietly buried? God specializes in resurrecting dead hopes.' },
+  { name:'Rahab', ref:'Joshua 2; 6; Matthew 1', story:'A Jericho prostitute who hid the Israelite spies, confessed "the LORD your God, he is God in heaven above and on earth beneath," and hung a scarlet cord from her window. She was saved, married into Israel, and became an ancestor of Jesus.',
+    challenges:'A past that defined her in everyone\'s eyes but God\'s, a city doomed to fall, and treason against her own people for a God she had only heard of.',
+    faith:'She acted on secondhand faith — reports of the Red Sea were enough for her to stake her life. Hebrews 11 and James 2 both name her: faith that works.',
+    lessons:'No past disqualifies a surrendered heart. Faith acts. The scarlet cord is a picture of saving grace hanging from a broken place.',
+    scripture:'Joshua 2:11 — "The LORD your God, he is God in heaven above and on earth beneath."',
+    today:'Your story before Christ is not a liability; it is the platform of His mercy. Hang the cord, trust the promise.' },
+  { name:'Lydia', ref:'Acts 16', story:'A successful businesswoman — a dealer of purple cloth in Philippi — and Europe\'s first recorded convert to Christ. Paul met her at a riverside prayer meeting; she believed, was baptized, and opened her home as the church\'s first base in Philippi.',
+    challenges:'Leading in business and faith in a pagan city, and hosting a young church in a culture hostile to the gospel.',
+    faith:'"The Lord opened her heart to pay attention." She combined enterprise with hospitality, funding the work she believed in.',
+    lessons:'God opens hearts — but Lydia\'s was open enough to attend prayer by the river. Your home and your resources are ministry tools.',
+    scripture:'Acts 16:14 — "The Lord opened her heart to respond to the things spoken by Paul."',
+    today:'Use your income, home, and influence as gospel infrastructure. Businesswoman and believer are not different women.' },
+  { name:'Priscilla', ref:'Acts 18; Romans 16', story:'A tentmaker married to Aquila, co-worker with Paul, and teacher of Apollos — one of the most eloquent preachers of the early church — whom she and her husband instructed "more accurately" in the way of God. Paul greets her first in Romans 16:3 and calls both his fellow-workers.',
+    challenges:'Bi-vocational ministry while displaced from Rome, building the church from a living room, correcting a gifted preacher without wounding him.',
+    faith:'She combined craftsmanship, marriage partnership, and theological courage. Her home hosted the church; her knowledge shaped its teachers.',
+    lessons:'Ordinary trades can carry extraordinary ministry. A wise woman\'s voice can teach even the eloquent. Ministry is a household affair.',
+    scripture:'Acts 18:26 — "They took him aside and explained to him the way of God more accurately."',
+    today:'You do not need a pulpit to disciple people. Your table, trade, and courage are enough.' }
+];
+
+const BOOKS = [
+  ['Genesis','OT',50,'Beginnings: creation, the fall, the flood, and the family God chose to bless all nations.'],
+  ['Exodus','OT',40,'God rescues Israel from slavery and reveals His glory and law at Mount Sinai.'],
+  ['Leviticus','OT',27,'A holy God teaches a rescued people how to live near Him — worship, sacrifice, and purity.'],
+  ['Numbers','OT',36,'Two censuses frame forty years of wandering: a generation learns to trust in the wilderness.'],
+  ['Deuteronomy','OT',34,'Moses\' farewell sermons: love the LORD your God with all your heart, and choose life.'],
+  ['Joshua','OT',24,'Israel crosses the Jordan and takes the land God promised — courage under divine command.'],
+  ['Judges','OT',21,'Every man did what was right in his own eyes; God raised up rescuers anyway.'],
+  ['Ruth','OT',4,'A Moabite widow\'s loyalty leads to redemption — and to the family line of David and Jesus.'],
+  ['1 Samuel','OT',31,'Samuel anoints Israel\'s first kings: Saul\'s collapse and David\'s rise.'],
+  ['2 Samuel','OT',24,'The reign of David: triumphs, sin, consequences, and unshakable mercy.'],
+  ['1 Kings','OT',22,'Solomon\'s glory and decline; the kingdom divides; Elijah confronts Baal on Carmel.'],
+  ['2 Kings','OT',25,'From Elisha\'s miracles to exile: a slow fall, persistent prophets, and God\'s patience.'],
+  ['1 Chronicles','OT',29,'Retold from Adam to David with focus on worship, the temple, and the line of promise.'],
+  ['2 Chronicles','OT',36,'Solomon\'s temple, reforming kings, revivals, and the road to restoration after exile.'],
+  ['Ezra','OT',10,'The exiles return, the temple is rebuilt, and the Word is rediscovered in public reading.'],
+  ['Nehemiah','OT',13,'A cupbearer rebuilds Jerusalem\'s walls in 52 days — prayer, opposition, and perseverance.'],
+  ['Esther','OT',10,'A queen risks her life for her people; God works sovereignly without ever being named.'],
+  ['Job','OT',42,'Suffering, friends\' bad theology, and God\'s overwhelming answer: trust the Wisdom who made all.'],
+  ['Psalms','OT',150,'The prayer book of Scripture: praise, lament, trust, repentance, and hope in 150 songs.'],
+  ['Proverbs','OT',31,'Practical wisdom: the fear of the LORD is the beginning of knowledge.'],
+  ['Ecclesiastes','OT',12,'Everything is vapor "under the sun" — so fear God, keep His words, and live joyfully.'],
+  ['Song of Solomon','OT',8,'A love poem celebrating covenant romance as a gift of God.'],
+  ['Isaiah','OT',66,'Judgment and comfort: the Holy One of Israel sends His Servant to bear sins and heal.'],
+  ['Jeremiah','OT',52,'The weeping prophet calls a stubborn nation to repent before exile — and promises a new covenant.'],
+  ['Lamentations','OT',5,'Grief over Jerusalem\'s ruins — yet His mercies are new every morning.'],
+  ['Ezekiel','OT',48,'Visions of God\'s glory in exile: dry bones live, and a new heart is promised.'],
+  ['Daniel','OT',12,'Faithfulness in Babylon: lions\' dens, fiery furnaces, and sovereign kingdoms rising and falling.'],
+  ['Hosea','OT',14,'A prophet\'s marriage to an unfaithful wife mirrors God\'s pursuing, healing love.'],
+  ['Joel','OT',3,'A locust plague becomes a call to return — and a promise: I will restore the years.'],
+  ['Amos','OT',9,'A shepherd pronounces judgment on injustice; let justice roll down like waters.'],
+  ['Obadiah','OT',1,'Edom\'s pride and fall: the Lord reigns over nations that rejoice at others\' ruin.'],
+  ['Jonah','OT',4,'A runaway prophet, a great fish, and a God who pities even Nineveh.'],
+  ['Micah','OT',7,'Do justice, love kindness, walk humbly with your God — and behold Bethlehem\'s coming Ruler.'],
+  ['Nahum','OT',3,'Nineveh\'s end: the LORD is slow to anger but will by no means clear the guilty forever.'],
+  ['Habakkuk','OT',3,'"Why?" answered by God\'s glory: the righteous shall live by faith — and rejoice anyway.'],
+  ['Zephaniah','OT',3,'The great Day of the LORD — ending in a God who rejoices over His people with singing.'],
+  ['Haggai','OT',2,'Rebuild the house: prioritize God\'s presence and He will shake the nations for good.'],
+  ['Zechariah','OT',14,'Visions of restoration: the Branch, the pierced One, and the King riding on a donkey.'],
+  ['Malachi','OT',4,'Last words before the silence: return to Me — and behold, the sun of righteousness will rise.'],
+  ['Matthew','NT',28,'Jesus the King: sermons, signs, and the Great Commission from a Jewish Messiah to all nations.'],
+  ['Mark','NT',16,'The fast-paced Gospel of the Servant who came not to be served but to serve.'],
+  ['Luke','NT',24,'An orderly, compassionate account of Jesus — Savior of the lost, friend of women and outcasts.'],
+  ['John','NT',21,'That you may believe: seven signs, seven "I AM" claims, and the Word made flesh.'],
+  ['Acts','NT',28,'The Spirit-empowered church explodes from Jerusalem to Rome — the Gospel is unstoppable.'],
+  ['Romans','NT',16,'The gospel explained: justified by faith, freed from sin, secured by unbreakable love.'],
+  ['1 Corinthians','NT',16,'Wisdom, unity, love, and resurrection correct a gifted but divided church.'],
+  ['2 Corinthians','NT',13,'Strength in weakness: a wounded apostle defends ministry of the new covenant.'],
+  ['Galatians','NT',6,'No other gospel: freedom from law-keeping, life in the Spirit.'],
+  ['Ephesians','NT',6,'Seated with Christ, sealed by the Spirit, suited in armor — the church as God\'s masterpiece.'],
+  ['Philippians','NT',4,'Joy from a jail cell: humility, contentment, and the peace that guards hearts.'],
+  ['Colossians','NT',4,'The supremacy of Christ over every power — set your minds on things above.'],
+  ['1 Thessalonians','NT',5,'A young church\'s hope: holy living and the Lord\'s return as comfort, not fear.'],
+  ['2 Thessalonians','NT',3,'Steady in persecution: the Lord is faithful to strengthen and guard you.'],
+  ['1 Timothy','NT',6,'How to behave in God\'s household: sound teaching, prayer, and godly contentment.'],
+  ['2 Timothy','NT',4,'Paul\'s last letter: fan the flame, preach the Word, finish the race.'],
+  ['Titus','NT',3,'Sound doctrine produces good works — grace teaches us to say no to ungodliness.'],
+  ['Philemon','NT',1,'A runaway slave returns as a brother: the gospel rewrites relationships.'],
+  ['Hebrews','NT',13,'Christ is better — final Priest, perfect Sacrifice, anchor of the soul. Run with endurance.'],
+  ['James','NT',5,'Faith that works: wisdom from above, tamed tongues, prayer that heals.'],
+  ['1 Peter','NT',5,'Living hope in exile: suffering refines, shepherds the flock, humility exalts in due time.'],
+  ['2 Peter','NT',3,'Grow in grace and knowledge; the Day of the Lord will surely come.'],
+  ['1 John','NT',5,'Tests of true fellowship: light, love, and obedience — God is love.'],
+  ['2 John','NT',1,'Walk in love and truth; guard the household against deceivers.'],
+  ['3 John','NT',1,'Commendation for hospitality and humility; a warning about self-promotion.'],
+  ['Jude','NT',1,'Contend for the faith: keep yourselves in the love of God — He is able to keep you.'],
+  ['Revelation','NT',22,'The unveiling of Jesus Christ: the Lamb conquers, and He makes all things new.']
+];
+
+const CHALLENGES = [
+  { id:'prayer7', title:'7 Days of Prayer', days:7, premium:false,
+    intro:'One week of praying differently — with Scripture as your script.',
+    days_content:[
+      { t:'Day 1 — Simply Begin', v:'Psalm 5:3', d:'Prayer is not performance; it is conversation. Today, before anything else, say one honest sentence to God — and then listen in silence for one minute.' },
+      { t:'Day 2 — Pray Scripture', v:'Psalm 119:18', d:'Pray a psalm out loud, slowly, making its words your own. Scripture gives your prayer language when you cannot find your own.' },
+      { t:'Day 3 — Pray With Thanksgiving', v:'Philippians 4:6', d:'Before asking for anything, thank God for five specific things. Gratitude re-aims the heart before requests leave the mouth.' },
+      { t:'Day 4 — Pray for Others', v:'1 Timothy 2:1', d:'Name five people and pray one sentence for each. Intercession is love on its knees.' },
+      { t:'Day 5 — Pray Boldly', v:'Hebrews 4:16', d:'Ask for something so big that only God could get the credit. Come boldly to the throne of grace — it was made for requests like yours.' },
+      { t:'Day 6 — Pray in the Quiet', v:'Isaiah 30:15', d:'Ten minutes of silence with God. No requests. Just presence. "In quietness and trust is your strength."' },
+      { t:'Day 7 — Pray Without Ceasing', v:'1 Thessalonians 5:17', d:'Today, turn moments into prayers: traffic, dishes, waiting rooms. Keep the conversation open from waking to sleep.' }
+    ]},
+  { id:'forgive7', title:'7 Days of Forgiveness', days:7, premium:false,
+    intro:'A week of releasing what bitterness has been holding hostage.',
+    days_content:[
+      { t:'Day 1 — Name the Debt', v:'Psalm 139:23', d:'Ask God to search you. Write down (privately) who hurt you and what it cost. Naming is the beginning of releasing.' },
+      { t:'Day 2 — Remember Your Own Forgiveness', v:'Ephesians 4:32', d:'You forgive "as Christ forgave you" — freely, at cost. Spend today meditating on what your own forgiveness cost Jesus.' },
+      { t:'Day 3 — Cancel the Debt', v:'Matthew 18:27', d:'Pray the hard sentence: "Father, I cancel this debt." Feelings will not agree. Obedience leads; emotions follow.' },
+      { t:'Day 4 — Bless the Person', v:'Romans 12:14', d:'Pray one blessing for the person who hurt you. Nothing disarms bitterness faster than asking God to be good to them.' },
+      { t:'Day 5 — Forgive Yourself', v:'1 John 1:9', d:'If God has forgiven you, who are you to hold what He released? Receive His cleansing for your own past today.' },
+      { t:'Day 6 — Seek Peace Where Possible', v:'Romans 12:18', d:'Is there one relationship you could take one step toward? A message, a kindness, a boundary stated with love.' },
+      { t:'Day 7 — Live Released', v:'Galatians 5:1', d:'Walk through today as a free woman. When the memory knocks, answer it with the decision you already made.' }
+    ]},
+  { id:'closer21', title:'21 Days of Growing Closer to God', days:21, premium:true,
+    intro:'Three weeks of intentional nearness — the promise: He draws near.',
+    days_content:[
+      { t:'Day 1 — The Invitation', v:'James 4:8', d:'Relationships are built on appointments. Give God the first ten minutes of today, every day, for 21 days.' },
+      { t:'Day 2 — Honest Prayer', v:'Psalm 62:8', d:'Tell God what you actually feel — not what you should feel. He can handle your real thoughts.' },
+      { t:'Day 3 — Read Slowly', v:'Psalm 1:2', d:'Read one short passage twice, slowly. Ask: What does this show me about God?' },
+      { t:'Day 4 — Obey One Thing', v:'John 14:21', d:'Nearness grows through obedience. Do the one thing you already know He has asked of you.' },
+      { t:'Day 5 — Worship Out Loud', v:'Psalm 100:2', d:'Sing or speak praise aloud — in the car, in the kitchen. Worship re-enthrones God in your attention.' },
+      { t:'Day 6 — Sabbath Moment', v:'Mark 6:31', d:'Step away from productivity for one hour. Rest is a declaration of trust.' },
+      { t:'Day 7 — Review With Gratitude', v:'Psalm 103:2', d:'Look back over the week: where did you sense Him? Write it down. Memory feeds faith.' },
+      { t:'Day 8 — Pray the Psalms', v:'Psalm 27:8', d:'Let a psalm be your prayer today. Seek His face — He says, "Seek my face." Your heart answers, "Your face, LORD, I will seek."' },
+      { t:'Day 9 — Silence the Noise', v:'1 Kings 19:12', d:'God often speaks in the still small voice. Turn off the background noise for one hour and listen.' },
+      { t:'Day 10 — Serve Someone Secretly', v:'Matthew 6:4', d:'Do one act of kindness no one will ever trace to you. Secret service keeps the heart soft.' },
+      { t:'Day 11 — Confess Quickly', v:'Proverbs 28:13', d:'Don\'t let guilt age. Confess the moment you notice, and receive fresh mercy the same hour.' },
+      { t:'Day 12 — Memorize One Verse', v:'Psalm 119:11', d:'Hide one verse in your heart this week. Carry it like a lamp.' },
+      { t:'Day 13 — Ask for Desire', v:'Psalm 37:4', d:'Pray: "Lord, make me want You more." Desire for God is itself a gift He loves to give.' },
+      { t:'Day 14 — Fast From Something', v:'Matthew 4:4', d:'Skip one legitimate comfort today and replace it with prayer. Hunger teaches dependence.' },
+      { t:'Day 15 — Journal His Faithfulness', v:'Joshua 4:7', d:'Write your own "memorial stones": specific answers to prayer you can point back to.' },
+      { t:'Day 16 — Pray With Someone', v:'Matthew 18:20', d:'Nearness multiplies in community. Pray with one other person — even by phone.' },
+      { t:'Day 17 — Bless Your Enemies', v:'Luke 6:28', d:'Pray for the person hardest to pray for. This is family resemblance to your Father.' },
+      { t:'Day 18 — Create With Him', v:'Exodus 35:31', d:'Make something — write, cook, garden, sing — as an offering. The Spirit fills craftsmen too.' },
+      { t:'Day 19 — Watch for Him', v:'Psalm 19:1', d:'Take a walk and let creation preach. The heavens declare His glory without words.' },
+      { t:'Day 20 — Surrender the Throne', v:'Luke 9:23', d:'Name the one area you have kept from His lordship, and hand Him the key today.' },
+      { t:'Day 21 — Covenant of Nearness', v:'Psalm 73:28', d:'Decide out loud: nearness to God is the good I will not trade. "It is good for me to draw near to God."' }
+    ]},
+  { id:'women30', title:'30 Days of Women of the Bible', days:30, premium:true,
+    intro:'A month walking with the women Scripture refuses to forget.',
+    days_content:[
+      { t:'Day 1 — Eve', v:'Genesis 3:15', d:'The first mother received the first promise: her offspring would crush the serpent. Even where sin entered, grace announced itself first.' },
+      { t:'Day 2 — Sarah', v:'Genesis 18:14', d:'She laughed at the impossible — then held the impossible. Is anything too hard for the LORD?' },
+      { t:'Day 3 — Rebekah', v:'Genesis 24:58', d:'Asked "Will you go with this man?" she answered "I will go." Sometimes faith is one clear yes to an unknown road.' },
+      { t:'Day 4 — Rachel & Leah', v:'Genesis 29:31', d:'God saw that Leah was unloved — and opened His hand to her. The unnoticed are never unloved by Him.' },
+      { t:'Day 5 — Jochebed', v:'Exodus 2:2', d:'Moses\' mother saw he was beautiful and defied an empire with a basket. Holy courage often looks like quiet protection.' },
+      { t:'Day 6 — Miriam', v:'Exodus 15:20', d:'She led Israel\'s first worship service with a tambourine at the Red Sea. Celebration is spiritual warfare against despair.' },
+      { t:'Day 7 — Rahab', v:'Joshua 2:11', d:'Secondhand reports were enough for her first-hand faith. The scarlet cord still preaches: grace hangs from broken places.' },
+      { t:'Day 8 — Deborah', v:'Judges 4:14', d:'"Hasn\'t the LORD gone out before you?" Leadership rooted in God\'s advance, not personal ambition.' },
+      { t:'Day 9 — Jael', v:'Judges 5:24', d:'Most blessed of women in tents — God used an unexpected woman to end an enemy. Never underestimate quiet strength.' },
+      { t:'Day 10 — Ruth', v:'Ruth 1:16', d:'Loyalty chose poverty with God over prosperity without Him — and gleaning became a royal lineage.' },
+      { t:'Day 11 — Hannah', v:'1 Samuel 1:15', d:'She poured out her soul and changed a nation\'s history. Poured-out prayers still move heaven.' },
+      { t:'Day 12 — Abigail', v:'1 Samuel 25:33', d:'Wise words intercepted 400 armed men. Peacemaking is a warrior art.' },
+      { t:'Day 13 — The Widow of Zarephath', v:'1 Kings 17:15', d:'She fed a prophet from her last handful of flour — and the jar never ran empty. Obedience with scarce resources invites miracle math.' },
+      { t:'Day 14 — The Shunammite Woman', v:'2 Kings 4:26', d:'"It is well" — she spoke faith before she saw the miracle. Great faith often speaks calmly in crisis.' },
+      { t:'Day 15 — Esther', v:'Esther 4:14', d:'Beauty opened a door; fasting and courage walked through it. For such a time as this.' },
+      { t:'Day 16 — Job\'s Wife & Job\'s Daughters', v:'Job 42:15', d:'Job gave his daughters an inheritance along with their brothers — restoring dignity Scripture records forever.' },
+      { t:'Day 17 — The Psalmist\'s Daughter Heart', v:'Psalm 45:13', d:'The king\'s daughter is all glorious within. Inner glory outlasts outer decoration.' },
+      { t:'Day 18 — The Virtuous Woman', v:'Proverbs 31:25', d:'Strength and dignity are her clothing. She dresses for the future, not for fear.' },
+      { t:'Day 19 — The Woman of Isaiah 54', v:'Isaiah 54:5', d:'Barren, then singing; abandoned, then gathered with compassion. "Your Maker is your husband."' },
+      { t:'Day 20 — Elizabeth', v:'Luke 1:41', d:'Old, barren, then filled with the Spirit — her blessing launched Mary\'s song. Older women carry prophetic encouragement.' },
+      { t:'Day 21 — Mary of Nazareth', v:'Luke 1:38', d:'"Let it be to me according to your word." The greatest "yes" ever spoken by an ordinary girl.' },
+      { t:'Day 22 — Anna', v:'Luke 2:37', d:'Eighty-four years of fasting and prayer met the Messiah in the temple courtyard. Faithful watching is never wasted.' },
+      { t:'Day 23 — The Samaritan Woman', v:'John 4:29', d:'Five husbands, one well, one Messiah — and she became her city\'s first evangelist. Your testimony outruns your reputation.' },
+      { t:'Day 24 — The Woman Who Touched His Garment', v:'Mark 5:34', d:'Twelve years of bleeding ended with one touch of faith. "Daughter, your faith has made you well."' },
+      { t:'Day 25 — The Sinful Woman Who Anointed Jesus', v:'Luke 7:47', d:'She wept at His feet and her love made the respectable look cold. Extravagant devotion still silences rooms.' },
+      { t:'Day 26 — Mary of Bethany', v:'Luke 10:42', d:'She chose the good portion — sitting at His feet. One thing is necessary, and it will not be taken away.' },
+      { t:'Day 27 — Martha', v:'John 11:27', d:'From "Lord, don\'t you care?" to the great confession: "I believe you are the Christ." Doubt honestly; arrive at faith.' },
+      { t:'Day 28 — Mary Magdalene', v:'John 20:18', d:'First witness of the resurrection, apostle to the apostles. Grace rewrites every history.' },
+      { t:'Day 29 — Lydia & Priscilla', v:'Acts 16:14; 18:26', d:'Businesswomen who built the church with open homes and open hearts. Your resources are kingdom infrastructure.' },
+      { t:'Day 30 — The Women at the Tomb', v:'Luke 24:5-6', d:'They came to anoint a dead body and met a living Lord. "Why do you seek the living among the dead? He is not here — He is risen!"' }
+    ]}
+];
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('rwdb_' + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('rwdb_' + k, JSON.stringify(v)); } catch {} }
+};
+
+const state = {
+  view: 'home',
+  auth: store.get('auth', null),
+  premium: store.get('premium', null),
+  profile: store.get('profile', { name: '' }),
+  favorites: store.get('favorites', []),
+  progress: store.get('progress', {}),
+  challengeProgress: store.get('challengeProgress', {}),
+  reminders: store.get('reminders', { enabled: false, times: { morning: '07:00', midday: '12:00', evening: '20:00' } }),
+  bible: { mode: 'list', book: null, chapter: null, passage: null, loading: false }
+};
+
+const API = '';
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+  if (state.auth && state.auth.token) headers['Authorization'] = 'Bearer ' + state.auth.token;
+  const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((data.error && data.error.message) || 'Something went wrong. Please try again.');
+  return data;
+}
+
+function dayIndex() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 86400000);
+}
+function pickDaily(arr, salt) { return arr[(dayIndex() + (salt || 0)) % arr.length]; }
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+function toast(msg) {
+  const host = document.getElementById('toastHost');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  host.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+const ICONS = {
+  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21Z"/></svg>',
+  heartFill:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21Z"/></svg>',
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" /></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5a2 2 0 0 1 3-1.7l11 6.9a2 2 0 0 1 0 3.4l-11 7A2 2 0 0 1 7 19z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>',
+  crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l4 4 5-6 5 6 4-4v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>'
+};
+
+function isFav(kind, id) { return state.favorites.some(f => f.kind === kind && f.id === id); }
+function toggleFav(kind, id, title, body) {
+  if (isFav(kind, id)) {
+    state.favorites = state.favorites.filter(f => !(f.kind === kind && f.id === id));
+    toast('Removed from Favorites');
+  } else {
+    state.favorites.unshift({ kind, id, title, body: (body || '').slice(0, 300), savedAt: Date.now() });
+    toast('Saved to Favorites ❤️');
+  }
+  store.set('favorites', state.favorites);
+  render();
+}
+
+async function shareText(title, text) {
+  try {
+    if (navigator.share) { await navigator.share({ title, text }); return; }
+    await navigator.clipboard.writeText(text);
+    toast('Copied to clipboard — paste anywhere 💛');
+  } catch {}
+}
+
+let speechUtter = null;
+function listen(label, text) {
+  if (!('speechSynthesis' in window)) { toast('Audio is not supported on this device.'); return; }
+  if (speechSynthesis.speaking) { speechSynthesis.cancel(); toast('Stopped reading'); return; }
+  speechUtter = new SpeechSynthesisUtterance(label + '. ' + text.replace(/\s+/g, ' '));
+  speechUtter.rate = 0.92; speechUtter.pitch = 1.05;
+  speechSynthesis.speak(speechUtter);
+  toast('Reading aloud… tap again to stop');
+}
+
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning, Warrior!';
+  if (h < 17) return 'Good afternoon, Warrior!';
+  if (h < 21) return 'Good evening, Warrior!';
+  return 'Peace be with you, Warrior!';
+}
+const WEEK_WELCOME = [
+  'A new week, a new mercy — walk with Him through it.',
+  'This is the day the Lord has made. Rejoice in it.',
+  'Midweek grace: He renews your strength like the eagle\'s.',
+  'Hold steady, Warrior — the Lord goes before you today.',
+  'Almost there. Finish this week in His peace, not your pressure.',
+  'Rest well today. Even God rested — and called it holy.',
+  'Sunday\'s promise: He is risen, and He is with you always.'
+];
+const ENCOURAGEMENTS = [
+  'You are redeemed. You are loved. You are chosen.',
+  'God has not forgotten you. Keep walking in faith.',
+  'Your strength comes from the Lord — take a moment to pray.',
+  'The work He started in you, He will finish.',
+  'Grace met you this morning and it is enough for today.',
+  'You are clothed with strength and dignity. Walk like it.',
+  'Before you close your day, spend a few moments in His presence.'
+];
+
+function premiumActive() {
+  const p = state.premium;
+  if (!p) return false;
+  if (p.accessUntil && Date.now() > p.accessUntil) return false;
+  return true;
+}
+async function verifyPremium() {
+  if (!state.auth || !state.premium) return premiumActive();
+  try {
+    const r = await api('/api/store/my-apps/' + encodeURIComponent(state.premium.appId) + '/access');
+    if (r.hasAccess) {
+      if (r.accessUntil) state.premium.accessUntil = Date.parse(r.accessUntil);
+      store.set('premium', state.premium);
+      return true;
+    }
+    state.premium = null; store.set('premium', null);
+    return false;
+  } catch {
+    return premiumActive();
+  }
+}
+
+function renderHome() {
+  const verse = pickDaily(VERSES);
+  const dev = pickDaily(DEVOTIONALS);
+  const prayer = pickDaily(PRAYERS);
+  const welcome = WEEK_WELCOME[(new Date().getDay()) % 7];
+  const encourage = pickDaily(ENCOURAGEMENTS, 3);
+  const rec = pickDaily(BOOKS.filter(b => b[1] === 'NT'), 1);
+  const name = state.profile.name ? ', ' + state.profile.name : '';
+  const el = document.getElementById('view-home');
+  el.innerHTML = `
+    <div class="greet-card">
+      <p class="date">${new Date().toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric', year:'numeric' })}</p>
+      <h2>${esc(greeting())}${esc(name)}</h2>
+      <p class="muted" style="color:var(--blush)">${esc(welcome)}</p>
+    </div>
+    <div class="card gold-card" style="margin-top:18px">
+      <p class="eyebrow">Scripture of the Day &middot; ${esc(TRANSLATION.split(' (')[0])}</p>
+      <p class="verse-text" style="margin-top:10px">"${esc(verse.text)}"</p>
+      <p class="verse-ref" style="margin-top:8px">${esc(verse.ref)}</p>
+      <div class="action-row">
+        <button class="btn btn-ghost btn-sm" data-fav="verse">${ICONS.heart} Save</button>
+        <button class="btn btn-ghost btn-sm" data-share="verse">${ICONS.share} Share</button>
+        <button class="btn btn-ghost btn-sm" data-listen="verse">${ICONS.play} Listen</button>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:18px">
+      <div class="card">
+        <p class="eyebrow">Today's Devotional</p>
+        <h3 style="margin-top:6px">${esc(dev.title)}</h3>
+        <p class="hint" style="margin-top:6px">${esc(dev.ref)} &middot; ${esc(TRANSLATION.split(' (')[0])}</p>
+        <p class="muted" style="margin-top:10px">${esc(dev.teaching.slice(0, 140))}…</p>
+        <div class="action-row"><button class="btn btn-pink btn-sm" data-goto="devotionals">Read today's devotional</button></div>
+      </div>
+      <div class="card">
+        <p class="eyebrow">Today's Prayer</p>
+        <h3 style="margin-top:6px">${esc(prayer.title)}</h3>
+        <p class="hint" style="margin-top:6px">${esc(prayer.cat)}</p>
+        <p class="muted" style="margin-top:10px">${esc(prayer.text.slice(0, 140))}…</p>
+        <div class="action-row"><button class="btn btn-pink btn-sm" data-goto="prayer">Enter the Prayer Center</button></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Daily Encouragement</p>
+      <p class="verse-text" style="font-size:1.2rem;margin-top:8px">${esc(encourage)}</p>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Today's Bible Reading Recommendation</p>
+      <h3 style="margin-top:6px">${esc(rec[0])} &middot; ${rec[2]} chapters</h3>
+      <p class="muted" style="margin-top:6px">${esc(rec[3])}</p>
+      <div class="action-row"><button class="btn btn-gold btn-sm" data-openbook="${esc(rec[0])}">Open in the Bible</button></div>
+    </div>
+    <div class="grid-2" style="margin-top:18px">
+      <button class="card book-btn" data-goto="challenges"><strong>Faith Challenges</strong><small>Grow one day at a time</small></button>
+      <button class="card book-btn" data-goto="membership"><strong>Warrior Premium</strong><small>Unlock the full library</small></button>
+    </div>`;
+}
+
+function renderBible() {
+  const el = document.getElementById('view-bible');
+  const b = state.bible;
+  if (b.mode === 'list') {
+    const ot = BOOKS.filter(x => x[1] === 'OT'), nt = BOOKS.filter(x => x[1] === 'NT');
+    const readCount = Object.keys(state.progress).length;
+    el.innerHTML = `
+      <div class="view-head">
+        <p class="eyebrow">The Bible &middot; ${esc(TRANSLATION)}</p>
+        <h2>Read God's Word</h2>
+        <p class="muted">All 66 books. Tap a book, choose a chapter, and read. Your progress is saved.</p>
+        <div class="search-row" style="margin-top:12px">
+          <input class="input" id="bibleSearch" placeholder="Search a book (e.g. Psalms, John)…" />
+        </div>
+        <p class="hint">Chapters read so far: <strong>${readCount}</strong> of 1,189</p>
+      </div>
+      <h3 class="testament-label">Old Testament</h3>
+      <div class="book-grid" id="gridOT"></div>
+      <h3 class="testament-label">New Testament</h3>
+      <div class="book-grid" id="gridNT"></div>`;
+    const draw = (list, host) => {
+      host.innerHTML = list.map(x => {
+        const done = Object.keys(state.progress).filter(k => k.startsWith(x[0] + ' ') && state.progress[k]).length;
+        return `<button class="book-btn" data-openbook="${esc(x[0])}"><strong>${esc(x[0])}</strong><small>${x[2]} chapters${done ? ' · ' + done + ' read' : ''}</small></button>`;
+      }).join('');
+    };
+    draw(ot, el.querySelector('#gridOT'));
+    draw(nt, el.querySelector('#gridNT'));
+    el.querySelector('#bibleSearch').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      draw(ot.filter(x => x[0].toLowerCase().includes(q)), el.querySelector('#gridOT'));
+      draw(nt.filter(x => x[0].toLowerCase().includes(q)), el.querySelector('#gridNT'));
+    });
+  } else if (b.mode === 'chapters') {
+    const meta = BOOKS.find(x => x[0] === b.book);
+    const read = Array.from({ length: meta[2] }, (_, i) => i + 1).filter(c => state.progress[b.book + ' ' + c]);
+    el.innerHTML = `
+      <button class="btn btn-ghost btn-sm" data-bible="list">&larr; All books</button>
+      <div class="view-head" style="margin-top:14px">
+        <p class="eyebrow">${meta[1] === 'OT' ? 'Old Testament' : 'New Testament'}</p>
+        <h2>${esc(meta[0])}</h2>
+        <p class="muted">${esc(meta[3])}</p>
+        <p class="hint" style="margin-top:6px">${read.length} of ${meta[2]} chapters read</p>
+      </div>
+      <div class="chapter-grid">${Array.from({ length: meta[2] }, (_, i) => {
+        const c = i + 1;
+        return `<button class="${state.progress[b.book + ' ' + c] ? 'read' : ''}" data-openchapter="${c}">${c}</button>`;
+      }).join('')}</div>`;
+  } else if (b.mode === 'passage') {
+    const meta = BOOKS.find(x => x[0] === b.book);
+    el.innerHTML = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-ghost btn-sm" data-bible="chapters">&larr; ${esc(meta[0])} chapters</button>
+        <button class="btn btn-ghost btn-sm" ${b.chapter <= 1 ? 'disabled' : ''} data-openchapter="${b.chapter - 1}">&larr; Chapter ${b.chapter - 1}</button>
+        <button class="btn btn-ghost btn-sm" ${b.chapter >= meta[2] ? 'disabled' : ''} data-openchapter="${b.chapter + 1}">Chapter ${b.chapter + 1} &rarr;</button>
+      </div>
+      <div class="view-head" style="margin-top:14px">
+        <p class="eyebrow">${esc(TRANSLATION)}</p>
+        <h2>${esc(b.book)} ${b.chapter}</h2>
+        <div class="action-row">
+          <button class="btn btn-ghost btn-sm" id="btnMarkRead">${ICONS.check} Mark chapter as read</button>
+          <button class="btn btn-ghost btn-sm" id="btnBookmark">${ICONS.heart} Bookmark</button>
+        </div>
+      </div>
+      ${b.loading ? '<div class="card muted">Loading the Word…</div>' : `<div class="card passage">${b.passage || ''}</div>`}`;
+    const markBtn = el.querySelector('#btnMarkRead');
+    if (markBtn) markBtn.addEventListener('click', () => {
+      state.progress[b.book + ' ' + b.chapter] = true;
+      store.set('progress', state.progress);
+      toast('Chapter marked as read ✓ ' + Object.keys(state.progress).length + ' of 1,189');
+    });
+    const bmBtn = el.querySelector('#btnBookmark');
+    if (bmBtn) bmBtn.addEventListener('click', () => toggleFav('bookmark', b.book + ' ' + b.chapter, b.book + ' ' + b.chapter, 'Saved bookmark in ' + b.book));
+  }
+}
+
+function devotionalLocked(i) {
+  const freeSlots = 6;
+  if (i % DEVOTIONALS.length < freeSlots) return false;
+  return !premiumActive();
+}
+function renderDevotionals() {
+  const el = document.getElementById('view-devotionals');
+  const dailyIdx = dayIndex() % DEVOTIONALS.length;
+  const dev = DEVOTIONALS[dailyIdx];
+  const locked = devotionalLocked(dailyIdx);
+  el.innerHTML = `
+    <div class="view-head">
+      <p class="eyebrow">Daily Devotional &middot; ${new Date().toLocaleDateString(undefined, { month:'long', day:'numeric' })}</p>
+      <h2>${esc(dev.title)}</h2>
+    </div>
+    <div class="card gold-card">
+      <p class="verse-ref">${esc(dev.ref)} &middot; ${esc(TRANSLATION.split(' (')[0])}</p>
+      <p class="verse-text" style="margin-top:8px">"${esc(dev.text)}"</p>
+    </div>
+    ${locked ? `
+      <div class="locked-strip">${ICONS.lock} This devotional is part of Warrior Premium. Unlock the full devotional library with your Premium code.</div>
+      <div class="action-row"><button class="btn btn-gold" data-goto="membership">See Premium</button></div>
+    ` : `
+      <div class="card" style="margin-top:16px">
+        <h3>The Teaching</h3><p class="muted" style="margin-top:6px">${esc(dev.teaching)}</p>
+        <hr class="divider" />
+        <h3>Biblical Background</h3><p class="muted" style="margin-top:6px">${esc(dev.bible)}</p>
+        <hr class="divider" />
+        <h3>Live It Today</h3><p class="muted" style="margin-top:6px">${esc(dev.application)}</p>
+        <hr class="divider" />
+        <h3>Reflect</h3><p class="muted" style="margin-top:6px;font-style:italic">${esc(dev.question)}</p>
+        <hr class="divider" />
+        <h3>For Your Heart</h3><p class="muted" style="margin-top:6px">${esc(dev.encourage)}</p>
+        <hr class="divider" />
+        <h3>Closing Prayer</h3><p class="muted" style="margin-top:6px">${esc(dev.prayer)}</p>
+        <div class="action-row">
+          <button class="btn btn-ghost btn-sm" data-fav="devotional">${ICONS.heart} Save</button>
+          <button class="btn btn-ghost btn-sm" data-share="devotional">${ICONS.share} Share</button>
+          <button class="btn btn-ghost btn-sm listen-btn" data-listen="devotional">${ICONS.play} Listen</button>
+        </div>
+      </div>
+    `}
+    <div class="section-title"><h3>The Devotional Library</h3><span class="chip">${premiumActive() ? 'Premium open' : '6 free today'}</span></div>
+    <div class="grid-2">${DEVOTIONALS.map((d, i) => {
+      const lk = devotionalLocked(i);
+      return `<div class="card" style="${i === dailyIdx ? 'border-color:var(--gold)' : ''}">
+        <h3>${esc(d.title)}</h3>
+        <p class="hint">${esc(d.ref)}</p>
+        <p class="muted" style="margin-top:6px;font-size:.9rem">${esc(d.teaching.slice(0, 100))}…</p>
+        <div class="action-row">
+          ${lk ? `<span class="pill pill-locked">${ICONS.lock} Premium</span>` : `<button class="btn btn-ghost btn-sm" data-dev="${i}">Read</button>`}
+          ${i === dailyIdx ? '<span class="chip chip-gold">Today</span>' : ''}
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  el.querySelectorAll('[data-dev]').forEach(btn => btn.addEventListener('click', () => {
+    const d = DEVOTIONALS[Number(btn.dataset.dev)];
+    openDevotional(d);
+  }));
+}
+function openDevotional(d) {
+  const el = document.getElementById('view-devotionals');
+  el.innerHTML = `
+    <button class="btn btn-ghost btn-sm" data-goto="devotionals">&larr; All devotionals</button>
+    <div class="view-head" style="margin-top:14px"><p class="eyebrow">Devotional &middot; ${esc(d.ref)}</p><h2>${esc(d.title)}</h2></div>
+    <div class="card gold-card"><p class="verse-text">"${esc(d.text)}"</p></div>
+    <div class="card" style="margin-top:16px">
+      <h3>The Teaching</h3><p class="muted" style="margin-top:6px">${esc(d.teaching)}</p>
+      <hr class="divider" />
+      <h3>Biblical Background</h3><p class="muted" style="margin-top:6px">${esc(d.bible)}</p>
+      <hr class="divider" />
+      <h3>Live It Today</h3><p class="muted" style="margin-top:6px">${esc(d.application)}</p>
+      <hr class="divider" />
+      <h3>Reflect</h3><p class="muted" style="margin-top:6px;font-style:italic">${esc(d.question)}</p>
+      <hr class="divider" />
+      <h3>For Your Heart</h3><p class="muted" style="margin-top:6px">${esc(d.encourage)}</p>
+      <hr class="divider" />
+      <h3>Closing Prayer</h3><p class="muted" style="margin-top:6px">${esc(d.prayer)}</p>
+      <div class="action-row">
+        <button class="btn btn-ghost btn-sm" data-fav="devotional">${ICONS.heart} Save</button>
+        <button class="btn btn-ghost btn-sm" data-share="devotional">${ICONS.share} Share</button>
+        <button class="btn btn-ghost btn-sm listen-btn" data-listen="devotional">${ICONS.play} Listen</button>
+      </div>
+    </div>`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let prayerCat = null;
+function renderPrayer() {
+  const el = document.getElementById('view-prayer');
+  const daily = pickDaily(PRAYERS);
+  const cats = [...new Set(PRAYERS.map(p => p.cat))];
+  const current = prayerCat ? PRAYERS.filter(p => p.cat === prayerCat) : [daily];
+  const label = prayerCat ? prayerCat : 'Today\'s Prayer';
+  el.innerHTML = `
+    <div class="view-head">
+      <p class="eyebrow">Prayer Center</p>
+      <h2>${esc(label)}</h2>
+    </div>
+    <div class="card gold-card">
+      <h3>${esc(current[0].title)}</h3>
+      <p class="verse-ref" style="margin-top:8px">${esc(current[0].verse)} &middot; ${esc(TRANSLATION.split(' (')[0])}</p>
+      <p class="verse-text" style="margin-top:6px">"${esc(current[0].vtext)}"</p>
+      <hr class="divider" />
+      <p style="font-size:1.05rem">${esc(current[0].text)}</p>
+      <div class="action-row">
+        <button class="btn btn-ghost btn-sm" data-fav="prayer">${ICONS.heart} Save</button>
+        <button class="btn btn-ghost btn-sm" data-share="prayer">${ICONS.share} Share</button>
+        <button class="btn btn-ghost btn-sm listen-btn" data-listen="prayer">${ICONS.play} Listen</button>
+      </div>
+    </div>
+    <div class="section-title"><h3>Prayer Library</h3><span class="chip">${premiumActive() ? 'Full library open' : '2 categories free'}</span></div>
+    <div class="grid-2">${cats.map((c, i) => {
+      const lk = !premiumActive() && i > 1;
+      return `<button class="card book-btn" data-prayercat="${esc(c)}" ${lk ? 'data-locked="1"' : ''}>
+        <strong>${esc(c)}</strong>
+        <small>${lk ? ICONS.lock + ' Premium' : PRAYERS.filter(p => p.cat === c).length + ' prayer' + (PRAYERS.filter(p => p.cat === c).length === 1 ? '' : 's')}</small>
+      </button>`;
+    }).join('')}</div>`;
+  el.querySelectorAll('[data-prayercat]').forEach(btn => btn.addEventListener('click', () => {
+    if (btn.dataset.locked) { toast('This prayer category is part of Warrior Premium.'); nav('membership'); return; }
+    prayerCat = btn.dataset.prayercat;
+    renderPrayer();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+}
+
+function renderStudy() {
+  const el = document.getElementById('view-study');
+  const locked = !premiumActive();
+  el.innerHTML = `
+    <div class="view-head">
+      <p class="eyebrow">Bible Study Center</p>
+      <h2>Learn the Word</h2>
+      <p class="muted">Book overviews for all 66 books, and the Women of the Bible collection.</p>
+    </div>
+    <div class="section-title"><h3>Women of the Bible</h3><span class="chip chip-gold">${locked ? 'Premium collection' : 'Open'}</span></div>
+    <div class="grid-2">${WOMEN.map((w, i) => `
+      <button class="card book-btn" data-woman="${i}" ${locked && i > 1 ? 'data-locked="1"' : ''}>
+        <strong>${esc(w.name)}</strong>
+        <small>${esc(w.ref)} ${locked && i > 1 ? '· ' + ICONS.lock + ' Premium' : ''}</small>
+      </button>`).join('')}</div>
+    <div class="section-title"><h3>Book Overviews</h3><span class="chip">All 66 books</span></div>
+    <div class="book-grid">${BOOKS.map(x => `
+      <button class="book-btn" data-studybook="${esc(x[0])}"><strong>${esc(x[0])}</strong><small>${esc(x[3].slice(0, 60))}…</small></button>`).join('')}</div>`;
+  el.querySelectorAll('[data-woman]').forEach(btn => btn.addEventListener('click', () => {
+    if (btn.dataset.locked) { toast('The full Women of the Bible collection is part of Warrior Premium.'); nav('membership'); return; }
+    openWoman(WOMEN[Number(btn.dataset.woman)]);
+  }));
+  el.querySelectorAll('[data-studybook]').forEach(btn => btn.addEventListener('click', () => {
+    const x = BOOKS.find(b => b[0] === btn.dataset.studybook);
+    el.innerHTML = `
+      <button class="btn btn-ghost btn-sm" data-goto="study">&larr; Study Center</button>
+      <div class="view-head" style="margin-top:14px"><p class="eyebrow">${x[1] === 'OT' ? 'Old Testament' : 'New Testament'} overview</p><h2>${esc(x[0])}</h2></div>
+      <div class="card">
+        <p style="font-size:1.05rem">${esc(x[3])}</p>
+        <hr class="divider" />
+        <p class="hint">Chapters: <strong>${x[2]}</strong> &middot; Testament: ${x[1] === 'OT' ? 'Old' : 'New'}</p>
+        <div class="action-row"><button class="btn btn-gold btn-sm" data-openbook="${esc(x[0])}">Start reading ${esc(x[0])}</button></div>
+      </div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+}
+function openWoman(w) {
+  const el = document.getElementById('view-study');
+  el.innerHTML = `
+    <button class="btn btn-ghost btn-sm" data-goto="study">&larr; Study Center</button>
+    <div class="view-head" style="margin-top:14px"><p class="eyebrow">Woman of the Bible &middot; ${esc(w.ref)}</p><h2>${esc(w.name)}</h2></div>
+    <div class="card">
+      <h3>Her Story</h3><p class="muted" style="margin-top:6px">${esc(w.story)}</p>
+      <hr class="divider" />
+      <h3>Her Challenges</h3><p class="muted" style="margin-top:6px">${esc(w.challenges)}</p>
+      <hr class="divider" />
+      <h3>Her Faith</h3><p class="muted" style="margin-top:6px">${esc(w.faith)}</p>
+      <hr class="divider" />
+      <h3>Her Lessons</h3><p class="muted" style="margin-top:6px">${esc(w.lessons)}</p>
+      <hr class="divider" />
+      <h3>Related Scripture</h3><p class="verse-text" style="margin-top:6px;font-size:1.15rem">${esc(w.scripture)}</p>
+      <hr class="divider" />
+      <h3>For Women Today</h3><p class="muted" style="margin-top:6px">${esc(w.today)}</p>
+      <div class="action-row"><button class="btn btn-ghost btn-sm" data-fav="study">${ICONS.heart} Save</button></div>
+    </div>`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderFavorites() {
+  const el = document.getElementById('view-favorites');
+  const q = (el.dataset.q || '').toLowerCase();
+  const items = state.favorites.filter(f => !q || (f.title + ' ' + f.body).toLowerCase().includes(q));
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Saved with love</p><h2>Favorites</h2></div>
+    <div class="search-row"><input class="input" id="favSearch" placeholder="Search your saved scriptures, devotionals and prayers…" value="${esc(el.dataset.q || '')}" /></div>
+    ${items.length === 0 ? '<div class="card muted">Nothing saved yet. Tap the heart on any scripture, devotional, prayer or study to keep it here.</div>' :
+    `<div class="card">${items.map(f => `
+      <div class="fav-item">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline">
+          <strong>${esc(f.title)}</strong>
+          <span class="chip">${esc(f.kind)}</span>
+        </div>
+        <p class="muted" style="margin-top:4px;font-size:.92rem">${esc(f.body)}</p>
+        <div class="action-row">
+          <button class="btn btn-ghost btn-sm" data-sharefav="${esc(f.title)}|${esc(f.body)}">${ICONS.share} Share</button>
+          <button class="btn btn-ghost btn-sm" data-delfav="${esc(f.kind)}|${esc(f.id)}">Remove</button>
+        </div>
+      </div>`).join('')}</div>`}`;
+  const s = el.querySelector('#favSearch');
+  s.addEventListener('input', () => { el.dataset.q = s.value; renderFavorites(); const ns = el.querySelector('#favSearch'); ns.focus(); ns.setSelectionRange(ns.value.length, ns.value.length); });
+  el.querySelectorAll('[data-sharefav]').forEach(b => b.addEventListener('click', () => {
+    const [t, body] = b.dataset.sharefav.split('|');
+    shareText(t, t + '\n\n' + body + '\n\n— Redeemed Warrior Devotional Bible');
+  }));
+  el.querySelectorAll('[data-delfav]').forEach(b => b.addEventListener('click', () => {
+    const [kind, id] = b.dataset.delfav.split('|');
+    state.favorites = state.favorites.filter(f => !(f.kind === kind && f.id === id));
+    store.set('favorites', state.favorites);
+    renderFavorites();
+  }));
+}
+
+function renderChallenges() {
+  const el = document.getElementById('view-challenges');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Spiritual growth, one day at a time</p><h2>Faith Challenges</h2></div>
+    <div class="grid-2">${CHALLENGES.map(c => {
+      const prog = state.challengeProgress[c.id] || [];
+      const locked = c.premium && !premiumActive();
+      const pct = Math.round((prog.length / c.days) * 100);
+      return `<div class="card challenge-card">
+        <h3>${esc(c.title)} ${locked ? '<span class="pill pill-locked">' + ICONS.lock + ' Premium</span>' : (pct === 100 ? '<span class="pill pill-open">Completed!</span>' : '')}</h3>
+        <p class="hint">${esc(c.intro)}</p>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <p class="hint">${prog.length} of ${c.days} days completed</p>
+        ${locked
+          ? `<div class="locked-strip">${ICONS.lock} This challenge is part of Warrior Premium.</div><div class="action-row"><button class="btn btn-gold btn-sm" data-goto="membership">Unlock Premium</button></div>`
+          : `<details><summary class="btn btn-ghost btn-sm" style="width:100%">Open the days</summary>
+             <div style="margin-top:10px">${c.days_content.map((d, i) => {
+               const done = prog.includes(i);
+               return `<div class="day-row ${done ? 'done' : ''}">
+                 <div class="day-num">${i + 1}</div>
+                 <div style="flex:1">
+                   <strong>${esc(d.t)}</strong>
+                   <p class="hint">${esc(d.v)}</p>
+                   <p class="muted" style="font-size:.92rem;margin-top:2px">${esc(d.d)}</p>
+                   <button class="btn btn-ghost btn-sm" style="margin-top:8px" data-chal="${esc(c.id)}|${i}" ${done ? 'disabled' : ''}>${done ? 'Completed ✓' : 'Mark day complete'}</button>
+                 </div>
+               </div>`;
+             }).join('')}</div></details>`}
+      </div>`;
+    }).join('')}</div>`;
+  el.querySelectorAll('[data-chal]').forEach(b => b.addEventListener('click', () => {
+    const [id, i] = b.dataset.chal.split('|');
+    const prog = state.challengeProgress[id] || (state.challengeProgress[id] = []);
+    if (!prog.includes(Number(i))) prog.push(Number(i));
+    store.set('challengeProgress', state.challengeProgress);
+    const c = CHALLENGES.find(x => x.id === id);
+    if (prog.length === c.days) toast('Challenge complete! 👑 Well done, Warrior!');
+    renderChallenges();
+  }));
+}
+
+function renderMembership() {
+  const el = document.getElementById('view-membership');
+  const active = premiumActive();
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Warrior Premium</p><h2>Choose Your Path</h2>
+    <p class="muted">Premium unlocks the full devotional library, all challenges, the complete Women of the Bible collection and the whole prayer library. Access is verified securely through the Redeemed Warrior Store.</p></div>
+    ${active ? `
+      <div class="card gold-card">
+        <h3>👑 Your Premium is active</h3>
+        <p class="muted" style="margin-top:6px">${state.premium.accessUntil ? 'Access until ' + new Date(state.premium.accessUntil).toLocaleDateString() + '.' : 'Full annual access.'}</p>
+        <p class="hint" style="margin-top:6px">Purchased as: ${esc(state.premium.appName || state.premium.appId)}</p>
+        <div class="action-row"><button class="btn btn-ghost btn-sm" id="btnRestore">Restore purchase check</button></div>
+      </div>` : `
+      <div class="card gold-card">
+        <h3>Unlock with a redemption code</h3>
+        <p class="muted" style="margin-top:6px">Buy <strong>Warrior Premium</strong> at the Redeemed Warrior Store, then enter the redemption code from <em>My account &rarr; My apps &rarr; Get redemption code</em>. Access is verified server-to-server — no fake unlocks.</p>
+        ${state.auth ? `
+          <div style="margin-top:14px;display:grid;gap:10px">
+            <input class="input" id="premCode" placeholder="Paste your redemption code" autocomplete="off" />
+            <p class="err" id="premErr"></p>
+            <button class="btn btn-gold" id="btnPremCheck">Check code</button>
+          </div>` : `
+          <div class="locked-strip" style="margin-top:14px">${ICONS.lock} Sign in first (Account &rarr; Sign in), then enter your code here.</div>
+          <div class="action-row"><button class="btn btn-gold btn-sm" data-goto="account">Go to Account</button></div>`}
+      </div>`}
+    <div class="plan-grid" style="margin-top:18px">
+      <div class="card plan">
+        <p class="eyebrow">Free Warrior</p>
+        <p class="price">$0</p>
+        <ul>
+          <li>${ICONS.check} Daily Scripture of the Day</li>
+          <li>${ICONS.check} Today's devotional &amp; daily prayer</li>
+          <li>${ICONS.check} Complete Bible reader (66 books)</li>
+          <li>${ICONS.check} Introductory devotionals</li>
+          <li>${ICONS.check} Short faith challenges</li>
+        </ul>
+      </div>
+      <div class="card plan premium">
+        <p class="eyebrow">Warrior Premium Monthly</p>
+        <p class="price">Store price</p>
+        <ul>
+          <li>${ICONS.check} Full devotional library</li>
+          <li>${ICONS.check} Complete prayer library</li>
+          <li>${ICONS.check} All faith challenges</li>
+          <li>${ICONS.check} Women of the Bible collection</li>
+          <li>${ICONS.check} New premium content added over time</li>
+        </ul>
+      </div>
+      <div class="card plan premium">
+        <p class="eyebrow">Warrior Premium Annual</p>
+        <p class="price">Store price</p>
+        <ul>
+          <li>${ICONS.check} Everything in Monthly</li>
+          <li>${ICONS.check} Full annual access</li>
+          <li>${ICONS.check} Seasonal devotionals</li>
+          <li>${ICONS.check} Best value for daily warriors</li>
+        </ul>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:12px">Payments are handled securely by the Redeemed Warrior Store (Stripe). This app never pretends a payment succeeded — Premium is unlocked only after your code is verified against your real purchase.</p>`;
+  const checkBtn = el.querySelector('#btnPremCheck');
+  if (checkBtn) checkBtn.addEventListener('click', async () => {
+    const input = el.querySelector('#premCode');
+    const err = el.querySelector('#premErr');
+    err.textContent = '';
+    const code = (input.value || '').trim().toUpperCase();
+    if (!code) { err.textContent = 'Please paste your redemption code first.'; return; }
+    checkBtn.disabled = true; checkBtn.textContent = 'Checking…';
+    try {
+      const preview = await api('/api/store/redeem', { method: 'POST', body: { code } });
+      if (preview.readyForConfirm) {
+        checkBtn.textContent = 'Yes, unlock Premium';
+        checkBtn.dataset.confirm = '1';
+        err.className = 'ok-msg';
+        err.textContent = `Found: "${preview.app.name}" for ${preview.customer || 'your account'}. Tap again to add it.`;
+      } else if (preview.redeemed) {
+        state.premium = { appId: preview.app.appId || preview.app.id, appName: preview.app.name, accessUntil: null };
+        store.set('premium', state.premium);
+        toast('Premium unlocked! 👑 Welcome, Warrior!');
+        render();
+      }
+    } catch (e) {
+      err.className = 'err';
+      err.textContent = e.message;
+      checkBtn.disabled = false; checkBtn.textContent = 'Check code';
+    }
+  });
+  const restore = el.querySelector('#btnRestore');
+  if (restore) restore.addEventListener('click', async () => {
+    restore.disabled = true; restore.textContent = 'Checking with the Store…';
+    const ok = await verifyPremium();
+    restore.disabled = false; restore.textContent = 'Restore purchase check';
+    toast(ok ? 'Your Premium is confirmed active ✓' : 'Premium is no longer active on this account.');
+    render();
+  });
+}
+
+function renderAccount() {
+  const el = document.getElementById('view-account');
+  const a = state.auth;
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Your account</p><h2>Account</h2></div>
+    <div class="card">
+      ${a ? `
+        <p class="muted">Signed in as <strong>${esc(a.member.email)}</strong></p>
+        <p class="hint" style="margin-top:4px">Your membership, purchases and Premium access are tied to this account. Favorites and progress are saved on this device.</p>
+        <div class="action-row">
+          ${premiumActive() ? '<span class="pill pill-open">Premium active 👑</span>' : '<button class="btn btn-gold btn-sm" data-goto="membership">Unlock Premium</button>'}
+          <button class="btn btn-ghost btn-sm" id="btnSignOut">Sign out</button>
+        </div>` : `
+        <p class="muted">Create a free account or sign in. Your account holds your membership and Premium purchases — verified through the Redeemed Warrior Store.</p>
+        <div style="display:grid;gap:14px;margin-top:16px">
+          <div>
+            <label class="label" for="regEmail">Email</label>
+            <input class="input" id="regEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label class="label" for="regPass">Password</label>
+            <input class="input" id="regPass" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
+          </div>
+          <p class="err" id="authErr"></p>
+          <div class="action-row">
+            <button class="btn btn-gold" id="btnRegister">Create account</button>
+            <button class="btn btn-ghost" id="btnLogin">Sign in</button>
+          </div>
+          <p class="hint">Your password is stored securely (hashed) on the Redeemed Warrior server. We never see or store it in plain text.</p>
+        </div>`}
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Your name</h3>
+      <p class="hint" style="margin-top:4px">Used only to greet you warmly. Saved on this device.</p>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <input class="input" id="nameInput" placeholder="e.g. Sarah" value="${esc(state.profile.name || '')}" />
+        <button class="btn btn-gold btn-sm" id="btnSaveName">Save</button>
+      </div>
+    </div>`;
+  const err = () => el.querySelector('#authErr');
+  const reg = el.querySelector('#btnRegister');
+  if (reg) reg.addEventListener('click', () => doAuth('/api/auth/register', el, err));
+  const login = el.querySelector('#btnLogin');
+  if (login) login.addEventListener('click', () => doAuth('/api/auth/login', el, err));
+  const out = el.querySelector('#btnSignOut');
+  if (out) out.addEventListener('click', () => {
+    state.auth = null; store.set('auth', null);
+    toast('Signed out. Peace be with you, Warrior.');
+    renderAccount();
+  });
+  const saveName = el.querySelector('#btnSaveName');
+  if (saveName) saveName.addEventListener('click', () => {
+    state.profile.name = el.querySelector('#nameInput').value.trim().slice(0, 40);
+    store.set('profile', state.profile);
+    toast('Saved 💛');
+    renderHome();
+  });
+}
+async function doAuth(path, el, errEl) {
+  const email = el.querySelector('#regEmail').value.trim().toLowerCase();
+  const password = el.querySelector('#regPass').value;
+  if (!/^\S+@\S+\.\S+$/.test(email)) { errEl().textContent = 'Please enter a valid email address.'; return; }
+  if (password.length < 8) { errEl().textContent = 'Password must be at least 8 characters.'; return; }
+  try {
+    const r = await api(path, { method: 'POST', body: { email, password } });
+    state.auth = r;
+    store.set('auth', r);
+    toast('Welcome, Warrior! ❤️');
+    renderAccount();
+  } catch (e) {
+    errEl().textContent = e.message;
+  }
+}
+
+const REMINDER_MESSAGES = {
+  morning: 'Good morning, Warrior! Start your day with God.',
+  midday: 'Your strength comes from the Lord. Take a moment to pray.',
+  evening: 'Before you close your day, spend a few moments in His presence.'
+};
+function renderReminders() {
+  const el = document.getElementById('view-reminders');
+  const r = state.reminders;
+  const supported = 'Notification' in window;
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Daily Faith Reminders</p><h2>Keep Your Appointment</h2>
+    <p class="muted">Choose your times and we will encourage you at them while the app is open on your device. Phone-level notifications need your permission.</p></div>
+    <div class="card">
+      <div class="settings-row">
+        <div><strong>Daily reminders</strong><p class="hint">Gentle encouragement at your chosen times</p></div>
+        <label class="switch"><input type="checkbox" id="remEnabled" ${r.enabled ? 'checked' : ''} /><span class="slider"></span></label>
+      </div>
+      <div class="settings-row"><div><strong>Morning Scripture</strong><p class="hint">"${esc(REMINDER_MESSAGES.morning)}"</p></div>
+        <input class="input" type="time" id="timeMorning" value="${esc(r.times.morning)}" style="max-width:130px" /></div>
+      <div class="settings-row"><div><strong>Midday Encouragement</strong><p class="hint">"${esc(REMINDER_MESSAGES.midday)}"</p></div>
+        <input class="input" type="time" id="timeMidday" value="${esc(r.times.midday)}" style="max-width:130px" /></div>
+      <div class="settings-row"><div><strong>Evening Prayer</strong><p class="hint">"${esc(REMINDER_MESSAGES.evening)}"</p></div>
+        <input class="input" type="time" id="timeEvening" value="${esc(r.times.evening)}" style="max-width:130px" /></div>
+      ${supported ? '<button class="btn btn-gold" style="margin-top:14px" id="btnNotifPerm">Allow notifications on this device</button>' : '<p class="hint" style="margin-top:12px">This browser does not support notifications. Reminders will appear inside the app.</p>'}
+      <p class="hint" style="margin-top:12px">Honest note: on free web hosting, reminders fire while the app is open in a tab or saved to your home screen. True background notifications require a native app build — a beautiful future step.</p>
+    </div>`;
+  const save = () => {
+    state.reminders = {
+      enabled: el.querySelector('#remEnabled').checked,
+      times: {
+        morning: el.querySelector('#timeMorning').value || '07:00',
+        midday: el.querySelector('#timeMidday').value || '12:00',
+        evening: el.querySelector('#timeEvening').value || '20:00'
+      }
+    };
+    store.set('reminders', state.reminders);
+    toast('Reminders saved ✓');
+  };
+  el.querySelectorAll('input').forEach(i => i.addEventListener('change', save));
+  const perm = el.querySelector('#btnNotifPerm');
+  if (perm) perm.addEventListener('click', async () => {
+    const p = await Notification.requestPermission();
+    toast(p === 'granted' ? 'Notifications allowed ✓' : 'Notifications not allowed — in-app reminders still work.');
+  });
+}
+let reminderTimer = null;
+function startReminders() {
+  if (reminderTimer) clearInterval(reminderTimer);
+  reminderTimer = setInterval(() => {
+    const r = state.reminders;
+    if (!r.enabled) return;
+    const now = new Date();
+    const hhmm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    const key = Object.keys(r.times).find(k => r.times[k] === hhmm);
+    if (!key) return;
+    const stamp = 'fired_' + key + '_' + now.toDateString();
+    if (store.get(stamp, false)) return;
+    store.set(stamp, true);
+    const msg = REMINDER_MESSAGES[key];
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try { new Notification('Redeemed Warrior', { body: msg }); } catch {}
+    }
+    toast(msg);
+  }, 30000);
+}
+
+function renderAbout() {
+  const el = document.getElementById('view-about');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Redeemed Warrior</p><h2>About &amp; Privacy</h2></div>
+    <div class="card">
+      <h3>The App</h3>
+      <p class="muted" style="margin-top:6px">Redeemed Warrior Devotional Bible — a beautiful place to encounter God's Word, strengthen your faith, find encouragement, and grow closer to Jesus every single day.</p>
+      <p class="verse-text" style="margin-top:12px">"She is clothed with strength and dignity; she can laugh at the time to come." — Proverbs 31:25</p>
+      <hr class="divider" />
+      <h3>Bible translation</h3>
+      <p class="muted" style="margin-top:6px">Scripture is read from the <strong>World English Bible (WEB)</strong>, a modern-English public domain translation — freely shared, no copyright restrictions. Daily verses and devotional texts identify the translation.</p>
+      <hr class="divider" />
+      <h3>Privacy, simply explained</h3>
+      <ul class="muted" style="margin-top:6px;padding-left:20px;display:grid;gap:6px">
+        <li>• Your favorites, reading progress, and reminder settings are saved privately on your device.</li>
+        <li>• Your account email and password are stored on the Redeemed Warrior server; passwords are hashed and never readable by anyone — including us.</li>
+        <li>• Premium access is verified server-to-server with the Redeemed Warrior Store. Your code is never exposed to other members.</li>
+        <li>• We do not sell your data. We do not show ads.</li>
+        <li>• You may delete your account at any time by contacting support.</li>
+      </ul>
+      <hr class="divider" />
+      <h3>Terms of Service, in plain words</h3>
+      <p class="muted" style="margin-top:6px">This app is provided for personal spiritual growth. Content is offered with care and reverence; it is not a substitute for pastoral, medical, legal or financial counsel. Purchases are processed by the Redeemed Warrior Store and governed by its terms and refund policy. Be kind. Build faith. Grow.</p>
+      <hr class="divider" />
+      <p class="hint">Redeemed by Grace. Strengthened by Purpose. Built to Rise.</p>
+    </div>`;
+}
+
+const RENDERERS = {
+  home: renderHome,
+  bible: renderBible,
+  devotionals: renderDevotionals,
+  prayer: renderPrayer,
+  study: renderStudy,
+  favorites: renderFavorites,
+  challenges: renderChallenges,
+  membership: renderMembership,
+  account: renderAccount,
+  reminders: renderReminders,
+  about: renderAbout
+};
+
+function render() {
+  (RENDERERS[state.view] || renderHome)();
+}
+
+function nav(view) {
+  if (view === 'more') { document.getElementById('moreSheet').classList.remove('hidden'); return; }
+  document.getElementById('moreSheet').classList.add('hidden');
+  state.view = view;
+  document.querySelectorAll('nav.tabbar button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
+  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+  const target = document.getElementById('view-' + view);
+  target.classList.remove('hidden');
+  (RENDERERS[view] || renderHome)();
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+}
+
+function currentOfDay() {
+  return {
+    verse: pickDaily(VERSES),
+    devotional: DEVOTIONALS[dayIndex() % DEVOTIONALS.length],
+    prayer: pickDaily(PRAYERS)
+  };
+}
+function bindShareAndFav(el) {
+  el.addEventListener('click', async (e) => {
+    const t = e.target.closest('[data-fav],[data-share],[data-listen],[data-goto],[data-openbook],[data-openchapter],[data-bible]');
+    if (!t) return;
+    const d = currentOfDay();
+    if (t.hasAttribute('data-goto')) { nav(t.dataset.goto); return; }
+    if (t.hasAttribute('data-openbook')) {
+      state.bible = { mode: 'chapters', book: t.dataset.openbook, chapter: null, passage: null, loading: false };
+      nav('bible'); return;
+    }
+    if (t.hasAttribute('data-openchapter')) {
+      state.bible.chapter = Number(t.dataset.openchapter);
+      state.bible.mode = 'passage';
+      state.bible.loading = true;
+      nav('bible');
+      try {
+        const q = encodeURIComponent(state.bible.book + ' ' + state.bible.chapter);
+        const r = await fetch('https://bible-api.com/' + q + '?translation=web');
+        const j = await r.json();
+        if (!j.verses || !j.verses.length) throw new Error('empty');
+        state.bible.passage = j.verses.map(v => '<p><span class="vnum">' + v.verse + '</span>' + esc(v.text.trim()) + '</p>').join('');
+        state.bible.loading = false;
+        renderBible();
+      } catch {
+        state.bible.loading = false;
+        state.bible.passage = '<p class="muted">We could not load this chapter just now. Please check your connection and try again.</p>';
+        renderBible();
+      }
+      return;
+    }
+    if (t.hasAttribute('data-bible')) { state.bible.mode = t.dataset.bible; nav('bible'); return; }
+    const view = state.view;
+    if (t.hasAttribute('data-fav')) {
+      if (view === 'home') toggleFav('verse', d.verse.ref, d.verse.ref, d.verse.text);
+      else if (view === 'devotionals') toggleFav('devotional', d.devotional.title, d.devotional.title, d.devotional.text + ' — ' + d.devotional.prayer);
+      else if (view === 'prayer') toggleFav('prayer', d.prayer.title, d.prayer.title, d.prayer.text);
+      else if (view === 'study') toggleFav('study', 'Study', 'Saved study', 'A study you saved from the Study Center.');
+      return;
+    }
+    if (t.hasAttribute('data-share')) {
+      if (view === 'home') shareText('Scripture of the Day', '"' + d.verse.text + '" — ' + d.verse.ref + ' (' + TRANSLATION + ')\n\nShared from Redeemed Warrior Devotional Bible');
+      else if (view === 'devotionals') shareText(d.devotional.title, d.devotional.title + '\n\n"' + d.devotional.text + '" — ' + d.devotional.ref + '\n\n' + d.devotional.encourage + '\n\nShared from Redeemed Warrior Devotional Bible');
+      else if (view === 'prayer') shareText(d.prayer.title, d.prayer.title + '\n\n' + d.prayer.text + '\n\nShared from Redeemed Warrior Devotional Bible');
+      return;
+    }
+    if (t.hasAttribute('data-listen')) {
+      if (view === 'home') listen(d.verse.ref, d.verse.text);
+      else if (view === 'devotionals') listen(d.devotional.title, d.devotional.text + ' ' + d.devotional.teaching);
+      else if (view === 'prayer') listen(d.prayer.title, d.prayer.text);
+      return;
+    }
+  });
+}
+
+function boot() {
+  document.getElementById('btnStart').addEventListener('click', () => {
+    document.getElementById('welcome').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    store.set('visited', Date.now());
+    nav('home');
+  });
+  document.getElementById('btnExplore').addEventListener('click', () => {
+    document.getElementById('welcome').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    store.set('visited', Date.now());
+    nav('home');
+  });
+  document.getElementById('btnWelcomeSignIn').addEventListener('click', () => {
+    document.getElementById('welcome').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    nav('account');
+  });
+  document.getElementById('btnAccount').addEventListener('click', () => nav('account'));
+  document.getElementById('btnCloseSheet').addEventListener('click', () => document.getElementById('moreSheet').classList.add('hidden'));
+  document.getElementById('moreSheet').addEventListener('click', (e) => { if (e.target.id === 'moreSheet') e.currentTarget.classList.add('hidden'); });
+  document.querySelectorAll('nav.tabbar button, #moreSheet .mitem').forEach(b => b.addEventListener('click', () => nav(b.dataset.nav)));
+  bindShareAndFav(document.querySelector('main'));
+  startReminders();
+  if (store.get('visited', null)) {
+    document.getElementById('welcome').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    nav('home');
+  }
+  verifyPremium();
+}
+
+document.addEventListener('DOMContentLoaded', boot);
+</script>
+</body>
+</html>

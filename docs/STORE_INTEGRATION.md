@@ -18,18 +18,18 @@ Connects the Redeemed Warrior AI Builder (this API, serving godsredeemedwarrior.
 - Purchase ownership is **never** accepted from the frontend. Access is granted only after the Store confirms a code via `/api/rw/redeem/check` and `/api/rw/redeem/claim`.
 - Redeeming requires a logged-in member account, so every redemption is tied to exactly one Builder account.
 
-## Store API contract (as implemented)
+## Store API contract (per the Store's official Builder integration notes)
 
-> The Store's endpoints were not live on the production domain at implementation time
-> (POST returned 405). This contract is what the Builder sends and expects. If the
-> Store's preview contract differs, only `src/services/storeClient.js` needs changes.
+Base address: the Store's backend, `https://godsredeemedwarrior.store/.sfs-be` (the
+storefront pages return 405 for these paths). Header on every call:
+`X-RW-Key: <key from the Store's Owner dashboard > Connections>`.
 
 ### POST /api/rw/redeem/check
 
 Request:
 
 ```json
-{ "code": "RW-XXXX-XXXX" }
+{ "code": "RW-XXXX-XXXX", "account": "<builder account id or email>" }
 ```
 
 Response (HTTP 200):
@@ -37,21 +37,27 @@ Response (HTTP 200):
 ```json
 {
   "valid": true,
-  "status": "active",
-  "app": { "id": "app-123", "name": "My App", "type": "app" }
+  "message": "Code is valid.",
+  "product": { "id": "app-123", "title": "My App", "appType": "web_app", "pricing": "one_time" },
+  "purchaseStatus": "active",
+  "accessUntil": null,
+  "customer": "ab***@mail.com"
 }
 ```
 
-`status` values understood by the Builder: `active` (also `valid`, `paid`, `complete`),
-`refunded`, `cancelled`/`canceled`, `expired`, `already_claimed` (also `claimed`,
-`redeemed`), `not_found` (also `unknown`, `invalid`).
+`purchaseStatus` values understood by the Builder: `active` (also `valid`, `paid`,
+`complete`), `refunded`, `cancelled`/`canceled`, `expired`, `already_claimed` (also
+`claimed`, `redeemed`), `not_found` (also `unknown`, `invalid`). If `purchaseStatus`
+is missing, `valid: true` maps to `active` and `valid: false` to `not_found`.
+`accessUntil` (when present) bounds subscription access; the Builder treats a past
+date as expired.
 
 ### POST /api/rw/redeem/claim
 
-Request:
+Request (same body plus confirm):
 
 ```json
-{ "code": "RW-XXXX-XXXX", "confirm": true, "accountId": "<builder-member-id>" }
+{ "code": "RW-XXXX-XXXX", "account": "<builder account id or email>", "confirm": true }
 ```
 
 Response (HTTP 200):
@@ -59,8 +65,10 @@ Response (HTTP 200):
 ```json
 {
   "success": true,
-  "status": "active",
-  "app": { "id": "app-123", "name": "My App" },
+  "purchaseStatus": "active",
+  "product": { "id": "app-123", "title": "My App" },
+  "accessUntil": null,
+  "customer": "ab***@mail.com",
   "redemptionId": "store-redemption-id"
 }
 ```
@@ -74,7 +82,7 @@ Store indicates an `X-RW-Key` mismatch.
 |----------|------|---------|
 | `POST /api/auth/register` | none | Create member account `{ email, password }` |
 | `POST /api/auth/login` | none | Log in, returns member token |
-| `POST /api/store/redeem` | member | Redeem a code: check → claim (`confirm: true`) → unlock |
+| `POST /api/store/redeem` | member | Redeem a code. Without `confirm: true` it returns a preview (app, masked customer, `readyForConfirm`) and links nothing; with `confirm: true` it claims and unlocks |
 | `GET /api/store/my-apps` | member | Apps unlocked by the member's purchases |
 | `GET /api/store/my-apps/:appId/access` | member | Access check; re-verifies with the Store if the last check is stale |
 | `GET /api/store/redemptions` | member | Redemption status list (codes masked) |
@@ -82,10 +90,10 @@ Store indicates an `X-RW-Key` mismatch.
 
 ## Access lifecycle
 
-1. **Grant** — successful claim sets the redemption to `active`; the app appears in My Apps.
+1. **Grant** — the member previews the code (app name, masked customer), confirms, and the claim sets the redemption to `active`; the app appears in My Apps.
 2. **Open-time recheck** — when a member opens an app, if the last Store check is older than 24h, the Builder re-checks the code before granting access.
 3. **Daily recheck** — a background job re-checks all active redemptions once per day.
-4. **Revocation** — if the Store reports `refunded`, `cancelled`, `expired`, or `not_found`, access is revoked immediately and the status shows in the dashboard.
+4. **Revocation** — if the Store reports `valid: false`, `refunded`, `cancelled`, `expired`, or `not_found`, or `accessUntil` has passed, access is revoked immediately and the status shows in the dashboard. Subscriptions renew by the Store moving `accessUntil` forward.
 
 ## Data persistence note
 

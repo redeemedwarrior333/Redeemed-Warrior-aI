@@ -10,11 +10,12 @@ function newId() {
   return crypto.randomUUID();
 }
 
-function recordClaim({ code, accountId, app, redemptionId, status }) {
+function recordClaim({ code, accountId, app, redemptionId, status, accessUntil }) {
   const existing = findByCode(code);
   if (existing) {
     existing.status = status || existing.status;
     existing.app = app || existing.app;
+    existing.accessUntil = accessUntil !== undefined ? accessUntil : existing.accessUntil;
     existing.lastCheckedAt = Date.now();
     return existing;
   }
@@ -24,6 +25,7 @@ function recordClaim({ code, accountId, app, redemptionId, status }) {
     accountId,
     app: app || { id: 'unknown-' + newId(), name: 'Purchased app' },
     status: status || 'active',
+    accessUntil: accessUntil || null,
     claimedAt: Date.now(),
     lastCheckedAt: Date.now()
   };
@@ -50,12 +52,23 @@ function listByMember(accountId) {
 
 function hasAccess(accountId, appId) {
   return listByMember(accountId).some(
-    (r) => r.app.id === appId && ACTIVE_STATUSES.has(r.status)
+    (r) => r.app.id === appId && ACTIVE_STATUSES.has(r.status) && !accessExpired(r)
   );
 }
 
-function applyStatus(record, storeStatus) {
+function accessExpired(record) {
+  return Boolean(record.accessUntil && record.accessUntil <= Date.now());
+}
+
+function applyStatus(record, storeStatus, accessUntil) {
   record.lastCheckedAt = Date.now();
+  if (accessUntil !== undefined) {
+    record.accessUntil = accessUntil;
+  }
+  if (accessExpired(record) && ACTIVE_STATUSES.has(storeStatus)) {
+    record.status = 'expired';
+    return 'expired';
+  }
   if (ACTIVE_STATUSES.has(storeStatus)) {
     record.status = 'active';
     return 'active';
@@ -82,6 +95,7 @@ module.exports = {
   findById,
   listByMember,
   hasAccess,
+  accessExpired,
   applyStatus,
   needsRecheck,
   listActiveForRecheck,

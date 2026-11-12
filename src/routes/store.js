@@ -36,12 +36,27 @@ router.post('/redeem', async (req, res, next) => {
       });
     }
 
-    const check = await storeClient.checkCode(code);
+    const confirmed = Boolean(req.body && req.body.confirm === true);
+    const check = await storeClient.checkCode(code, req.member.memberId);
+
     if (!check.valid || check.status !== 'active') {
       return res.status(400).json({ error: { message: friendlyStatus(check.status) } });
     }
 
     const app = check.app || { id: 'unknown', name: 'Purchased app' };
+
+    if (!confirmed) {
+      return res.json({
+        readyForConfirm: true,
+        code,
+        app,
+        purchaseStatus: check.status,
+        accessUntil: check.accessUntil ? new Date(check.accessUntil).toISOString() : null,
+        customer: check.customer || null,
+        message: `Add "${app.name}" to your account? Nothing is linked yet — confirm to finish.`
+      });
+    }
+
     const claim = await storeClient.claimCode(code, req.member.memberId);
     if (!claim.success || (claim.status && claim.status !== 'active' && claim.status !== 'already_claimed')) {
       return res.status(400).json({ error: { message: friendlyStatus(claim.status || 'unknown') } });
@@ -52,7 +67,8 @@ router.post('/redeem', async (req, res, next) => {
       accountId: req.member.memberId,
       app: claim.app || app,
       redemptionId: claim.redemptionId,
-      status: 'active'
+      status: 'active',
+      accessUntil: claim.accessUntil
     });
 
     res.json({
@@ -92,16 +108,21 @@ router.get('/my-apps/:appId/access', async (req, res, next) => {
     }
 
     if (redemptions.needsRecheck(record)) {
-      const check = await storeClient.checkCode(record.code);
-      redemptions.applyStatus(record, check.status);
+      try {
+        const check = await storeClient.checkCode(record.code, req.member.memberId);
+        redemptions.applyStatus(record, check.status, check.accessUntil);
+      } catch (err) {
+        if (!err.expected) throw err;
+      }
     }
 
-    const hasAccess = redemptions.ACTIVE_STATUSES.has(record.status);
+    const hasAccess = redemptions.ACTIVE_STATUSES.has(record.status) && !redemptions.accessExpired(record);
     res.json({
       appId: record.app.id,
       name: record.app.name,
       hasAccess,
       status: record.status,
+      accessUntil: record.accessUntil ? new Date(record.accessUntil).toISOString() : null,
       reason: hasAccess ? null : friendlyStatus(record.status)
     });
   } catch (err) {

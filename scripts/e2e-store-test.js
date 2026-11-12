@@ -5,8 +5,8 @@ const MOCK_KEY = 'e2e-mock-store-key';
 
 const codes = new Map();
 
-function issueCode(code, app) {
-  codes.set(code, { code, app, status: 'active', claimedBy: null });
+function issueCode(code, app, extra) {
+  codes.set(code, Object.assign({ code, app, status: 'active', claimedBy: null, accessUntil: null }, extra));
 }
 
 function readBody(req) {
@@ -37,22 +37,34 @@ function startMockStore() {
     const record = codes.get(body.code);
 
     if (req.url === '/api/rw/redeem/check') {
-      if (!record) return json(res, 200, { valid: false, status: 'not_found' });
-      return json(res, 200, { valid: record.status === 'active', status: record.status, app: record.app });
+      if (!body.account) return json(res, 400, { error: 'account required' });
+      if (!record) return json(res, 200, { valid: false, message: 'Code not found', purchaseStatus: 'not_found' });
+      const valid = record.status === 'active';
+      return json(res, 200, {
+        valid,
+        message: valid ? 'Code is valid.' : 'Code is not redeemable.',
+        product: record.app,
+        purchaseStatus: record.status,
+        accessUntil: record.accessUntil || null,
+        customer: record.claimedBy ? 'cu***@mail.com' : 'ab***@mail.com'
+      });
     }
 
     if (req.url === '/api/rw/redeem/claim') {
-      if (!record) return json(res, 200, { success: false, status: 'not_found' });
+      if (!body.account) return json(res, 400, { error: 'account required' });
+      if (!record) return json(res, 200, { success: false, purchaseStatus: 'not_found' });
       if (body.confirm !== true) return json(res, 400, { error: 'confirm:true required' });
-      if (record.claimedBy && record.claimedBy !== body.accountId) {
-        return json(res, 200, { success: false, status: 'already_claimed' });
+      if (record.claimedBy && record.claimedBy !== body.account) {
+        return json(res, 200, { success: false, purchaseStatus: 'already_claimed' });
       }
-      if (record.status !== 'active') return json(res, 200, { success: false, status: record.status });
-      record.claimedBy = body.accountId;
+      if (record.status !== 'active') return json(res, 200, { success: false, purchaseStatus: record.status });
+      record.claimedBy = body.account;
       return json(res, 200, {
         success: true,
-        status: 'active',
-        app: record.app,
+        purchaseStatus: 'active',
+        product: record.app,
+        accessUntil: record.accessUntil || null,
+        customer: 'ab***@mail.com',
         redemptionId: 'store-' + crypto.randomUUID()
       });
     }
@@ -95,7 +107,7 @@ async function main() {
     return { status: res.status, data: await res.json().catch(() => ({})) };
   };
 
-  const APP = { id: 'warrior-planner', name: 'Warrior Planner Pro' };
+  const APP = { id: 'warrior-planner', title: 'Warrior Planner Pro', appType: 'web_app', pricing: 'one_time' };
 
   console.log('\nRedeemed Warrior — Store Integration End-to-End Test\n=====================================================\n');
 
@@ -107,7 +119,7 @@ async function main() {
   const memberTokenB = reg2.data.token;
   step(0, 'Second member account created (for security checks)', reg2.status === 201);
 
-  issueCode('RW-E2E-0001', APP);
+  issueCode('RW-E2E-0001', APP, { accessUntil: null });
   step(1, 'Store purchase (simulated): code RW-E2E-0001 issued for "Warrior Planner Pro"', codes.has('RW-E2E-0001'));
 
   const wrongKeyRes = await fetch(`${process.env.RW_STORE_BASE_URL}/api/rw/redeem/check`, {
@@ -120,7 +132,17 @@ async function main() {
   const badCode = await post('/api/store/redeem', { code: 'RW-NOPE-9999' }, memberToken);
   step(2, 'Redeeming an unknown code fails with a helpful message', badCode.status === 400 && /not found/i.test(badCode.data.error.message));
 
-  const redeem = await post('/api/store/redeem', { code: 'RW-E2E-0001' }, memberToken);
+  const preview = await post('/api/store/redeem', { code: 'RW-E2E-0001' }, memberToken);
+  step(
+    3,
+    'Code check shows the app and masked customer, nothing linked yet',
+    preview.status === 200 && preview.data.readyForConfirm === true && preview.data.app && preview.data.app.name === APP.title && /\*\*\*/.test(preview.data.customer || '')
+  );
+
+  const nothingLinked = await get('/api/store/my-apps', memberToken);
+  step(3, 'My Apps still empty before confirmation', (nothingLinked.data.apps || []).length === 0);
+
+  const redeem = await post('/api/store/redeem', { code: 'RW-E2E-0001', confirm: true }, memberToken);
   step(3, 'Code claimed with confirm:true', redeem.status === 200 && redeem.data.redeemed === true, redeem.data.app && redeem.data.app.name);
 
   const myApps = await get('/api/store/my-apps', memberToken);

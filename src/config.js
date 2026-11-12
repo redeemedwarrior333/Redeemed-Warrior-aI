@@ -7,7 +7,7 @@ const config = {
   apiKey: process.env.API_KEY || '',
   aiBaseUrl: (process.env.AI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai').replace(/\/+$/, ''),
   aiApiKey: process.env.AI_API_KEY || '',
-  aiModel: process.env.AI_MODEL || 'gemini-2.5-flash',
+  aiModel: process.env.AI_MODEL || 'gemini-flash-latest',
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX) || 60,
   publicChatEnabled: process.env.PUBLIC_CHAT_ENABLED === 'true',
   publicRateLimitMax: Number(process.env.PUBLIC_RATE_LIMIT_MAX) || 10,

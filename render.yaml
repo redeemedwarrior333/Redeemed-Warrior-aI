@@ -16,7 +16,7 @@ services:
       - key: AI_BASE_URL
         value: https://generativelanguage.googleapis.com/v1beta/openai
       - key: AI_MODEL
-        value: gemini-2.5-flash
+        value: gemini-flash-latest
       - key: PUBLIC_CHAT_ENABLED
         value: "true"
       - key: PUBLIC_RATE_LIMIT_MAX

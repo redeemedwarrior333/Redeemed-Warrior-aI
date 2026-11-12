@@ -177,7 +177,7 @@ footer.app-foot{text-align:center;color:var(--rose-deep);font-size:.8rem;padding
   <svg class="sparkle" style="top:12%;left:14%" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
   <svg class="sparkle" style="top:22%;right:16%;animation-delay:1s" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
   <svg class="sparkle" style="bottom:24%;left:20%;animation-delay:2s" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
-  <img class="cover" src="cover.jpg" alt="Redeemed Warrior Devotional Bible cover — a crowned warrior woman in gold and pink" width="839" height="900"/>
+  <img class="cover" src="cover.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/devotional-bible/cover.jpg'" alt="Redeemed Warrior Devotional Bible cover — a crowned warrior woman in gold and pink" width="839" height="900"/>
   <p class="eyebrow" style="color:var(--gold-light)">Redeemed Warrior</p>
   <h1>Devotional Bible</h1>
   <p class="tagline">Read &bull; Pray &bull; Reflect &bull; Grow</p>
@@ -201,7 +201,7 @@ footer.app-foot{text-align:center;color:var(--rose-deep);font-size:.8rem;padding
 <div id="app" class="hidden">
   <header class="app-header">
     <div class="logo">
-      <img src="cover-sm.jpg" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold);box-shadow:0 2px 8px rgba(51,0,16,.25)"/>
+      <img src="cover-sm.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/devotional-bible/cover-sm.jpg'" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold);box-shadow:0 2px 8px rgba(51,0,16,.25)"/>
       <div>
         <h1>Devotional Bible</h1>
         <span class="sub">Redeemed Warrior</span>
@@ -236,7 +236,7 @@ footer.app-foot{text-align:center;color:var(--rose-deep);font-size:.8rem;padding
   <div id="moreSheet" class="hidden">
     <div class="sheet">
       <div class="sheet-head">
-        <img src="cover-sm.jpg" alt="" />
+        <img src="cover-sm.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/devotional-bible/cover-sm.jpg'" alt="" />
         <div>
           <p class="eyebrow">Redeemed Warrior</p>
           <h3>Devotional Bible</h3>
@@ -669,6 +669,24 @@ const CHALLENGES = [
       { t:'Day 6 — Seek Peace Where Possible', v:'Romans 12:18', d:'Is there one relationship you could take one step toward? A message, a kindness, a boundary stated with love.' },
       { t:'Day 7 — Live Released', v:'Galatians 5:1', d:'Walk through today as a free woman. When the memory knocks, answer it with the decision you already made.' }
     ]},
+  { id:'purpose14', title:'14 Days of Finding Your Purpose', days:14, premium:true,
+    intro:'Two weeks of discovering what God made you for — one honest day at a time.',
+    days_content:[
+      { t:'Day 1 — You Are Already Known', v:'Jeremiah 1:5', d:'Before God gave Jeremiah a job, He gave him an identity: "Before I formed you in the womb I knew you." Purpose is not something you invent; it is something you uncover — because Someone knew you first.' },
+      { t:'Day 2 — Fearfully Made', v:'Psalm 139:14', d:'Your design is not an accident or a mistake. The way you think, feel, notice, and love was intentional craftsmanship. Today, thank God for one trait you have usually wished away.' },
+      { t:'Day 3 — Created for Good Works', v:'Ephesians 2:10', d:'You are God\'s workmanship — His poem — prepared in advance for good works. Notice: the works were prepared before you were. Your part is to show up and walk in them.' },
+      { t:'Day 4 — The Potter\'s Hands', v:'Isaiah 64:8', d:'You are the clay; He is the potter. Clay does not direct the wheel. Stop striving to become and start yielding to being shaped — purpose emerges under His hands, not your pressure.' },
+      { t:'Day 5 — Gifts Are Clues', v:'1 Peter 4:10', d:'List your gifts — the natural ones and the spiritual ones. They are not random; they are instructions. Where your abilities meet someone\'s need, purpose is usually standing there.' },
+      { t:'Day 6 — What Breaks Your Heart', v:'Nehemiah 2:18', d:'Nehemiah saw a broken wall and could not unsee it. What injustice, ache, or need keeps tugging at you? Holy discontent is often a compass pointing at your assignment.' },
+      { t:'Day 7 — Small and Faithful', v:'Luke 16:10', d:'Purpose rarely arrives with trumpets; it grows in faithful smallness. Be excellent in the task in front of you this week — the towel, the spreadsheet, the toddler. God entrusts much to those who steward little well.' },
+      { t:'Day 8 — Counsel of the Wise', v:'Proverbs 15:22', d:'Plans fail for lack of counsel but succeed with many advisers. Ask two people who know you and love God: "Where do you see me most alive?" Write down what they say without defending yourself.' },
+      { t:'Day 9 — Doors and Walls', v:'Revelation 3:8', d:'God sets open doors no one can shut. Look at your life honestly: which doors are swinging open with unlikely ease, and which have been firmly closed? Both are guidance.' },
+      { t:'Day 10 — Purpose in the Waiting', v:'Habakkuk 2:3', d:'The vision awaits an appointed time. Joseph waited years between dream and throne. If your purpose feels delayed, it is not denied — the waiting room is often the training room.' },
+      { t:'Day 11 — Not Too Young, Not Too Old', v:'1 Timothy 4:12', d:'"Let no one look down on your youth," Paul told Timothy — and Moses was eighty when he started. There is no wrong age to begin the thing God has been whispering to you.' },
+      { t:'Day 12 — Excellence as Worship', v:'Colossians 3:23', d:'"Whatever you do, work at it with all your heart, as working for the Lord." Purpose is less about finding the perfect role and more about doing today\'s work as an offering.' },
+      { t:'Day 13 — Fruit, Not Applause', v:'John 15:16', d:'Jesus chose you and appointed you to bear fruit that lasts. Audience is not the goal — fruitfulness is. Ask: whose life is better because I am in it? That answer is a map.' },
+      { t:'Day 14 — Walk In It', v:'Philippians 3:14', d:'Paul pressed on toward the call. You have gathered clues for thirteen days — now take one concrete step: send the email, start the plan, sign up, begin. Purpose rewards walkers, not watchers.' }
+    ]},
   { id:'closer21', title:'21 Days of Growing Closer to God', days:21, premium:true,
     intro:'Three weeks of intentional nearness — the promise: He draws near.',
     days_content:[
@@ -693,6 +711,40 @@ const CHALLENGES = [
       { t:'Day 19 — Watch for Him', v:'Psalm 19:1', d:'Take a walk and let creation preach. The heavens declare His glory without words.' },
       { t:'Day 20 — Surrender the Throne', v:'Luke 9:23', d:'Name the one area you have kept from His lordship, and hand Him the key today.' },
       { t:'Day 21 — Covenant of Nearness', v:'Psalm 73:28', d:'Decide out loud: nearness to God is the good I will not trade. "It is good for me to draw near to God."' }
+    ]},
+  { id:'faith30', title:'30 Days of Strengthening Your Faith', days:30, premium:true,
+    intro:'A month of building a faith that holds weight — muscle for your spirit.',
+    days_content:[
+      { t:'Day 1 — Faith Comes by Hearing', v:'Romans 10:17', d:'Faith is not summoned by willpower; it grows by intake. Read one passage aloud today and let your ears feed your heart. What you repeatedly hear, you eventually believe.' },
+      { t:'Day 2 — Start Small', v:'Matthew 17:20', d:'A mustard seed moves mountains — not because it is impressive but because its object is. Stop waiting for giant faith; plant the small seed you actually have today.' },
+      { t:'Day 3 — Faith Is Assurance', v:'Hebrews 11:1', d:'Faith is confidence in what we hope for and assurance of what we do not see. It is not a feeling that God will — it is a decision that He is able, made before the evidence arrives.' },
+      { t:'Day 4 — Raise Your Ebenezer', v:'1 Samuel 7:12', d:'Samuel set a stone and named it "Thus far the LORD has helped us." Write down three past faithfulnesses of God. Yesterday\'s evidence is today\'s courage.' },
+      { t:'Day 5 — Feed on the Word', v:'Matthew 4:4', d:'Jesus answered temptation with "It is written." You cannot wield Scripture you have not stored. Memorize one verse this week — bread for a future hungry day.' },
+      { t:'Day 6 — Honest Unbelief', v:'Mark 9:24', d:'"I believe; help my unbelief!" The father\'s honest cry moved Jesus to act. Doubt brought to God is raw material for faith; doubt hidden from God becomes a slow leak.' },
+      { t:'Day 7 — Do Not Walk Alone', v:'Hebrews 10:24-25', d:'Faith atrophies in isolation. Meet with other believers this week — in a pew, a kitchen, a parking lot. Spur someone on today and let someone spur you.' },
+      { t:'Day 8 — Speak Life', v:'Proverbs 18:21', d:'Death and life are in the power of the tongue. Catch one sentence of doom you keep repeating about yourself and replace it, out loud, with what God says instead.' },
+      { t:'Day 9 — Obey the Last Instruction', v:'John 2:5', d:'Mary\'s counsel still works: "Do whatever He tells you." Faith is often not a new word but obedience to the last one He gave. Do the thing you already know.' },
+      { t:'Day 10 — Faith in the Storm', v:'Isaiah 43:2', d:'God promises presence in the river and the fire, not always a detour around them. Name your current flood — then practice this sentence: "I am not alone in this water."' },
+      { t:'Day 11 — Days of Small Things', v:'Zechariah 4:10', d:'Do not despise the day of small things. The tiny answered prayer, the small step of generosity, the barely-opened Bible — God rejoices to see the beginnings. Zerubbabel\'s temple started with a foundation.' },
+      { t:'Day 12 — Trust His Character', v:'Numbers 23:19', d:'God is not a man that He should lie. When feelings argue, argue back with character: He cannot lie, cannot fail, cannot forget. Faith rests on who He is, not on how you feel.' },
+      { t:'Day 13 — The Secret Place', v:'Matthew 6:6', d:'Jesus assumed you would pray privately — in your room, door shut. Ten hidden minutes with God today will do more for your faith than ten public opinions about God.' },
+      { t:'Day 14 — Faith That Works', v:'James 2:17', d:'Faith without works is dead — not because works save, but because living faith moves. Choose one act of obedience your belief demands and do it before sunset.' },
+      { t:'Day 15 — Anchored Hope', v:'Hebrews 6:19', d:'We have hope as an anchor for the soul. Anchors do not stop storms; they hold ships through them. Write your anchoring truth — one promise of God — and keep it where you will see it daily.' },
+      { t:'Day 16 — Testimony Overcomes', v:'Revelation 12:11', d:'Believers overcame by the blood of the Lamb and the word of their testimony. Tell one person what God has done for you. Your story is someone else\'s survival gear.' },
+      { t:'Day 17 — Faith for Others', v:'Mark 2:5', d:'Jesus saw the paralytic\'s friends\' faith and healed him. Pray persistently for someone who has given up on themselves. Intercession is faith carrying a stretcher.' },
+      { t:'Day 18 — Wait Actively', v:'Isaiah 40:31', d:'Those who wait on the LORD renew strength and rise like eagles. Biblical waiting is not passivity — it is expectant tending, like a farmer watching for rain. Wait with your work in your hands.' },
+      { t:'Day 19 — Spirit of Power', v:'2 Timothy 1:7', d:'God has not given you a spirit of fear but of power, love, and a sound mind. Fear is loud; identify one fear-based decision and revisit it with these three weapons in hand.' },
+      { t:'Day 20 — Songs in the Night', v:'Psalm 42:8', d:'His song is with me in the night. Hard seasons are where faith gets its deep voice. Tonight, before sleep, name one thing about God that is still true in the dark.' },
+      { t:'Day 21 — Build on Rock', v:'Matthew 7:24', d:'The wise builder heard AND did. Storms test foundations, not facades. Ask: what practice of obedience is currently holding up my life — and is it rock or sand?' },
+      { t:'Day 22 — Ask for More', v:'Luke 17:5', d:'The apostles asked, "Increase our faith!" It is a prayer God loves to answer. Pray it plainly today — then watch for the assignment that grows it, because faith grows by lifting weight.' },
+      { t:'Day 23 — Faith That Pleases', v:'Hebrews 11:6', d:'Without faith it is impossible to please God, because anyone who comes to Him must believe He exists and rewards those who earnestly seek Him. Come today expecting a reward — He invites it.' },
+      { t:'Day 24 — Guard the Gate', v:'Philippians 4:8', d:'Think on what is true, noble, right, pure, lovely, admirable. Your mind is a gate; whatever you let graze there grows strong. Audit your feeds today — faith needs pasture, not poison.' },
+      { t:'Day 25 — Pray Together', v:'Acts 12:5', d:'The church prayed earnestly for Peter, and chains fell off in the night. Join or start one praying partnership this week. Agreement multiplies courage.' },
+      { t:'Day 26 — Remember the Cross', v:'Romans 8:32', d:'He who did not spare His own Son — how will He not also give you all things? When you doubt God\'s generosity, look at Calvary. The biggest gift settles every smaller argument.' },
+      { t:'Day 27 — Do Not Grow Weary', v:'Galatians 6:9', d:'At the proper time we will reap if we do not give up. Faith is often farming: planting, watering, waiting. Harvest is coming for the one who keeps sowing in tears.' },
+      { t:'Day 28 — Go When He Says Go', v:'Hebrews 11:8', d:'Abraham obeyed and went, even though he did not know where he was going. Faith sometimes has no map — only a voice. What step has God asked for that clarity keeps delaying?' },
+      { t:'Day 29 — He Will Finish It', v:'Philippians 1:6', d:'He who began a good work in you will carry it on to completion. Your growth is His project, not your solo performance. Rest tonight in a work He refuses to abandon.' },
+      { t:'Day 30 — Fix Your Eyes Forward', v:'2 Corinthians 4:18', d:'Fix your eyes not on what is seen but on what is unseen, for what is seen is temporary. Thirty days in — you have built muscle. Keep walking by faith; the weight of glory ahead outweighs it all.' }
     ]},
   { id:'women30', title:'30 Days of Women of the Bible', days:30, premium:true,
     intro:'A month walking with the women Scripture refuses to forget.',
@@ -747,7 +799,7 @@ const state = {
   bible: { mode: 'list', book: null, chapter: null, passage: null, loading: false }
 };
 
-const API = '';
+const API = (location.hostname === 'apps.godsredeemedwarrior.org' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? '' : 'https://apps.godsredeemedwarrior.org';
 async function api(path, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
   if (state.auth && state.auth.token) headers['Authorization'] = 'Bearer ' + state.auth.token;

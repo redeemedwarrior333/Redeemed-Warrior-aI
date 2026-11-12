@@ -171,6 +171,37 @@ test('upload rejects unsupported file types and oversized files', async () => {
   }
 });
 
+test('a large-but-valid upload succeeds (over the old 1 MB limit)', async () => {
+  const { server, base, token } = await setup();
+  try {
+    const bigData = Buffer.alloc(2 * 1024 * 1024).toString('base64');
+    const res = await fetch(`${base}/api/uploads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ name: 'big-but-ok.png', data: bigData })
+    });
+    assert.equal(res.status, 201);
+  } finally {
+    server.close();
+  }
+});
+
+test('a GitHub failure surfaces the friendly message, not a generic 500', async () => {
+  const { server, base, token } = await setup();
+  try {
+    const res = await fetch(`${base}/api/uploads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ name: 'evil.exe', data: Buffer.from('MZ').toString('base64') })
+    });
+    const body = await res.json();
+    assert.equal(res.status, 400);
+    assert.match(body.error.message, /file type is not supported/);
+  } finally {
+    server.close();
+  }
+});
+
 test('the files page is served at /files', async () => {
   const { server, base } = await setup();
   try {

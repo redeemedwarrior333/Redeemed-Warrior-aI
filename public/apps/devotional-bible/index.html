@@ -753,7 +753,11 @@ async function api(path, opts = {}) {
   if (state.auth && state.auth.token) headers['Authorization'] = 'Bearer ' + state.auth.token;
   const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error((data.error && data.error.message) || 'Something went wrong. Please try again.');
+  if (!res.ok) {
+    const err = new Error((data.error && data.error.message) || 'Something went wrong. Please try again.');
+    err.status = res.status;
+    throw err;
+  }
   return data;
 }
 
@@ -848,6 +852,11 @@ function premiumActive() {
   if (p.accessUntil && Date.now() > p.accessUntil) return false;
   return true;
 }
+function clearStaleAuth() {
+  state.auth = null; store.set('auth', null);
+  state.premium = null; store.set('premium', null);
+}
+
 async function verifyPremium() {
   if (!state.auth) return premiumActive();
   if (!state.premium) {
@@ -858,7 +867,12 @@ async function verifyPremium() {
         store.set('premium', state.premium);
         return true;
       }
-    } catch {}
+    } catch (e) {
+      if (e.status === 401) {
+        clearStaleAuth();
+        toast('Your session expired — please sign in again.');
+      }
+    }
     return premiumActive();
   }
   try {
@@ -1372,7 +1386,8 @@ function renderAccount() {
     <div class="view-head"><p class="eyebrow">Your account</p><h2>Account</h2></div>
     <div class="card">
       ${a ? `
-        <p class="muted">Signed in as <strong>${esc(a.member.email)}</strong>${a.member.role === 'owner' ? ' <span class="pill pill-open">Owner 👑</span>' : ''}</p>
+        <p class="muted">Signed in as <strong>${esc(a.member.email)}</strong></p>
+        <p id="serverRole" class="hint" style="margin-top:6px">Checking your membership with the server…</p>
         <p class="hint" style="margin-top:4px">Your membership, purchases and Premium access are tied to this account. Favorites and progress are saved on this device.</p>
         <div class="action-row">
           ${premiumActive() ? '<span class="pill pill-open">Premium active 👑</span>' : '<button class="btn btn-gold btn-sm" data-goto="membership">Unlock Premium</button>'}
@@ -1404,6 +1419,31 @@ function renderAccount() {
         <button class="btn btn-gold btn-sm" id="btnSaveName">Save</button>
       </div>
     </div>`;
+  const roleLine = el.querySelector('#serverRole');
+  if (roleLine) {
+    api('/api/auth/me').then((me) => {
+      if (!me.member) return;
+      state.auth.member.role = me.member.role;
+      store.set('auth', state.auth);
+      roleLine.innerHTML = me.member.role === 'owner'
+        ? '<span class="pill pill-open">Owner 👑 — verified by the server. Everything is open.</span>'
+        : '<span class="pill pill-locked">Member — this email is not on the owner list.</span>';
+      if (me.member.role === 'owner' && !state.premium) {
+        state.premium = { appId: 'owner', appName: 'Owner Access', accessUntil: null, owner: true };
+        store.set('premium', state.premium);
+        toast('Owner Mode unlocked 👑 Everything is open.');
+        render();
+      }
+    }).catch((e) => {
+      if (e.status === 401) {
+        clearStaleAuth();
+        toast('Your session expired — please sign in again.');
+        renderAccount();
+      } else {
+        roleLine.textContent = 'Could not reach the server to verify your account.';
+      }
+    });
+  }
   const err = () => el.querySelector('#authErr');
   const reg = el.querySelector('#btnRegister');
   if (reg) reg.addEventListener('click', () => doAuth('/api/auth/register', el, err));

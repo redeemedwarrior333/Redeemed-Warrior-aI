@@ -7,13 +7,18 @@ function notFound(req, res) {
 }
 
 function errorHandler(err, req, res, next) {
-  const status = err.status || 500;
+  let status = err.status || 500;
+  let message = err.publicMessage;
+  if (err.type === 'entity.too.large') {
+    status = 413;
+    message = 'That upload is too large. Please choose a file under 5 MB.';
+  }
   if (status >= 500 && !err.expected) {
     console.error(err);
   }
   res.status(status).json({
     error: {
-      message: err.publicMessage || 'Something went wrong on our end. Please try again.'
+      message: message || 'Something went wrong on our end. Please try again.'
     }
   });
 }

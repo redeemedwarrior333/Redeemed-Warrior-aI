@@ -24,4 +24,4 @@ services:
       - key: RW_STORE_API_KEY
         sync: false
       - key: RW_STORE_BASE_URL
-        value: https://godsredeemedwarrior.store
+        value: https://godsredeemedwarrior.store/.sfs-be

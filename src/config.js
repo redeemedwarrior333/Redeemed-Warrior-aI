@@ -11,7 +11,7 @@ const config = {
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX) || 60,
   publicChatEnabled: process.env.PUBLIC_CHAT_ENABLED === 'true',
   publicRateLimitMax: Number(process.env.PUBLIC_RATE_LIMIT_MAX) || 10,
-  rwStoreBaseUrl: (process.env.RW_STORE_BASE_URL || 'https://godsredeemedwarrior.store').replace(/\/+$/, ''),
+  rwStoreBaseUrl: (process.env.RW_STORE_BASE_URL || 'https://godsredeemedwarrior.store/.sfs-be').replace(/\/+$/, ''),
   rwStoreApiKey: process.env.RW_STORE_API_KEY || '',
   storeTimeoutMs: Number(process.env.STORE_TIMEOUT_MS) || 15000,
   accessRecheckIntervalMs: Number(process.env.ACCESS_RECHECK_INTERVAL_MS) || 24 * 60 * 60 * 1000,

@@ -6,7 +6,7 @@ Connects the Redeemed Warrior AI Builder (this API, serving godsredeemedwarrior.
 
 | Variable | Purpose |
 |----------|---------|
-| `RW_STORE_BASE_URL` | Store base URL. Default: `https://godsredeemedwarrior.store` |
+| `RW_STORE_BASE_URL` | Store base URL. Default: `https://godsredeemedwarrior.store/.sfs-be` (the Store serves its API behind the `/.sfs-be` backend path; a bare `https://godsredeemedwarrior.store` base URL will hit the storefront instead) |
 | `RW_STORE_API_KEY` | Shared secret. Sent to the Store as the `X-RW-Key` header. **Never exposed to the browser.** |
 | `STORE_TIMEOUT_MS` | Store request timeout. Default: 15000 |
 | `ACCESS_RECHECK_INTERVAL_MS` | Daily access recheck interval. Default: 86400000 (24h) |
@@ -93,6 +93,16 @@ Member accounts, tokens, and redemptions are currently held **in memory**. They
 survive until the server restarts. Before real money flows through the Store, these
 should move to a persistent database (the services are written so the storage can be
 swapped without changing the routes).
+
+## Automated end-to-end test
+
+`npm run test:e2e` runs the complete 7-step flow (registration, code check, claim with `confirm:true`, My Apps, access grant, cross-account rejection, refund revocation) against a built-in mock Store that enforces the `X-RW-Key` header. It can be re-run against the real Store once its endpoints are live by setting `RW_STORE_BASE_URL` to the Store URL before running it.
+
+## Live Store verification (2026-11-11)
+
+- `POST https://godsredeemedwarrior.store/.sfs-be/api/rw/redeem/check` and `/claim` are deployed and reachable.
+- Without a valid `X-RW-Key` both return `401 {"message":"This request is not allowed.","valid":false}` — mapped by `storeClient.js` to the friendly "key mismatch" error.
+- The storefront pages return 405 for these paths; only the `/.sfs-be` backend path serves the API.
 
 ## Testing checklist (run after the Store deploys its endpoints)
 

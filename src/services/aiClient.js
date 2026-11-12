@@ -63,10 +63,11 @@ async function chatWithProvider(provider, { messages, stream = false, temperatur
     let reason = '';
     try {
       const parsed = JSON.parse(detail);
-      const upstreamMessage = parsed && parsed.error && parsed.error.message;
+      const container = Array.isArray(parsed) ? parsed[0] : parsed;
+      const upstreamMessage = container && container.error && container.error.message;
       if (typeof upstreamMessage === 'string') reason = upstreamMessage.slice(0, 200);
     } catch (_) {
-      reason = detail.slice(0, 200);
+      reason = detail.replace(/\s+/g, ' ').trim().slice(0, 200);
     }
     const suffix = reason ? ` Provider said: ${reason}` : '';
     throw new ApiError(

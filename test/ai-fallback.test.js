@@ -73,7 +73,7 @@ test('a provider 400 error surfaces the upstream reason in the public message', 
     req.on('data', (c) => { body += c; });
     req.on('end', () => {
       res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: { code: 400, message: 'Model bad-model not found', status: 'INVALID_ARGUMENT' } }));
+      res.end(JSON.stringify([{ error: { code: 400, message: 'Model bad-model not found', status: 'INVALID_ARGUMENT' } }]));
     });
   });
   await new Promise((resolve) => server.listen(0, resolve));

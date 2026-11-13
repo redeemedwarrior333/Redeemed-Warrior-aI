@@ -145,6 +145,18 @@ textarea.input{resize:vertical;min-height:74px}
 .tip{background:linear-gradient(135deg,#2A0009,#4A0A24);color:var(--blush);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px}
 .tip .tl{font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light)}
 .tip p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;margin-top:6px;line-height:1.4}
+
+.vidstudio h3{display:flex;align-items:center;gap:8px}
+.vrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.vopt{flex:1;min-width:110px;text-align:center;font-size:.85rem;font-weight:600;padding:10px 8px;border-radius:12px;border:1.5px solid rgba(196,139,159,.4);background:#fff;color:var(--night)}
+.vopt.sel{border-color:var(--pink);background:var(--blush);color:var(--pink-deep)}
+.vtoggle{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:.9rem;color:var(--night)}
+.vtoggle input{width:20px;height:20px;accent-color:var(--pink-deep)}
+.vstage{margin-top:14px;border-radius:16px;overflow:hidden;border:1px solid rgba(196,139,159,.3);background:#1A0008;display:none}
+.vstage.on{display:block}
+.vstage canvas,.vstage video{width:100%;display:block}
+.vstatus{margin-top:10px;font-size:.88rem;color:var(--muted);min-height:1.3em}
+.vnote{margin-top:10px;font-size:.78rem;color:var(--muted);background:var(--cream);border-radius:12px;padding:10px 12px}
 </style>
 </head>
 <body>
@@ -455,6 +467,22 @@ function renderCreate() {
         <button class="btn btn-ghost dark" id="btnRegen" style="flex:1">Try Again</button>
         <button class="btn btn-ghost dark" id="btnNewAd" style="flex:1">New Ad</button>
       </div>
+      ${(t.id === 'video' || t.id === 'pack') ? `<div class="card vidstudio" id="vidStudio" style="margin-top:14px">
+        <h3>\ud83c\udfac Make the Video</h3>
+        <p class="hint" style="margin-top:4px">Turn this script into a real video ad — animated scenes, music, your brand. Made right on your phone.</p>
+        <div class="vrow">
+          <button class="vopt sel" data-aspect="story">Story 9:16</button>
+          <button class="vopt" data-aspect="square">Post 1:1</button>
+        </div>
+        <label class="vtoggle"><input type="checkbox" id="vidMusic" checked /> Add soft music to the video</label>
+        <div class="vrow">
+          <button class="btn btn-pink" id="btnMakeVideo" style="flex:1">Generate Video Ad</button>
+        </div>
+        <div class="vstage" id="vstage"><canvas id="vcanvas"></canvas><video id="vvideo" controls class="hidden"></video></div>
+        <p class="vstatus" id="vstatus"></p>
+        <a id="vdownload" class="btn btn-gold hidden" style="width:100%;margin-top:10px;text-decoration:none" download="redeemed-warrior-video-ad.webm">Download My Video</a>
+        <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. The downloaded file includes music; post it straight to Instagram, TikTok, or Facebook.</div>
+      </div>` : ''}
       <p class="hint" style="margin-top:12px;text-align:center">Tip: screenshot the preview card above to share it as an image.</p>`;
     el.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => copyText(b.dataset.copy)));
     el.querySelector('#btnSaveAd').addEventListener('click', () => {
@@ -465,6 +493,14 @@ function renderCreate() {
     });
     el.querySelector('#btnRegen').addEventListener('click', () => generate(t, state.create.lastForm));
     el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null }; renderCreate(); });
+    const mvBtn = el.querySelector('#btnMakeVideo');
+    if (mvBtn) {
+      mvBtn.addEventListener('click', () => makeVideoAd(t, r));
+      el.querySelectorAll('#vidStudio [data-aspect]').forEach(b => b.addEventListener('click', () => {
+        el.querySelectorAll('#vidStudio [data-aspect]').forEach(x => x.classList.remove('sel'));
+        b.classList.add('sel');
+      }));
+    }
     return;
   }
 
@@ -778,6 +814,245 @@ async function verifyRole() {
     if (e.status === 401) { state.auth = null; store.set('auth', null); }
   }
   updateOwnerBadge();
+}
+
+function buildScenes(t, r) {
+  if (t.id === 'video') {
+    return [
+      { label: 'HOOK', text: r.hook },
+      { label: 'SCENE 1', text: r.sc1 },
+      { label: 'SCENE 2', text: r.sc2 },
+      { label: 'SCENE 3', text: r.sc3 },
+      { label: 'CALL TO ACTION', text: r.cta, cta: true }
+    ].filter(s => s.text);
+  }
+  return [
+    { label: 'INTRODUCING', text: r.hl || r.title || '' },
+    { label: '', text: r.caption || r.short || '' },
+    { label: 'CALL TO ACTION', text: r.cta, cta: true }
+  ].filter(s => s.text);
+}
+
+function sceneDuration(s, i, total) {
+  if (s.cta) return 4;
+  return Math.min(6, Math.max(3.2, 1.6 + s.text.length * 0.045)) ;
+}
+
+function wrapCanvasText(ctx, text, maxW) {
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? line + ' ' + w : w;
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
+  const total = times[times.length - 1];
+  const t = Math.min(now, total - 0.001);
+  let idx = 0;
+  while (idx < times.length - 2 && t >= times[idx + 1]) idx++;
+  const s = scenes[idx];
+  const local = t - times[idx];
+  const dur = times[idx + 1] - times[idx];
+  const fade = 0.5;
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  if (idx % 2 === 0) { g.addColorStop(0, '#2A0009'); g.addColorStop(0.55, '#4A0A24'); g.addColorStop(1, '#330010'); }
+  else { g.addColorStop(0, '#330010'); g.addColorStop(0.5, '#5C0F33'); g.addColorStop(1, '#2A0009'); }
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  const glow = ctx.createRadialGradient(W / 2, H * 0.32, 10, W / 2, H * 0.32, W * 0.75);
+  const pulse = 0.16 + 0.07 * Math.sin(now * 1.4);
+  glow.addColorStop(0, 'rgba(239,217,180,' + pulse + ')');
+  glow.addColorStop(1, 'rgba(239,217,180,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(212,175,122,.5)';
+  ctx.lineWidth = Math.max(2, W * 0.004);
+  ctx.strokeRect(W * 0.045, H * 0.035, W * 0.91, H * 0.93);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const wmSize = Math.round(W * 0.030);
+  ctx.font = '600 ' + wmSize + 'px Jost, sans-serif';
+  ctx.fillStyle = 'rgba(239,217,180,.85)';
+  const wm = (brand || 'REDEEMED WARRIOR').toUpperCase().split('').join('\u2009');
+  ctx.fillText(wm, W / 2, H * 0.085);
+  ctx.fillStyle = 'rgba(212,175,122,.9)';
+  ctx.fillRect(W / 2 - W * 0.05, H * 0.115, W * 0.1, Math.max(1.5, H * 0.002));
+  const appear = Math.min(1, local / 0.6);
+  const ease = 1 - Math.pow(1 - appear, 3);
+  if (s.label) {
+    const lSize = Math.round(W * 0.032);
+    ctx.font = '700 ' + lSize + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(240,90,168,' + (0.95 * ease) + ')';
+    ctx.fillText(s.label.split('').join('\u2009'), W / 2, H * (s.cta ? 0.32 : 0.24));
+  }
+  const mainSize = Math.round(W * (s.cta ? 0.082 : 0.062));
+  ctx.font = '600 ' + mainSize + 'px "Cormorant Garamond", serif';
+  const maxW = W * 0.78;
+  const lines = wrapCanvasText(ctx, s.text, maxW);
+  const lineH = mainSize * 1.25;
+  const blockH = lines.length * lineH;
+  const cy = H * (s.cta ? 0.5 : 0.46) - blockH / 2 + lineH / 2;
+  ctx.fillStyle = 'rgba(251,246,238,' + ease + ')';
+  ctx.shadowColor = 'rgba(0,0,0,.45)';
+  ctx.shadowBlur = W * 0.012;
+  lines.forEach((ln, i) => {
+    const y = cy + i * lineH;
+    const slide = (1 - ease) * H * 0.03;
+    ctx.fillText(ln, W / 2, y + slide);
+  });
+  ctx.shadowBlur = 0;
+  if (s.cta) {
+    const bw = W * 0.5, bh = H * 0.062;
+    const bx = W / 2 - bw / 2, by = H * 0.66;
+    const cg = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+    cg.addColorStop(0, '#F05AA8'); cg.addColorStop(1, '#C22B7E');
+    ctx.fillStyle = cg;
+    const r = bh / 2;
+    ctx.beginPath();
+    ctx.moveTo(bx + r, by);
+    ctx.arcTo(bx + bw, by, bx + bw, by + bh, r);
+    ctx.arcTo(bx + bw, by + bh, bx, by + bh, r);
+    ctx.arcTo(bx, by + bh, bx, by, r);
+    ctx.arcTo(bx, by, bx + bw, by, r);
+    ctx.closePath();
+    ctx.fill();
+    ctx.font = '600 ' + Math.round(W * 0.036) + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,' + ease + ')';
+    ctx.fillText(s.text.toUpperCase(), W / 2, by + bh / 2);
+    ctx.font = 'italic 500 ' + Math.round(W * 0.03) + 'px "Cormorant Garamond", serif';
+    ctx.fillStyle = 'rgba(239,217,180,.9)';
+    ctx.fillText('Redeemed by Grace. Built to Rise.', W / 2, by + bh + H * 0.045);
+  }
+  const pbW = W * 0.7, pbH = Math.max(3, H * 0.004);
+  const pbX = W / 2 - pbW / 2, pbY = H * 0.915;
+  ctx.fillStyle = 'rgba(251,246,238,.18)';
+  ctx.fillRect(pbX, pbY, pbW, pbH);
+  const pg = ctx.createLinearGradient(pbX, 0, pbX + pbW, 0);
+  pg.addColorStop(0, '#F05AA8'); pg.addColorStop(1, '#D4AF6A');
+  ctx.fillStyle = pg;
+  ctx.fillRect(pbX, pbY, pbW * (t / total), pbH);
+}
+
+function startMusicBed(audioCtx, dest, totalSeconds) {
+  const master = audioCtx.createGain();
+  master.gain.value = 0.0001;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 900;
+  master.connect(filter);
+  filter.connect(dest);
+  const chords = [
+    [220.0, 277.18, 329.63],
+    [196.0, 246.94, 293.66],
+    [174.61, 220.0, 261.63],
+    [196.0, 246.94, 329.63]
+  ];
+  const chordLen = totalSeconds / chords.length;
+  const now = audioCtx.currentTime;
+  chords.forEach((freqs, ci) => {
+    const t0 = now + ci * chordLen;
+    freqs.forEach(f => {
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(0.05, t0 + 0.8);
+      g.gain.setValueAtTime(0.05, t0 + chordLen - 0.8);
+      g.gain.linearRampToValueAtTime(0.0001, t0 + chordLen);
+      osc.connect(g);
+      g.connect(master);
+      osc.start(t0);
+      osc.stop(t0 + chordLen + 0.05);
+    });
+  });
+  master.gain.setValueAtTime(0.0001, now);
+  master.gain.linearRampToValueAtTime(1.0, now + 0.5);
+  master.gain.setValueAtTime(1.0, now + totalSeconds - 0.7);
+  master.gain.linearRampToValueAtTime(0.0001, now + totalSeconds);
+}
+
+async function makeVideoAd(t, r) {
+  const studio = document.getElementById('vidStudio');
+  const status = document.getElementById('vstatus');
+  const stage = document.getElementById('vstage');
+  const canvas = document.getElementById('vcanvas');
+  const video = document.getElementById('vvideo');
+  const dl = document.getElementById('vdownload');
+  const aspect = studio.querySelector('[data-aspect].sel').dataset.aspect;
+  const withMusic = document.getElementById('vidMusic').checked;
+  const scenes = buildScenes(t, r);
+  if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
+  const W = aspect === 'square' ? 900 : 720;
+  const H = aspect === 'square' ? 900 : 1280;
+  canvas.width = W; canvas.height = H;
+  video.classList.add('hidden');
+  dl.classList.add('hidden');
+  stage.classList.add('on');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  const brand = (state.profile && state.profile.name) || 'REDEEMED WARRIOR';
+  status.textContent = 'Preparing your brand scenes\u2026';
+  try { if (document.fonts && document.fonts.load) { await document.fonts.load('600 60px "Cormorant Garamond"'); await document.fonts.load('600 30px Jost'); } } catch {}
+  const times = [0];
+  scenes.forEach((s, i) => times.push(times[i] + sceneDuration(s, i, scenes.length)));
+  const total = times[times.length - 1];
+  const canRecord = typeof MediaRecorder !== 'undefined' && canvas.captureStream;
+  let recorder = null, chunks = [], audioCtx = null;
+  const streams = [];
+  if (canRecord) {
+    const stream = canvas.captureStream(30);
+    streams.push(stream);
+    if (withMusic && window.AudioContext) {
+      try {
+        audioCtx = new AudioContext();
+        const dest = audioCtx.createMediaStreamDestination();
+        startMusicBed(audioCtx, dest, total);
+        dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
+      } catch (e) { audioCtx = null; }
+    }
+    const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || '';
+    recorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  }
+  status.textContent = canRecord ? 'Recording your video ad\u2026' : 'Playing your video ad\u2026';
+  const recStart = performance.now();
+  let rafId = null;
+  const finish = () => {
+    cancelAnimationFrame(rafId);
+    if (audioCtx) { try { audioCtx.close(); } catch {} }
+    if (recorder && recorder.state !== 'inactive') {
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: (recorder.mimeType || 'video/webm').split(';')[0] });
+        const url = URL.createObjectURL(blob);
+        canvas.style.display = 'none';
+        video.src = url;
+        video.classList.remove('hidden');
+        dl.href = url;
+        dl.download = 'redeemed-warrior-video-ad.' + (blob.type.includes('mp4') ? 'mp4' : 'webm');
+        dl.classList.remove('hidden');
+        status.textContent = 'Your video ad is ready! Watch it below, then tap Download and post it.';
+        toast('Video ad created \u2713');
+      };
+      recorder.stop();
+    } else {
+      status.textContent = 'Your browser cannot save video files. Watch the live version above \u2014 or screenshot the scenes and post those.';
+    }
+  };
+  if (recorder) recorder.start(250);
+  const loop = () => {
+    const now = (performance.now() - recStart) / 1000;
+    drawVideoFrame(ctx, W, H, scenes, times, now, brand);
+    if (now >= total) { finish(); return; }
+    rafId = requestAnimationFrame(loop);
+  };
+  loop();
 }
 
 document.getElementById('btnStart').addEventListener('click', () => {

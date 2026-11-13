@@ -156,7 +156,8 @@ test('ad studio video engine draws animated frames with crossfades and sparkles'
 test('ad studio music bed layers an arpeggio over the chord pad', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   assert.match(html, /arpFreqs/);
-  assert.match(html, /type = 'triangle'/);
+  assert.match(html, /arp: 'triangle'/);
+  assert.match(html, /osc\.type = m\.arp/);
 });
 
 test('ad studio video offers a slides editor with add, remove, reorder and preview', () => {
@@ -202,13 +203,95 @@ test('ad studio video offers no-voice, ai-voice and my-voice options', () => {
   assert.match(script, /SpeechSynthesisUtterance/);
 });
 
-test('ad studio records hd video with a high bitrate and offers a fast mode', () => {
+test('ad studio records hd video with a high bitrate and offers fast and ultra modes', () => {
   const script = inlineScript();
   assert.match(script, /data-quality="hd"/);
+  assert.match(script, /data-quality="ultra"/);
   assert.match(script, /data-quality="fast"/);
-  assert.match(script, /const W = quality === 'fast' \? 720 : 1080/);
-  assert.match(script, /quality === 'fast' \? 6000000 : 10000000/);
-  assert.match(script, /quality === 'fast' \? 96000 : 128000/);
+  assert.match(script, /const W = quality === 'fast' \? 720 : quality === 'ultra' \? 1440 : 1080/);
+  assert.match(script, /quality === 'fast' \? 6000000 : quality === 'ultra' \? 14000000 : 10000000/);
+  assert.match(script, /quality === 'fast' \? 96000 : 160000/);
+});
+
+test('ad studio offers wide aspect and music moods', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-aspect="wide"/);
+  assert.match(html, /data-music="soft"/);
+  assert.match(html, /data-music="bright"/);
+  assert.match(html, /data-music="cinematic"/);
+  assert.match(html, /data-music="none"/);
+  const script = inlineScript();
+  assert.match(script, /MUSIC_MOODS/);
+  assert.match(script, /startMusicBed\(audioCtx, dest, total, musicMood\)/);
+  assert.match(script, /aspect === 'wide' \? Math\.round\(W \* 9 \/ 16\)/);
+});
+
+test('ad studio has extra palettes, custom colors and a cheetah print', () => {
+  const script = inlineScript();
+  assert.match(script, /orchid: \['#24001E', '#4A1259', '#330015'\]/);
+  assert.match(script, /noir: \['#0A0A0A', '#22160A', '#050505'\]/);
+  assert.match(script, /ember: \['#1F0500', '#5C1A0E', '#2A0009'\]/);
+  assert.match(script, /function shadeHex/);
+  assert.match(script, /custom#/);
+  assert.match(script, /function drawCheetahPrint/);
+  assert.match(script, /function cheetahRosette/);
+  assert.match(script, /data-bgcustom/);
+});
+
+test('ad studio exports slides and copies the whole ad', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /id="btnSaveSlide"/);
+  assert.match(html, /id="btnCopyAll"/);
+  const script = inlineScript();
+  assert.match(script, /toDataURL\('image\/png'\)/);
+  assert.match(script, /redeemed-warrior-slide\.png/);
+});
+
+test('poster studio builds, edits, watermarks and shares posters', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-nav="poster"/);
+  assert.match(html, /id="view-poster"/);
+  const script = inlineScript();
+  assert.match(script, /function renderPoster/);
+  assert.match(script, /function drawPoster/);
+  assert.match(script, /function posterFromAd/);
+  assert.match(script, /POSTER_SIZES/);
+  assert.match(script, /POSTER_BLOCKS/);
+  assert.match(script, /data-psize="story"|data-psize="\$\{k\}"/);
+  assert.match(script, /data-pshow/);
+  assert.match(script, /data-ptext/);
+  assert.match(script, /id="posterWm"/);
+  assert.match(script, /id="wmText"/);
+  assert.match(script, /id="wmSite"/);
+  assert.match(script, /redeemed-warrior-poster\.png/);
+  assert.match(script, /Fill from My Last Ad/);
+  assert.match(script, /drawCrownOrnament/);
+  assert.match(script, /drawCrossOrnament/);
+});
+
+test('share hub connects tiktok and instagram with one-tap sharing', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /id="socialTikTok"/);
+  assert.match(html, /id="socialInstagram"/);
+  assert.match(html, /id="btnSaveSocials"/);
+  assert.match(html, /data-vshare="tiktok"/);
+  assert.match(html, /data-vshare="instagram"/);
+  assert.match(html, /data-pshare="tiktok"/);
+  assert.match(html, /data-pshare="instagram"/);
+  const script = inlineScript();
+  assert.match(script, /function shareOrCreate/);
+  assert.match(script, /function downloadBlob/);
+  assert.match(script, /navigator\.canShare/);
+  assert.match(script, /tiktok\.com\/upload/);
+  assert.match(script, /state\.socials/);
+});
+
+test('ad studio ships its own cover and home hero images', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /src="cover\.jpg"/);
+  assert.match(html, /src="home-hero\.jpg"/);
+  assert.ok(fs.existsSync(path.join(path.dirname(APP_PATH), 'cover.jpg')));
+  assert.ok(fs.existsSync(path.join(path.dirname(APP_PATH), 'home-hero.jpg')));
 });
 
 test('ad studio voice picker offers device voices with speed, pitch and sample', () => {

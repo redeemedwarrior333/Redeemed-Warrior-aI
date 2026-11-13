@@ -38,6 +38,13 @@ a{color:var(--pink-deep)}
 @keyframes breathe{0%,100%{opacity:.7}50%{opacity:1}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 #welcome .emblem{width:104px;height:104px;margin-bottom:18px;animation:float 5s ease-in-out infinite;filter:drop-shadow(0 10px 30px rgba(240,90,168,.45))}
+.coverimg{width:min(64vw,290px);border-radius:22px;border:2px solid var(--gold);box-shadow:0 18px 50px rgba(42,0,9,.55);display:block;margin:0 auto 20px}
+.royal-hero{text-align:center;padding:18px 14px 20px;border-radius:22px;background:linear-gradient(160deg,#2A0009,#4A0A24 55%,#330010);border:1px solid rgba(212,175,122,.4);box-shadow:0 16px 44px rgba(42,0,9,.25);margin-bottom:16px}
+.royal-hero .heroimg{width:min(52vw,220px);border-radius:18px;border:2px solid var(--gold);box-shadow:0 14px 40px rgba(0,0,0,.45);display:block;margin:0 auto 14px}
+.royal-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#FBF6EE;line-height:1.15}
+.royal-sub{color:var(--blush);font-size:.95rem}
+.gold-divider{width:74px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px auto}
+.royal-card{border-color:rgba(212,175,122,.4)}
 #welcome .kicker{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
 #welcome h1{font-size:clamp(2.2rem,8vw,3.6rem);letter-spacing:.05em;font-weight:600}
 #welcome h1 span{color:var(--hot)}
@@ -128,10 +135,10 @@ textarea.input{resize:vertical;min-height:74px}
 .meter{height:8px;border-radius:999px;background:var(--blush);overflow:hidden;margin-top:10px}
 .meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--hot),var(--gold));transition:width .4s ease}
 
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;justify-content:space-around;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-top:1px solid rgba(196,139,159,.3);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
-.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:12px}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;justify-content:space-around;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid rgba(212,175,122,.5);box-shadow:0 -8px 30px rgba(42,0,9,.08);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:12px;transition:color .2s,background .2s}
 .nav button svg{width:22px;height:22px}
-.nav button.on{color:var(--pink-deep)}
+.nav button.on{color:var(--pink-deep);background:linear-gradient(180deg,rgba(240,90,168,.12),rgba(212,175,122,.12))}
 .nav button.on svg{filter:drop-shadow(0 3px 6px rgba(226,68,154,.4))}
 
 #toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:var(--night);color:#fff;font-size:.9rem;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s ease;z-index:70;max-width:88vw;text-align:center}
@@ -182,6 +189,13 @@ textarea.input{resize:vertical;min-height:74px}
 .swatch[data-bg="blush"]{background:linear-gradient(135deg,#8A275D,#C76B9A)}
 .swatch[data-bg="plum"]{background:linear-gradient(135deg,#1A0008,#3D0A2E)}
 .swatch[data-bg="gold"]{background:linear-gradient(135deg,#5C3A1E,#D4AF6A)}
+.swatch[data-bg="orchid"]{background:linear-gradient(135deg,#24001E,#4A1259)}
+.swatch[data-bg="noir"]{background:linear-gradient(135deg,#0A0A0A,#22160A)}
+.swatch[data-bg="ember"]{background:linear-gradient(135deg,#1F0500,#5C1A0E)}
+.swatch[data-bg="cheetah"]{background:radial-gradient(circle at 30% 30%,#D4AF6A 18%,#8A275D 42%,#3D0522 78%)}
+.scolor{width:26px;height:26px;border:none;border-radius:50%;background:none;padding:0;cursor:pointer}
+.scolor::-webkit-color-swatch-wrapper{padding:0}
+.scolor::-webkit-color-swatch{border:2px solid rgba(255,255,255,.55);border-radius:50%}
 .simg{font-size:.8rem}
 </style>
 </head>
@@ -189,6 +203,7 @@ textarea.input{resize:vertical;min-height:74px}
 
 <div id="welcome">
   <div class="glow"></div>
+  <img class="coverimg" src="cover.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/ad-studio/cover.jpg'" alt="Redeemed Warrior" />
   <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true">
     <defs>
       <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
@@ -207,7 +222,7 @@ textarea.input{resize:vertical;min-height:74px}
   <p class="tagline">Faith-Fueled Advertising</p>
   <p class="motto">Type in what you sell. Walk away with professional ads — in minutes.</p>
   <div class="feats">
-    <span>Social Captions</span><span>Google Ads</span><span>Video Scripts</span><span>Slogans</span><span>Email Subjects</span><span>Product Descriptions</span>
+    <span>13 Ad Types</span><span>Video Maker</span><span>Poster Studio</span><span>AI Photos</span><span>Voiceovers</span><span>One-Tap Sharing</span>
   </div>
   <div class="actions">
     <button class="btn btn-gold" id="btnStart">Start Creating</button>
@@ -227,6 +242,7 @@ textarea.input{resize:vertical;min-height:74px}
     <section id="view-home" class="view"></section>
     <section id="view-create" class="view hidden"></section>
     <section id="view-ads" class="view hidden"></section>
+    <section id="view-poster" class="view hidden"></section>
     <section id="view-brand" class="view hidden"></section>
     <section id="view-account" class="view hidden"></section>
   </main>
@@ -235,6 +251,7 @@ textarea.input{resize:vertical;min-height:74px}
     <button data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
     <button data-nav="create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>Create</button>
     <button data-nav="ads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 15h8"/></svg>My Ads</button>
+    <button data-nav="poster"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h4"/></svg>Poster</button>
     <button data-nav="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Brand</button>
     <button data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Account</button>
   </nav>
@@ -256,8 +273,31 @@ const state = {
   profile: store.get('profile', { name:'', product:'', audience:'', tone:'Warm and encouraging', benefits:'', website:'', cta:'Shop now' }),
   ads: store.get('ads', []),
   create: { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 },
-  video: Object.assign({ voiceName: '', rate: 0.95, pitch: 1.05 }, store.get('video', {}))
+  video: Object.assign({ voiceName: '', rate: 0.95, pitch: 1.05 }, store.get('video', {})),
+  poster: Object.assign(defaultPoster(), store.get('poster', {})),
+  socials: Object.assign({ tiktok: '', instagram: '' }, store.get('socials', {}))
 };
+
+function defaultPoster() {
+  return {
+    size: 'story',
+    bg: 'auto',
+    img: '',
+    overlay: 45,
+    frame: true,
+    sparkles: true,
+    ornament: 'crown',
+    blocks: {
+      kicker: { text: 'REDEEMED WARRIOR', show: true, size: 'md' },
+      headline: { text: 'Rise. Create. Thrive.', show: true, size: 'lg' },
+      sub: { text: '', show: true, size: 'md' },
+      body: { text: '', show: false, size: 'sm' },
+      offer: { text: '', show: false, size: 'md' },
+      cta: { text: 'Shop Now', show: true, size: 'md' },
+      contact: { text: '', show: false, size: 'sm' }
+    }
+  };
+}
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -278,6 +318,31 @@ async function copyText(text) {
     try { document.execCommand('copy'); toast('Copied to clipboard \u2713'); } catch { toast('Long-press the text to copy it.'); }
     ta.remove();
   }
+}
+
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+async function shareOrCreate(network, blob, filename, caption) {
+  const label = network === 'tiktok' ? 'TikTok' : 'Instagram';
+  if (blob && navigator.share && navigator.canShare) {
+    try {
+      const file = new File([blob], filename, { type: blob.type || 'image/png' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], text: caption || '' });
+        toast('Shared! Finish the post in ' + label + ' \u2713');
+        return;
+      }
+    } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  if (blob) downloadBlob(blob, filename);
+  if (caption) copyText(caption);
+  window.open(network === 'tiktok' ? 'https://www.tiktok.com/upload' : 'https://www.instagram.com/', '_blank');
+  toast('Opening ' + label + ' \u2014 your file is downloaded and the caption is copied.');
 }
 
 async function api(path, opts = {}) {
@@ -441,7 +506,7 @@ function navTo(view) {
   const el = document.getElementById('view-' + view);
   if (el) el.classList.remove('hidden');
   document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === view));
-  const renderers = { home: renderHome, create: renderCreate, ads: renderAds, brand: renderBrand, account: renderAccount };
+  const renderers = { home: renderHome, create: renderCreate, ads: renderAds, poster: renderPoster, brand: renderBrand, account: renderAccount };
   if (renderers[view]) renderers[view]();
   window.scrollTo({ top: 0 });
 }
@@ -456,28 +521,37 @@ function renderHome() {
   const tip = TIPS[Math.floor(Date.now() / 864e5) % TIPS.length];
   const pct = brandPct();
   el.innerHTML = `
-    <div class="view-head"><p class="eyebrow">Ad Studio</p><h2>${greet}, ${esc(name)}!</h2>
-    <p>What are we advertising today?</p></div>
+    <div class="royal-hero">
+      <img class="heroimg" src="home-hero.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/ad-studio/home-hero.jpg'" alt="Redeemed Warrior prayer" />
+      <p class="eyebrow" style="color:var(--gold-light)">Redeemed Warrior Ad Studio</p>
+      <h2 class="royal-title">${greet}, Queen ${esc(name)}</h2>
+      <div class="gold-divider"></div>
+      <p class="royal-sub">What are we creating today, Your Majesty?</p>
+    </div>
     <div class="stat-row">
       <div class="stat"><b>${state.ads.length}</b><span>Ads created</span></div>
       <div class="stat"><b>${ADTYPES.length}</b><span>Ad types</span></div>
       <div class="stat"><b>${pct}%</b><span>Brand ready</span></div>
     </div>
     <div class="tip"><span class="tl">Today's Marketing Wisdom</span><p>"${esc(tip)}"</p></div>
-    <div class="card">
-      <h3>Start a new ad</h3>
-      <p class="hint" style="margin-top:4px">Pick a format \u2014 the AI writes it, you approve it.</p>
-      <button class="btn btn-pink" style="margin-top:14px;width:100%" data-nav="create">Create an Ad</button>
+    <div class="card royal-card">
+      <h3>Create</h3>
+      <p class="hint" style="margin-top:4px">Thirteen professional formats \u2014 the AI writes, you approve.</p>
+      <div class="vrow">
+        <button class="btn btn-pink" style="flex:1" data-nav="create">Make an Ad</button>
+        <button class="btn btn-gold" style="flex:1" data-nav="poster">Design a Poster</button>
+      </div>
     </div>
-    <div class="card">
+    <div class="card royal-card">
       <h3>Your brand voice</h3>
       <p class="hint" style="margin-top:4px">${pct < 100 ? 'Complete your brand profile so every ad sounds like you.' : 'Your brand profile is complete \u2014 every ad will sound like you.'}</p>
       <div class="meter"><i style="width:${pct}%"></i></div>
       <button class="btn btn-ghost dark btn-sm" style="margin-top:14px" data-nav="brand">${pct < 100 ? 'Finish my brand profile' : 'View brand profile'}</button>
     </div>
-    <div class="card">
-      <h3>How it works</h3>
-      <p class="hint" style="margin-top:6px">1. Fill in your brand profile once.<br>2. Pick an ad type and say what you're promoting.<br>3. The AI writes professional copy in seconds.<br>4. Copy it, screenshot the preview card, and post it.</p>
+    <div class="card royal-card">
+      <h3>Share the royal word</h3>
+      <p class="hint" style="margin-top:4px">Connect your TikTok and Instagram once \u2014 then share every video and poster to your apps in one tap.</p>
+      <button class="btn btn-ghost dark btn-sm" style="margin-top:14px" data-nav="account">Connect my socials</button>
     </div>`;
   el.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
 }
@@ -487,7 +561,7 @@ function renderCreate() {
   if (!state.create.type) {
     el.innerHTML = `
       <div class="view-head"><p class="eyebrow">Create</p><h2>Choose Your Ad Type</h2>
-      <p>Seven professional formats. All included.</p></div>
+      <p>Thirteen professional formats. All included.</p></div>
       <div class="typegrid">
         ${ADTYPES.map(t => `
           <button class="typecard" data-type="${t.id}">
@@ -530,6 +604,10 @@ function renderCreate() {
           <div class="sv">${esc(r[k])}</div>
         </div>` : '').join('')}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn btn-gold" id="btnCopyAll" style="flex:1">Copy the Whole Ad</button>
+        <button class="btn btn-ghost dark" id="btnMakePoster" style="flex:1">Make a Poster from This Ad</button>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
         <button class="btn btn-pink" id="btnSaveAd" style="flex:1">Save to My Ads</button>
         <button class="btn btn-ghost dark" id="btnRegen" style="flex:1">Try Again</button>
         <button class="btn btn-ghost dark" id="btnNewAd" style="flex:1">New Ad</button>
@@ -540,9 +618,11 @@ function renderCreate() {
         <div class="vrow">
           <button class="vopt sel" data-aspect="story">Story 9:16</button>
           <button class="vopt" data-aspect="square">Post 1:1</button>
+          <button class="vopt" data-aspect="wide">Wide 16:9</button>
         </div>
         <div class="vrow" role="group" aria-label="Video quality">
           <button class="vopt sel" data-quality="hd">HD 1080</button>
+          <button class="vopt" data-quality="ultra">Max 2K</button>
           <button class="vopt" data-quality="fast">Fast 720</button>
         </div>
         <div class="vrow" role="group" aria-label="Video voice">
@@ -563,7 +643,12 @@ function renderCreate() {
           <button class="vopt" data-scenes="edit">Edit Slides</button>
         </div>
         <div id="slideEditor" class="hidden"></div>
-        <label class="vtoggle"><input type="checkbox" id="vidMusic" checked /> Add soft music to the video</label>
+        <div class="vrow" role="group" aria-label="Music mood">
+          <button class="vopt sel" data-music="soft">Soft Music</button>
+          <button class="vopt" data-music="bright">Bright</button>
+          <button class="vopt" data-music="cinematic">Cinematic</button>
+          <button class="vopt" data-music="none">No Music</button>
+        </div>
         <div class="vrow">
           <button class="btn btn-ghost dark" id="btnPreviewVideo" style="flex:1">&#9654; Preview</button>
           <button class="btn btn-pink" id="btnMakeVideo" style="flex:1">Generate Video Ad</button>
@@ -571,6 +656,10 @@ function renderCreate() {
         <div class="vstage" id="vstage"><canvas id="vcanvas"></canvas><video id="vvideo" controls class="hidden"></video></div>
         <p class="vstatus" id="vstatus"></p>
         <a id="vdownload" class="btn btn-gold hidden" style="width:100%;margin-top:10px;text-decoration:none" download="redeemed-warrior-video-ad.webm">Download My Video</a>
+        <div class="vrow hidden" id="vshare">
+          <button class="vopt" data-vshare="tiktok">&#128228; TikTok</button>
+          <button class="vopt" data-vshare="instagram">&#128228; Instagram</button>
+        </div>
         <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. <strong>My Voice</strong> records your narration straight into the saved file (a 3-2-1 countdown gives you a moment to prepare). <strong>AI Voice</strong> reads your script aloud while the video plays — on most phones the spoken voice can't be saved into the downloaded file, so use My Voice when you want narration saved. <strong>AI Photo</strong> creates a free AI picture for a slide (takes a few seconds and fills in automatically). Music is always saved. Post it straight to Instagram, TikTok, or Facebook.</div>
       </div>` : ''}
       <p class="hint" style="margin-top:12px;text-align:center">Tip: screenshot the preview card above to share it as an image.</p>`;
@@ -580,6 +669,15 @@ function renderCreate() {
       store.set('ads', state.ads);
       toast('Saved to My Ads \u2713');
       navTo('ads');
+    });
+    el.querySelector('#btnCopyAll').addEventListener('click', () => {
+      const parts = Object.keys(t.markers).filter(k => r[k]).map(k => (SECTION_LABELS[k] || k).toUpperCase() + '\n' + r[k]);
+      copyText(parts.join('\n\n'));
+    });
+    el.querySelector('#btnMakePoster').addEventListener('click', () => {
+      posterFromAd(t, r);
+      navTo('poster');
+      toast('Poster loaded with your ad \u2713');
     });
     el.querySelector('#btnRegen').addEventListener('click', () => generate(t, state.create.lastForm));
     el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 }; renderCreate(); });
@@ -596,6 +694,10 @@ function renderCreate() {
         el.querySelectorAll('#vidStudio [data-quality]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
       }));
+      el.querySelectorAll('#vidStudio [data-music]').forEach(b => b.addEventListener('click', () => {
+        el.querySelectorAll('#vidStudio [data-music]').forEach(x => x.classList.remove('sel'));
+        b.classList.add('sel');
+      }));
       el.querySelectorAll('#vidStudio [data-voice]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-voice]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
@@ -605,6 +707,11 @@ function renderCreate() {
       }));
       const vtBtn = el.querySelector('#btnVoiceTest');
       if (vtBtn) vtBtn.addEventListener('click', () => testVoice());
+      el.querySelectorAll('#vidStudio [data-vshare]').forEach(b => b.addEventListener('click', () => {
+        const lv = state._lastVideo;
+        if (!lv) { toast('Make the video first, then share it.'); return; }
+        shareOrCreate(b.dataset.vshare, lv.blob, lv.name, '');
+      }));
       const vSel = el.querySelector('#voiceSel');
       if (vSel) vSel.addEventListener('change', () => { state.video.voiceName = vSel.value; store.set('video', state.video); });
       const vRate = el.querySelector('#voiceRate');
@@ -938,6 +1045,15 @@ function renderAccount() {
       <button class="btn btn-pink" id="btnChangePass" style="width:100%;margin-top:10px">Update Password</button>
     </div>
     <div class="card">
+      <h3>Connect your socials</h3>
+      <p class="hint" style="margin-top:4px">Save your handles once \u2014 then every video and poster gets one-tap Share buttons that hand your file straight to your apps. Sharing uses your phone's own share sheet, the free and private way.</p>
+      <label for="socialTikTok">TikTok</label>
+      <input class="input" id="socialTikTok" placeholder="@yourhandle" value="${esc(state.socials.tiktok)}" />
+      <label for="socialInstagram">Instagram</label>
+      <input class="input" id="socialInstagram" placeholder="@yourhandle" value="${esc(state.socials.instagram)}" />
+      <button class="btn btn-pink" id="btnSaveSocials" style="width:100%;margin-top:10px">Save Socials</button>
+    </div>
+    <div class="card">
       <h3>Your data</h3>
       <p class="hint" style="margin-top:6px">Brand profile and saved ads live on this device. Clearing them here is instant.</p>
       <button class="btn btn-ghost dark btn-sm" id="btnClearLocal" style="margin-top:10px">Clear saved ads & brand profile</button>
@@ -953,6 +1069,14 @@ function renderAccount() {
       errEl.textContent = (r && r.message) || 'Password updated.';
     } catch (e) { errEl.textContent = e.message; }
   });
+  el.querySelector('#btnSaveSocials').addEventListener('click', () => {
+    state.socials = {
+      tiktok: el.querySelector('#socialTikTok').value.trim(),
+      instagram: el.querySelector('#socialInstagram').value.trim()
+    };
+    store.set('socials', state.socials);
+    toast('Socials saved \u2713');
+  });
   el.querySelector('#btnClearLocal').addEventListener('click', () => {
     state.ads = [];
     store.set('ads', []);
@@ -967,7 +1091,448 @@ function renderAccount() {
   });
 }
 
+const POSTER_SIZES = {
+  story: { name: 'Story 9:16', W: 1080, H: 1920, pw: 252, ph: 448 },
+  square: { name: 'Post 1:1', W: 1080, H: 1080, pw: 336, ph: 336 },
+  flyer: { name: 'Flyer 4:5', W: 1080, H: 1350, pw: 300, ph: 375 },
+  wide: { name: 'Banner 16:9', W: 1920, H: 1080, pw: 448, ph: 252 }
+};
+
+const POSTER_BLOCKS = [
+  { k: 'kicker', l: 'Top label', ph: 'e.g. REDEEMED WARRIOR' },
+  { k: 'headline', l: 'Headline', ph: 'Your biggest words' },
+  { k: 'sub', l: 'Subheadline', ph: 'One supporting line' },
+  { k: 'body', l: 'Details', ph: 'A little more info (optional)' },
+  { k: 'offer', l: 'Offer', ph: 'e.g. 20% off this week (optional)' },
+  { k: 'cta', l: 'Button text', ph: 'e.g. Shop Now' },
+  { k: 'contact', l: 'Contact / website', ph: 'e.g. godsredeemedwarrior.store (optional)' }
+];
+
+function posterFont(k, fs) {
+  if (k === 'headline') return '600 ' + fs + 'px "Cormorant Garamond", serif';
+  if (k === 'kicker' || k === 'offer') return '700 ' + fs + 'px Jost, sans-serif';
+  if (k === 'sub') return '500 ' + fs + 'px Jost, sans-serif';
+  return '400 ' + fs + 'px Jost, sans-serif';
+}
+
+function posterFontSize(W, k, mul) {
+  const base = { kicker: 0.03, headline: 0.078, sub: 0.046, body: 0.034, offer: 0.05, contact: 0.028 }[k] || 0.045;
+  return Math.round(W * base * (mul || 1));
+}
+
+function posterColor(k) {
+  return { kicker: '#F05AA8', headline: '#FBF6EE', sub: 'rgba(251,246,238,.92)', body: 'rgba(239,217,180,.95)', offer: '#EFD9B4', contact: 'rgba(251,246,238,.78)' }[k] || '#FBF6EE';
+}
+
+function drawCrownOrnament(ctx, cx, cy, r) {
+  ctx.save();
+  ctx.fillStyle = 'rgba(212,175,122,.95)';
+  ctx.beginPath();
+  ctx.moveTo(cx - r, cy + r * 0.45);
+  ctx.lineTo(cx - r * 0.72, cy - r * 0.35);
+  ctx.lineTo(cx - r * 0.38, cy + r * 0.1);
+  ctx.lineTo(cx, cy - r * 0.75);
+  ctx.lineTo(cx + r * 0.38, cy + r * 0.1);
+  ctx.lineTo(cx + r * 0.72, cy - r * 0.35);
+  ctx.lineTo(cx + r, cy + r * 0.45);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillRect(cx - r, cy + r * 0.55, r * 2, r * 0.16);
+  [[-r * 0.72, -r * 0.5], [0, -r * 0.95], [r * 0.72, -r * 0.5]].forEach(pt => {
+    ctx.beginPath(); ctx.arc(cx + pt[0], cy + pt[1], r * 0.1, 0, 6.283); ctx.fill();
+  });
+  ctx.restore();
+}
+
+function drawCrossOrnament(ctx, cx, cy, r) {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(212,175,122,.95)';
+  ctx.lineWidth = Math.max(2, r * 0.22);
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - r); ctx.lineTo(cx, cy + r);
+  ctx.moveTo(cx - r * 0.6, cy - r * 0.3); ctx.lineTo(cx + r * 0.6, cy - r * 0.3);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawPosterCta(ctx, W, cy, text) {
+  const bw = W * 0.56, bh = W * 0.1;
+  const bx = W / 2 - bw / 2, by = cy - bh / 2;
+  const cg = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+  cg.addColorStop(0, '#F05AA8'); cg.addColorStop(1, '#C22B7E');
+  const r = bh / 2;
+  ctx.fillStyle = cg;
+  ctx.beginPath();
+  ctx.moveTo(bx + r, by);
+  ctx.arcTo(bx + bw, by, bx + bw, by + bh, r);
+  ctx.arcTo(bx + bw, by + bh, bx, by + bh, r);
+  ctx.arcTo(bx, by + bh, bx, by, r);
+  ctx.arcTo(bx, by, bx + bw, by, r);
+  ctx.closePath();
+  ctx.fill();
+  ctx.font = '700 ' + Math.round(bh * 0.42) + 'px Jost, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#fff';
+  ctx.fillText(String(text || '').toUpperCase(), W / 2, cy);
+}
+
+function cheetahRosette(ctx, x, y, r, rot) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  ctx.strokeStyle = 'rgba(26,0,8,.5)';
+  ctx.lineWidth = r * 0.36;
+  ctx.beginPath();
+  for (let a = 0; a < 6.283; a += 6.283 / 7) {
+    const rr = r * (0.75 + 0.35 * Math.abs(Math.sin(a * 2.7 + 1.3)));
+    const px = Math.cos(a) * rr, py = Math.sin(a) * rr;
+    if (a === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(212,175,122,.55)';
+  ctx.beginPath(); ctx.arc(r * 0.45, -r * 0.2, r * 0.16, 0, 6.283); ctx.fill();
+  ctx.beginPath(); ctx.arc(-r * 0.3, r * 0.35, r * 0.12, 0, 6.283); ctx.fill();
+  ctx.restore();
+}
+
+function drawCheetahPrint(ctx, W, H) {
+  ctx.save();
+  const cell = W * 0.16;
+  let row = 0;
+  for (let y = -cell; y < H + cell; y += cell * 0.72, row++) {
+    for (let x = -cell + (row % 2) * cell * 0.5; x < W + cell; x += cell) {
+      const seed = Math.abs(Math.sin(x * 12.9898 + y * 78.233) * 43758.5453) % 1;
+      cheetahRosette(ctx, x + seed * cell * 0.3, y, cell * (0.26 + 0.14 * seed), seed * 6.283);
+    }
+  }
+  ctx.restore();
+}
+
+function drawPoster(ctx, W, H, p, now) {
+  const im = p.img ? getSlideImage(p.img) : null;
+  if (im && im.naturalWidth) {
+    const ir = im.naturalWidth / im.naturalHeight, cr = W / H;
+    let dw, dh;
+    if (ir > cr) { dh = H; dw = dh * ir; } else { dw = W; dh = dw / ir; }
+    ctx.drawImage(im, W / 2 - dw / 2, H / 2 - dh / 2, dw, dh);
+  } else if (p.bg === 'cheetah') {
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#3D0522'); g.addColorStop(0.55, '#8A275D'); g.addColorStop(1, '#4A0A24');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+    drawCheetahPrint(ctx, W, H);
+  } else {
+    let pal;
+    if (p.bg && String(p.bg).indexOf('custom#') === 0) {
+      const hex = p.bg.slice(7);
+      pal = [shadeHex(hex, 0.38), shadeHex(hex, 1), shadeHex(hex, 0.6)];
+    } else {
+      pal = SLIDE_PALETTES[p.bg] || ['#2A0009', '#4A0A24', '#330010'];
+    }
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, pal[0]); g.addColorStop(0.55, pal[1]); g.addColorStop(1, pal[2]);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  }
+  const a = Math.min(0.85, Math.max(0, (Number(p.overlay) || 0) / 100));
+  const ov = ctx.createLinearGradient(0, 0, 0, H);
+  ov.addColorStop(0, 'rgba(26,0,8,' + (a * 0.85).toFixed(3) + ')');
+  ov.addColorStop(0.5, 'rgba(26,0,8,' + (a * 0.55).toFixed(3) + ')');
+  ov.addColorStop(1, 'rgba(26,0,8,' + a.toFixed(3) + ')');
+  ctx.fillStyle = ov;
+  ctx.fillRect(0, 0, W, H);
+  if (p.sparkles) {
+    for (let i = 0; i < 12; i++) {
+      const seed = (i * 173 % 1000) / 1000;
+      const sx = W * (0.1 + 0.8 * ((seed * 7.31 + i * 0.23) % 1));
+      const sy = H * (0.06 + 0.86 * ((seed * 3.17 + i * 0.37) % 1));
+      const tw = 0.25 + 0.75 * Math.abs(Math.sin(now * (0.9 + seed) + seed * 6.28));
+      ctx.fillStyle = 'rgba(239,217,180,' + (0.7 * tw).toFixed(3) + ')';
+      sparkleStar(ctx, sx, sy, W * (0.004 + 0.005 * seed));
+    }
+  }
+  if (p.frame) {
+    ctx.strokeStyle = 'rgba(212,175,122,.6)';
+    ctx.lineWidth = Math.max(2, W * 0.004);
+    ctx.strokeRect(W * 0.04, H * 0.028, W * 0.92, H * 0.944);
+  }
+  if (p.ornament === 'crown') drawCrownOrnament(ctx, W / 2, H * 0.115, W * 0.075);
+  else if (p.ornament === 'cross') drawCrossOrnament(ctx, W / 2, H * 0.115, W * 0.055);
+  const B = p.blocks || {};
+  const items = [];
+  POSTER_BLOCKS.forEach(({ k }) => {
+    const b = B[k];
+    if (!b || !b.show) return;
+    const text = String(b.text || '').trim();
+    if (k !== 'cta' && !text) return;
+    items.push({ k, text, mul: b.size === 'sm' ? 0.72 : b.size === 'lg' ? 1.3 : 1 });
+  });
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const gap = H * 0.03;
+  let total = 0;
+  const meas = items.map(it => {
+    if (it.k === 'cta') { const h = W * 0.1; total += h; return Object.assign(it, { h, lines: [], fs: 0 }); }
+    const fs = posterFontSize(W, it.k, it.mul);
+    ctx.font = posterFont(it.k, fs);
+    const lines = wrapCanvasText(ctx, it.text, W * 0.78);
+    const h = lines.length * fs * 1.22;
+    total += h;
+    return Object.assign(it, { h, lines, fs });
+  });
+  total += gap * Math.max(0, meas.length - 1);
+  const topLim = H * (p.ornament && p.ornament !== 'none' ? 0.22 : 0.15);
+  const botLim = H * 0.86;
+  let y = topLim + Math.max(0, (botLim - topLim - total) / 2);
+  meas.forEach(m => {
+    if (m.k === 'cta') { drawPosterCta(ctx, W, y + m.h / 2, m.text); y += m.h + gap; return; }
+    ctx.font = posterFont(m.k, m.fs);
+    ctx.shadowColor = 'rgba(0,0,0,.4)';
+    ctx.shadowBlur = W * 0.012;
+    m.lines.forEach((ln, i) => {
+      ctx.fillStyle = posterColor(m.k);
+      ctx.fillText(ln, W / 2, y + m.fs * 0.61 + i * m.fs * 1.22);
+    });
+    ctx.shadowBlur = 0;
+    y += m.h + gap;
+  });
+  if (p.wm !== false) {
+    const wmText = (p.wmText || (state.profile && state.profile.name) || 'REDEEMED WARRIOR').toUpperCase();
+    const wmSite = p.wmSite !== undefined && p.wmSite !== '' ? p.wmSite : ((state.profile && state.profile.website) || '');
+    ctx.font = '600 ' + Math.round(W * 0.026) + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(239,217,180,.85)';
+    ctx.fillText(wmText.split('').join('\u2009'), W / 2, H * (wmSite ? 0.922 : 0.935));
+    if (wmSite) {
+      ctx.font = '500 ' + Math.round(W * 0.021) + 'px Jost, sans-serif';
+      ctx.fillStyle = 'rgba(251,246,238,.72)';
+      ctx.fillText(String(wmSite).toLowerCase(), W / 2, H * 0.952);
+    }
+  }
+}
+
+function drawPosterPreview() {
+  const cv = document.getElementById('posterPrev');
+  if (!cv) return;
+  drawPoster(cv.getContext('2d'), cv.width, cv.height, state.poster, performance.now() / 1000);
+}
+
+function posterFromAd(t, r) {
+  const B = state.poster.blocks;
+  const pick = (...keys) => { for (const k of keys) { if (r && r[k]) return String(r[k]).split('\n')[0].trim(); } return ''; };
+  B.kicker.text = ((state.profile && state.profile.name) || 'REDEEMED WARRIOR').toUpperCase();
+  B.kicker.show = true;
+  B.headline.text = pick('head', 'hl', 'hook', 'h1', 'ename', 'title', 's1', 'g1', 'caption');
+  B.headline.show = !!B.headline.text;
+  B.sub.text = pick('sub', 'stext', 'h2', 'short', 'urgency', 'invite', 'open');
+  B.sub.show = !!B.sub.text;
+  B.body.text = pick('details', 'body', 'd1', 'beats', 'full', 'sc1');
+  B.body.show = !!B.body.text;
+  B.offer.text = pick('offer', 'terms');
+  B.offer.show = !!B.offer.text;
+  B.cta.text = pick('cta', 'invite') || (state.profile && state.profile.cta) || 'Shop Now';
+  B.cta.show = true;
+  B.contact.text = (state.profile && state.profile.website) || pick('contact', 'tag');
+  B.contact.show = !!B.contact.text;
+  store.set('poster', state.poster);
+}
+
+function posterCaption() {
+  const B = state.poster.blocks;
+  return [B.headline.text, B.sub.text, B.offer.text, B.contact.text].filter(t => t && String(t).trim()).join('\n');
+}
+
+function renderFullPoster() {
+  const sz = POSTER_SIZES[state.poster.size] || POSTER_SIZES.story;
+  const big = document.createElement('canvas');
+  big.width = sz.W; big.height = sz.H;
+  drawPoster(big.getContext('2d'), sz.W, sz.H, state.poster, performance.now() / 1000);
+  return big;
+}
+
+function posterBlob(cb) {
+  let big;
+  try { big = renderFullPoster(); } catch (e) { cb(null); return; }
+  if (big.toBlob) {
+    try { big.toBlob(b => cb(b || null), 'image/png'); return; } catch (e) { cb(null); return; }
+  }
+  cb(null);
+}
+
+function renderPoster() {
+  const el = document.getElementById('view-poster');
+  const p = state.poster;
+  const sz = POSTER_SIZES[p.size] || POSTER_SIZES.story;
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Poster Studio</p><h2>Design Your Poster</h2>
+    <p>Put your words on a beautiful poster and download it as a picture.</p></div>
+    <div class="card">
+      <canvas id="posterPrev" width="${sz.pw}" height="${sz.ph}" style="width:100%;max-width:300px;margin:0 auto;display:block;border-radius:14px;border:2px solid var(--gold)"></canvas>
+      <p class="vstatus" id="posterStatus"></p>
+      <div class="vrow">
+        <button class="btn btn-pink" id="btnDownloadPoster" style="flex:1">&#11015; Download Poster</button>
+        <button class="btn btn-ghost dark" id="btnSharePoster" style="flex:1">&#128228; Share</button>
+      </div>
+      <div class="vrow">
+        <button class="vopt" data-pshare="tiktok">&#128228; TikTok</button>
+        <button class="vopt" data-pshare="instagram">&#128228; Instagram</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Poster size</h3>
+      <div class="vrow">${Object.keys(POSTER_SIZES).map(k => `<button class="vopt${p.size === k ? ' sel' : ''}" data-psize="${k}">${POSTER_SIZES[k].name}</button>`).join('')}</div>
+    </div>
+    <div class="card">
+      <h3>Background &amp; style</h3>
+      <div class="swatches" style="margin-top:10px">${['auto', 'wine', 'rose', 'blush', 'plum', 'gold', 'orchid', 'noir', 'ember', 'cheetah'].map(bg => `<button type="button" class="swatch${(p.bg || 'auto') === bg ? ' sel' : ''}" data-pbg="${bg}" aria-label="${bg} background"></button>`).join('')}<input type="color" class="scolor" id="posterCustom" value="${(p.bg && String(p.bg).indexOf('custom#') === 0) ? esc(String(p.bg).slice(7)) : '#8A275D'}" aria-label="Custom color" title="Custom color" /></div>
+      <div class="slide-row" style="margin-top:10px">
+        <button type="button" class="sbtn" id="btnPosterAI">&#10024; AI Photo</button>
+        <label class="sbtn sphotolabel">&#128247; Upload Photo<input type="file" accept="image/*" id="posterPhoto" /></label>
+      </div>
+      <input class="input simg" id="posterImgUrl" placeholder="Picture URL (optional)" value="${esc(p.img && !String(p.img).startsWith('data:') ? p.img : '')}" />
+      <label class="sdurl" style="display:block;margin-top:12px">Darkness over the picture
+        <input type="range" id="posterOverlay" min="0" max="80" value="${Number(p.overlay) || 0}" style="flex:1" />
+      </label>
+      <div class="slide-row" style="margin-top:10px">
+        <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="posterFrame" ${p.frame ? 'checked' : ''} /> Gold frame</label>
+        <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="posterSparkles" ${p.sparkles ? 'checked' : ''} /> Sparkles</label>
+      </div>
+      <label class="sdurl" style="display:block;margin-top:12px">Top ornament
+        <select class="input" id="posterOrnament" style="flex:1">
+          <option value="crown" ${p.ornament === 'crown' ? 'selected' : ''}>Crown</option>
+          <option value="cross" ${p.ornament === 'cross' ? 'selected' : ''}>Cross</option>
+          <option value="none" ${p.ornament === 'none' ? 'selected' : ''}>None</option>
+        </select>
+      </label>
+    </div>
+    <div class="card">
+      <h3>Watermark</h3>
+      <p class="hint" style="margin-top:4px">Your signature on every poster \\u2014 so everyone knows who made it and where to find you.</p>
+      <label class="vtoggle" style="margin-top:8px"><input type="checkbox" id="posterWm" ${p.wm !== false ? 'checked' : ''} /> Show my watermark</label>
+      <label for="wmText">Name on the watermark</label>
+      <input class="input" id="wmText" placeholder="e.g. Redeemed Warrior" value="${esc(p.wmText || '')}" />
+      <label for="wmSite">Website on the watermark</label>
+      <input class="input" id="wmSite" placeholder="e.g. godsredeemedwarrior.store" value="${esc(p.wmSite || '')}" />
+    </div>
+    <div class="card">
+      <h3>Your words</h3>
+      <p class="hint" style="margin-top:4px">Every section has its own words, size and on/off switch.</p>
+      ${POSTER_BLOCKS.map(bk => { const b = p.blocks[bk.k] || { text: '', show: bk.k === 'headline' || bk.k === 'cta', size: 'md' }; return `
+      <div class="slide" style="cursor:default">
+        <div class="slide-top"><span class="slide-num">${esc(bk.l)}</span>
+          <label class="vtoggle" style="margin-top:0"><input type="checkbox" data-pshow="${bk.k}" ${b.show ? 'checked' : ''} /> Show</label>
+        </div>
+        <textarea class="input" rows="${bk.k === 'headline' || bk.k === 'body' ? 2 : 1}" data-ptext="${bk.k}" placeholder="${esc(bk.ph)}">${esc(b.text)}</textarea>
+        <select class="input sdur" data-psizeselect="${bk.k}" style="margin-top:6px;width:110px">
+          <option value="sm" ${b.size === 'sm' ? 'selected' : ''}>Small</option>
+          <option value="md" ${!b.size || b.size === 'md' ? 'selected' : ''}>Medium</option>
+          <option value="lg" ${b.size === 'lg' ? 'selected' : ''}>Large</option>
+        </select>
+      </div>`; }).join('')}
+      <button class="btn btn-ghost dark btn-sm" id="btnPosterFromAd" style="margin-top:10px">Fill from My Last Ad</button>
+    </div>`;
+  const save = () => store.set('poster', state.poster);
+  el.querySelectorAll('[data-psize]').forEach(b => b.addEventListener('click', () => {
+    state.poster.size = b.dataset.psize;
+    save();
+    renderPoster();
+  }));
+  el.querySelectorAll('[data-pbg]').forEach(b => b.addEventListener('click', () => {
+    state.poster.bg = b.dataset.pbg;
+    save();
+    renderPoster();
+  }));
+  const custom = el.querySelector('#posterCustom');
+  custom.addEventListener('input', () => { state.poster.bg = 'custom#' + custom.value; drawPosterPreview(); });
+  custom.addEventListener('change', save);
+  el.querySelector('#btnPosterAI').addEventListener('click', async () => {
+    const btn = el.querySelector('#btnPosterAI');
+    btn.disabled = true; btn.textContent = '\\u2026';
+    const B = state.poster.blocks;
+    let prompt = '';
+    try {
+      const data = await api('/api/chat', { method: 'POST', body: { message: 'Write one short, vivid image-generation prompt for a luxury feminine Christian brand photo to use as an advertising poster background. Poster headline: "' + (B.headline.text || '') + '". Brand: ' + ((state.profile && state.profile.name) || 'Redeemed Warrior') + '. Style: elegant, cinematic lighting, soft pink and champagne gold tones, no text or words in the image. Reply with the prompt only.' } });
+      prompt = (((data && data.reply) || '').trim().split('\n')[0] || '').replace(/^["']+|["']+$/g, '').trim();
+    } catch (e) { prompt = ''; }
+    if (!prompt) prompt = 'elegant cinematic photo, soft pink and champagne gold light, ' + (B.headline.text || 'faith and grace');
+    state.poster.img = pollinationsUrl(prompt);
+    save();
+    getSlideImage(state.poster.img, drawPosterPreview);
+    btn.disabled = false; btn.textContent = '\\u2726 AI Photo';
+    toast('Poster photo on the way \\u2014 it fills in automatically');
+  });
+  el.querySelector('#posterPhoto').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (file.size > 12 * 1024 * 1024) { toast('That photo is too large (max 12 MB)'); return; }
+    const reader = new FileReader();
+    reader.onload = () => { state.poster.img = reader.result; save(); getSlideImage(reader.result, drawPosterPreview); toast('Photo added \\u2713'); };
+    reader.readAsDataURL(file);
+  });
+  el.querySelector('#posterImgUrl').addEventListener('input', (e) => {
+    state.poster.img = e.target.value.trim();
+    if (state.poster.img) getSlideImage(state.poster.img, drawPosterPreview);
+    else drawPosterPreview();
+  });
+  el.querySelector('#posterOverlay').addEventListener('input', (e) => { state.poster.overlay = Number(e.target.value) || 0; drawPosterPreview(); });
+  el.querySelector('#posterOverlay').addEventListener('change', save);
+  el.querySelector('#posterFrame').addEventListener('change', (e) => { state.poster.frame = e.target.checked; save(); drawPosterPreview(); });
+  el.querySelector('#posterSparkles').addEventListener('change', (e) => { state.poster.sparkles = e.target.checked; save(); drawPosterPreview(); });
+  el.querySelector('#posterOrnament').addEventListener('change', (e) => { state.poster.ornament = e.target.value; save(); drawPosterPreview(); });
+  el.querySelector('#posterWm').addEventListener('change', (e) => { state.poster.wm = e.target.checked; save(); drawPosterPreview(); });
+  el.querySelector('#wmText').addEventListener('input', (e) => { state.poster.wmText = e.target.value; drawPosterPreview(); });
+  el.querySelector('#wmText').addEventListener('change', save);
+  el.querySelector('#wmSite').addEventListener('input', (e) => { state.poster.wmSite = e.target.value; drawPosterPreview(); });
+  el.querySelector('#wmSite').addEventListener('change', save);
+  el.querySelectorAll('[data-ptext]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const k = inp.dataset.ptext;
+      if (state.poster.blocks[k]) state.poster.blocks[k].text = inp.value;
+      drawPosterPreview();
+    });
+    inp.addEventListener('change', save);
+  });
+  el.querySelectorAll('[data-psizeselect]').forEach(sel => sel.addEventListener('change', () => {
+    const k = sel.dataset.psizeselect;
+    if (state.poster.blocks[k]) state.poster.blocks[k].size = sel.value;
+    save();
+    drawPosterPreview();
+  }));
+  el.querySelectorAll('[data-pshow]').forEach(chk => chk.addEventListener('change', () => {
+    const k = chk.dataset.pshow;
+    if (state.poster.blocks[k]) state.poster.blocks[k].show = chk.checked;
+    save();
+    drawPosterPreview();
+  }));
+  el.querySelector('#btnPosterFromAd').addEventListener('click', () => {
+    const last = state.ads[0];
+    if (!last) { toast('Create and save an ad first \\u2014 then I can fill the poster from it.'); return; }
+    const t = ADTYPES.find(x => x.id === last.type) || { id: last.type };
+    posterFromAd(t, last.sections || {});
+    save();
+    renderPoster();
+    toast('Poster filled from your last ad \\u2713');
+  });
+  el.querySelector('#btnDownloadPoster').addEventListener('click', () => {
+    posterBlob(b => {
+      if (!b) { toast('This picture blocks saving. Try an AI Photo or an uploaded photo instead.'); return; }
+      downloadBlob(b, 'redeemed-warrior-poster.png');
+      toast('Poster saved \\u2713');
+    });
+  });
+  const sharePoster = (network) => posterBlob(b => {
+    if (!b) { shareOrCreate(network, null, 'redeemed-warrior-poster.png', posterCaption()); return; }
+    shareOrCreate(network, b, 'redeemed-warrior-poster.png', posterCaption());
+  });
+  el.querySelector('#btnSharePoster').addEventListener('click', () => sharePoster('instagram'));
+  el.querySelectorAll('[data-pshare]').forEach(b => b.addEventListener('click', () => sharePoster(b.dataset.pshare)));
+  if (state.poster.img) getSlideImage(state.poster.img, drawPosterPreview);
+  drawPosterPreview();
+}
+
 function updateOwnerBadge() {
+
   document.getElementById('ownerBadge').classList.toggle('hidden', !isOwner());
 }
 
@@ -1024,8 +1589,20 @@ const SLIDE_PALETTES = {
   rose: ['#330010', '#5C0F33', '#2A0009'],
   blush: ['#4A0A24', '#8A275D', '#4A0A24'],
   plum: ['#1A0008', '#3D0A2E', '#2A0009'],
-  gold: ['#2A0010', '#5C3A1E', '#330015']
+  gold: ['#2A0010', '#5C3A1E', '#330015'],
+  orchid: ['#24001E', '#4A1259', '#330015'],
+  noir: ['#0A0A0A', '#22160A', '#050505'],
+  ember: ['#1F0500', '#5C1A0E', '#2A0009']
 };
+
+function shadeHex(hex, f) {
+  const n = String(hex || '').replace('#', '');
+  const full = n.length === 3 ? n.split('').map(c => c + c).join('') : n.padEnd(6, '0').slice(0, 6);
+  const num = parseInt(full, 16);
+  if (isNaN(num)) return '#2A0009';
+  const ch = s => Math.min(255, Math.max(0, Math.round(((num >> s) & 255) * f)));
+  return 'rgb(' + ch(16) + ',' + ch(8) + ',' + ch(0) + ')';
+}
 const slideImages = new Map();
 
 function getSlideImage(src, cb) {
@@ -1072,8 +1649,23 @@ function drawSceneBackground(ctx, W, H, idx, local, dur, now, s) {
     ov.addColorStop(1, 'rgba(26,0,8,.65)');
     ctx.fillStyle = ov;
     ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  } else if (s && s.bg === 'cheetah') {
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#3D0522'); g.addColorStop(0.55, '#8A275D'); g.addColorStop(1, '#4A0A24');
+    ctx.fillStyle = g;
+    ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+    ctx.save();
+    ctx.translate(-W * 0.1, -H * 0.1);
+    drawCheetahPrint(ctx, W * 1.2, H * 1.2);
+    ctx.restore();
   } else {
-    const pal = (s && s.bg && SLIDE_PALETTES[s.bg]) || (idx % 2 === 0 ? ['#2A0009', '#4A0A24', '#330010'] : ['#330010', '#5C0F33', '#2A0009']);
+    let pal;
+    if (s && s.bg && s.bg.indexOf('custom#') === 0) {
+      const hex = s.bg.slice(7);
+      pal = [shadeHex(hex, 0.38), shadeHex(hex, 1), shadeHex(hex, 0.6)];
+    } else {
+      pal = (s && s.bg && SLIDE_PALETTES[s.bg]) || (idx % 2 === 0 ? ['#2A0009', '#4A0A24', '#330010'] : ['#330010', '#5C0F33', '#2A0009']);
+    }
     const g = ctx.createLinearGradient(0, 0, W, H);
     g.addColorStop(0, pal[0]);
     g.addColorStop(0.55, pal[1]);
@@ -1130,6 +1722,11 @@ function drawSceneContent(ctx, W, H, s, local, now) {
     const y = cy + i * lineH + (1 - le) * H * 0.035;
     ctx.fillStyle = 'rgba(251,246,238,' + (0.98 * le).toFixed(3) + ')';
     ctx.fillText(ln, W / 2, y);
+    ctx.save();
+    ctx.shadowColor = 'rgba(212,175,122,' + (0.3 * le).toFixed(3) + ')';
+    ctx.shadowBlur = W * 0.035;
+    ctx.fillText(ln, W / 2, y);
+    ctx.restore();
   });
   ctx.shadowBlur = 0;
   if (s.cta) {
@@ -1172,7 +1769,7 @@ function drawSceneContent(ctx, W, H, s, local, now) {
   }
 }
 
-function drawVideoChrome(ctx, W, H, brand) {
+function drawVideoChrome(ctx, W, H, brand, site) {
   ctx.strokeStyle = 'rgba(212,175,122,.5)';
   ctx.lineWidth = Math.max(2, W * 0.004);
   ctx.strokeRect(W * 0.045, H * 0.035, W * 0.91, H * 0.93);
@@ -1185,6 +1782,11 @@ function drawVideoChrome(ctx, W, H, brand) {
   ctx.fillText(wm, W / 2, H * 0.085);
   ctx.fillStyle = 'rgba(212,175,122,.9)';
   ctx.fillRect(W / 2 - W * 0.05, H * 0.115, W * 0.1, Math.max(1.5, H * 0.002));
+  if (site) {
+    ctx.font = '500 ' + Math.round(W * 0.022) + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(251,246,238,.78)';
+    ctx.fillText(String(site).toLowerCase(), W / 2, H * 0.142);
+  }
 }
 
 function drawVignette(ctx, W, H) {
@@ -1218,7 +1820,7 @@ function drawProgressBar(ctx, W, H, t, total, now) {
   ctx.restore();
 }
 
-function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
+function drawVideoFrame(ctx, W, H, scenes, times, now, brand, site) {
   const total = times[times.length - 1];
   const t = Math.min(now, total - 0.001);
   let idx = 0;
@@ -1233,7 +1835,7 @@ function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
     drawSceneBackground(ctx, W, H, idx + 1, local - (dur - VIDEO_FADE), VIDEO_FADE, now, scenes[idx + 1]);
     ctx.globalAlpha = 1;
   }
-  drawVideoChrome(ctx, W, H, brand);
+  drawVideoChrome(ctx, W, H, brand, site);
   drawSceneContent(ctx, W, H, s, idx === 0 ? local : local + VIDEO_FADE, now);
   if (inFade) {
     ctx.globalAlpha = Math.min(1, (local - (dur - VIDEO_FADE)) / VIDEO_FADE);
@@ -1244,12 +1846,19 @@ function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
   drawProgressBar(ctx, W, H, t, total, now);
 }
 
-function startMusicBed(audioCtx, dest, totalSeconds) {
+const MUSIC_MOODS = {
+  soft: { mult: 1, filter: 1400, pad: 'sine', arp: 'triangle', padGain: 0.05, arpGain: 0.028, steps: 8 },
+  bright: { mult: 1.5, filter: 2600, pad: 'triangle', arp: 'sine', padGain: 0.042, arpGain: 0.034, steps: 12 },
+  cinematic: { mult: 0.5, filter: 900, pad: 'sine', arp: 'sine', padGain: 0.062, arpGain: 0.018, steps: 4 }
+};
+
+function startMusicBed(audioCtx, dest, totalSeconds, mood) {
+  const m = MUSIC_MOODS[mood] || MUSIC_MOODS.soft;
   const master = audioCtx.createGain();
   master.gain.value = 0.0001;
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 1400;
+  filter.frequency.value = m.filter;
   master.connect(filter);
   filter.connect(dest);
   const chords = [
@@ -1264,12 +1873,12 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
     const t0 = now + ci * chordLen;
     freqs.forEach(f => {
       const osc = audioCtx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = f;
+      osc.type = m.pad;
+      osc.frequency.value = f * m.mult;
       const g = audioCtx.createGain();
       g.gain.setValueAtTime(0.0001, t0);
-      g.gain.linearRampToValueAtTime(0.05, t0 + 0.8);
-      g.gain.setValueAtTime(0.05, t0 + chordLen - 0.8);
+      g.gain.linearRampToValueAtTime(m.padGain, t0 + 0.8);
+      g.gain.setValueAtTime(m.padGain, t0 + chordLen - 0.8);
       g.gain.linearRampToValueAtTime(0.0001, t0 + chordLen);
       osc.connect(g);
       g.connect(master);
@@ -1277,16 +1886,16 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
       osc.stop(t0 + chordLen + 0.05);
     });
     const arpFreqs = [freqs[2] * 2, freqs[1] * 2, freqs[2] * 2, freqs[0] * 4];
-    const steps = 8;
+    const steps = m.steps;
     const stepLen = chordLen / steps;
     for (let st = 0; st < steps; st++) {
       const at = t0 + st * stepLen;
       const osc = audioCtx.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.value = arpFreqs[st % arpFreqs.length];
+      osc.type = m.arp;
+      osc.frequency.value = arpFreqs[st % arpFreqs.length] * m.mult;
       const g = audioCtx.createGain();
       g.gain.setValueAtTime(0.0001, at);
-      g.gain.linearRampToValueAtTime(0.028, at + 0.03);
+      g.gain.linearRampToValueAtTime(m.arpGain, at + 0.03);
       g.gain.exponentialRampToValueAtTime(0.0001, at + Math.min(stepLen * 1.8, 0.9));
       osc.connect(g);
       g.connect(master);
@@ -1367,7 +1976,7 @@ function renderSlideEditor(t, r) {
       <input class="input" data-f="label" placeholder="Small label, like HOOK" value="${esc(s.label)}" />
       <textarea class="input" data-f="text" rows="2" placeholder="The words on this slide">${esc(s.text)}</textarea>
       <div class="slide-row">
-        <span class="swatches">${['auto', 'wine', 'rose', 'blush', 'plum', 'gold'].map(p => `<button type="button" class="swatch${((s.bg || 'auto') === p) ? ' sel' : ''}" data-bg="${p}" aria-label="${p} background"></button>`).join('')}</span>
+        <span class="swatches">${['auto', 'wine', 'rose', 'blush', 'plum', 'gold', 'orchid', 'noir', 'ember', 'cheetah'].map(p => `<button type="button" class="swatch${((s.bg || 'auto') === p) ? ' sel' : ''}" data-bg="${p}" aria-label="${p} background"></button>`).join('')}<input type="color" class="scolor" data-bgcustom value="${(s.bg && s.bg.indexOf('custom#') === 0) ? esc(s.bg.slice(7)) : '#8A275D'}" aria-label="Custom color" title="Custom color" /></span>
         <button type="button" class="sbtn" data-aiphoto>&#10024; AI Photo</button>
         <label class="sbtn sphotolabel">&#128247; Upload Photo<input type="file" accept="image/*" data-photo /></label>
       </div>
@@ -1394,6 +2003,7 @@ function renderSlideEditor(t, r) {
       </div>
     </div>`).join('') +
     '<button class="btn btn-ghost dark btn-sm" id="btnAddSlide">+ Add Slide</button>' +
+    '<button class="btn btn-ghost dark btn-sm" id="btnSaveSlide" style="margin-top:8px">&#11015; Save Slide as Picture</button>' +
     '<button class="btn btn-ghost dark btn-sm" id="btnAIAll" style="margin-top:8px">&#10024; AI Photos for All Slides</button>';
   ed.querySelectorAll('.slide').forEach(sl => {
     const i = Number(sl.dataset.i);
@@ -1416,6 +2026,13 @@ function renderSlideEditor(t, r) {
       if (state.create.slides[i]) state.create.slides[i].bg = b.dataset.bg;
       renderSlideEditor(t, r);
     }));
+    const custom = sl.querySelector('[data-bgcustom]');
+    if (custom) custom.addEventListener('input', (e) => {
+      e.stopPropagation();
+      if (state.create.slides[i]) state.create.slides[i].bg = 'custom#' + custom.value;
+      state.create.slideSel = i;
+      drawSlidePreview();
+    });
     const aiBtn = sl.querySelector('[data-aiphoto]');
     if (aiBtn) aiBtn.addEventListener('click', (e) => { e.stopPropagation(); generateSlidePhoto(t, r, i); });
     const photoInput = sl.querySelector('[data-photo]');
@@ -1465,6 +2082,25 @@ function renderSlideEditor(t, r) {
     renderSlideEditor(t, r);
   });
   ed.querySelector('#btnAIAll').addEventListener('click', () => generateAllSlidePhotos(t, r));
+  ed.querySelector('#btnSaveSlide').addEventListener('click', () => {
+    const slides = state.create.slides || [];
+    const idx = Math.min(state.create.slideSel || 0, slides.length - 1);
+    const s = slides[idx];
+    if (!s) return;
+    const big = document.createElement('canvas');
+    big.width = 720; big.height = 1280;
+    const bctx = big.getContext('2d');
+    const now = performance.now() / 1000;
+    drawSceneBackground(bctx, 720, 1280, idx, 1, 1, now, s);
+    drawSceneContent(bctx, 720, 1280, s, 2, now);
+    drawVideoChrome(bctx, 720, 1280, (state.profile && state.profile.name) || 'REDEEMED WARRIOR');
+    drawVignette(bctx, 720, 1280);
+    const a = document.createElement('a');
+    a.href = big.toDataURL('image/png');
+    a.download = 'redeemed-warrior-slide.png';
+    a.click();
+    toast('Slide picture saved \u2713');
+  });
   drawSlidePreview();
 }
 
@@ -1516,7 +2152,8 @@ async function makeVideoAd(t, r, previewOnly) {
   const aspect = studio.querySelector('[data-aspect].sel').dataset.aspect;
   const qBtn = studio.querySelector('[data-quality].sel');
   const quality = qBtn ? qBtn.dataset.quality : 'hd';
-  const withMusic = document.getElementById('vidMusic').checked;
+  const musicBtn = studio.querySelector('[data-music].sel');
+  const musicMood = musicBtn ? musicBtn.dataset.music : 'soft';
   const preview = previewOnly === true;
   const voiceOpt = studio.querySelector('[data-voice].sel');
   const voice = voiceOpt ? voiceOpt.dataset.voice : 'none';
@@ -1528,8 +2165,8 @@ async function makeVideoAd(t, r, previewOnly) {
     : null;
   const scenes = custom || buildScenes(t, r);
   if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
-  const W = quality === 'fast' ? 720 : 1080;
-  const H = aspect === 'square' ? W : Math.round(W * 16 / 9);
+  const W = quality === 'fast' ? 720 : quality === 'ultra' ? 1440 : 1080;
+  const H = aspect === 'square' ? W : aspect === 'wide' ? Math.round(W * 9 / 16) : Math.round(W * 16 / 9);
   canvas.width = W; canvas.height = H;
   video.classList.add('hidden');
   dl.classList.add('hidden');
@@ -1537,6 +2174,7 @@ async function makeVideoAd(t, r, previewOnly) {
   canvas.style.display = 'block';
   const ctx = canvas.getContext('2d');
   const brand = (state.profile && state.profile.name) || 'REDEEMED WARRIOR';
+  const site = (state.profile && state.profile.website) || '';
   status.textContent = 'Preparing your brand scenes\u2026';
   try { if (document.fonts && document.fonts.load) { await document.fonts.load('600 60px "Cormorant Garamond"'); await document.fonts.load('600 30px Jost'); } } catch {}
   await Promise.all(scenes.filter(s => s.img).map(s => new Promise(res => {
@@ -1555,11 +2193,11 @@ async function makeVideoAd(t, r, previewOnly) {
   if (canRecord) {
     const stream = canvas.captureStream(30);
     streams.push(stream);
-    if (withMusic && window.AudioContext) {
+    if (musicMood !== 'none' && window.AudioContext) {
       try {
         audioCtx = new AudioContext();
         const dest = audioCtx.createMediaStreamDestination();
-        startMusicBed(audioCtx, dest, total);
+        startMusicBed(audioCtx, dest, total, musicMood);
         dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
       } catch (e) { audioCtx = null; }
     }
@@ -1570,8 +2208,8 @@ async function makeVideoAd(t, r, previewOnly) {
       } catch (e) { micStream = null; }
     }
     const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || '';
-    const vbr = quality === 'fast' ? 6000000 : 10000000;
-    const abr = quality === 'fast' ? 96000 : 128000;
+    const vbr = quality === 'fast' ? 6000000 : quality === 'ultra' ? 14000000 : 10000000;
+    const abr = quality === 'fast' ? 96000 : 160000;
     const recOpts = mime ? { mimeType: mime, videoBitsPerSecond: vbr, audioBitsPerSecond: abr } : { videoBitsPerSecond: vbr, audioBitsPerSecond: abr };
     recorder = new MediaRecorder(stream, recOpts);
     recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
@@ -1596,7 +2234,10 @@ async function makeVideoAd(t, r, previewOnly) {
         dl.href = url;
         dl.download = 'redeemed-warrior-video-ad.' + (blob.type.includes('mp4') ? 'mp4' : 'webm');
         dl.classList.remove('hidden');
-        status.textContent = 'Your video ad is ready! Watch it below, then tap Download and post it.';
+        state._lastVideo = { blob, name: 'redeemed-warrior-video-ad.' + (blob.type.includes('mp4') ? 'mp4' : 'webm') };
+        const shareRow = document.getElementById('vshare');
+        if (shareRow) shareRow.classList.remove('hidden');
+        status.textContent = 'Your video ad is ready! Watch it below, then tap Download \u2014 or Share to post it straight to TikTok or Instagram.';
         toast('Video ad created \u2713');
       };
       recorder.stop();
@@ -1624,7 +2265,7 @@ async function makeVideoAd(t, r, previewOnly) {
   if (voice === 'mic' && micStream) {
     for (let c = 3; c > 0; c--) {
       status.textContent = 'Get ready \u2014 recording in ' + c + '\u2026';
-      drawVideoFrame(ctx, W, H, scenes, times, 0, brand);
+      drawVideoFrame(ctx, W, H, scenes, times, 0, brand, site);
       ctx.save();
       ctx.font = '700 ' + Math.round(W * 0.22) + 'px "Cormorant Garamond", serif';
       ctx.fillStyle = 'rgba(240,90,168,.92)';
@@ -1641,7 +2282,7 @@ async function makeVideoAd(t, r, previewOnly) {
   if (recorder) recorder.start(250);
   const loop = () => {
     const now = (performance.now() - recStart) / 1000;
-    drawVideoFrame(ctx, W, H, scenes, times, now, brand);
+    drawVideoFrame(ctx, W, H, scenes, times, now, brand, site);
     const si = sceneIndexAt(Math.min(now, total - 0.001));
     if (si !== spokenIdx) { spokenIdx = si; speakScene(si); }
     if (now >= total) { finish(); return; }

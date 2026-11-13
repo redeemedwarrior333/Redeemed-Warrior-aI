@@ -40,12 +40,25 @@ test('ad studio inline script is syntactically valid', () => {
   new Function(script);
 });
 
-test('ad studio defines seven ad types with unique ids and markers', () => {
+test('ad studio defines thirteen ad types with unique ids and markers', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   const ids = [...html.matchAll(/id:'([a-z]+)', name:/g)].map(m => m[1]);
-  assert.deepEqual([...new Set(ids)].sort(), ['email', 'google', 'pack', 'product', 'slogan', 'social', 'video']);
+  assert.deepEqual([...new Set(ids)].sort(), ['email', 'event', 'flyer', 'google', 'pack', 'product', 'radio', 'sale', 'slogan', 'social', 'story', 'tiktok', 'video']);
   assert.match(html, /Social Media Caption/);
   assert.match(html, /Complete Ad Pack/);
+  assert.match(html, /TikTok Video Script/);
+  assert.match(html, /Instagram Story Ad/);
+  assert.match(html, /Radio & Podcast Ad/);
+  assert.match(html, /Flyer & Poster Text/);
+  assert.match(html, /Sale & Promo Blast/);
+  assert.match(html, /Event Announcement/);
+});
+
+test('ad studio prompts carry per-type format notes and quality instructions', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /FORMAT NOTES for/);
+  assert.match(html, /Avoid tired clich/);
+  assert.match(html, /hint:'Write it fast and punchy/);
 });
 
 test('ad studio parser extracts labeled sections from ai replies', () => {

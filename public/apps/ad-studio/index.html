@@ -300,7 +300,13 @@ const ICONS = {
   email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 6L22 7"/></svg>',
   video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="m16 10 6-3.5v11L16 14"/></svg>',
   slogan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>',
-  pack: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8.5 22 9.3 17 14l1.2 7L12 17.8 5.8 21 7 14 2 9.3 9 8.5z"/></svg>'
+  pack: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8.5 22 9.3 17 14l1.2 7L12 17.8 5.8 21 7 14 2 9.3 9 8.5z"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+  story: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg>',
+  radio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></svg>',
+  flyer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+  sale: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
+  event: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>'
 };
 
 const TIPS = [
@@ -334,6 +340,30 @@ const ADTYPES = [
   { id:'slogan', name:'Slogans & Taglines', desc:'5 memorable lines for your brand', icon:'slogan',
     fields:[{k:'topic',l:'What is the brand or product?',ph:'e.g. My bakery, Sweet Grace, in Atlanta',ta:true}],
     markers:{ g1:'SLOGAN 1', g2:'SLOGAN 2', g3:'SLOGAN 3', g4:'SLOGAN 4', g5:'SLOGAN 5' } },
+  { id:'tiktok', name:'TikTok Video Script', desc:'Fast, punchy script with sound and caption', icon:'tiktok',
+    hint:'Write it fast and punchy, the way TikTok talks. The hook must stop the scroll in under 2 seconds. Beat by beat means short numbered moments.',
+    fields:[{k:'topic',l:'What is the TikTok about?',ph:'e.g. 3 ways my candle jars get a second life',ta:true}],
+    markers:{ hook:'HOOK', beats:'SCENE BY SCENE', sound:'SOUND SUGGESTION', caption:'CAPTION', hashtags:'HASHTAGS' } },
+  { id:'story', name:'Instagram Story Ad', desc:'Full-screen story with interactive sticker', icon:'story',
+    hint:'Story text must be short and bold, readable in 2 seconds. The interactive idea should be a poll, quiz, or question sticker that fits the message.',
+    fields:[{k:'topic',l:'What is the story advertising?',ph:'e.g. Flash sale on scripture tees, today only',ta:true}],
+    markers:{ hook:'HOOK LINE', stext:'STORY TEXT', poll:'INTERACTIVE IDEA', cta:'CTA' } },
+  { id:'radio', name:'Radio & Podcast Ad', desc:'Spoken 30-second script that sounds natural', icon:'radio',
+    hint:'Write it to be SPOKEN aloud: short sentences, natural rhythm, easy to read in about 30 seconds. The sponsor tag is one memorable sentence.',
+    fields:[{k:'topic',l:'What is the ad selling?',ph:'e.g. My faith-based meal planning guide',ta:true}],
+    markers:{ open:'OPENING LINE', body:'SCRIPT BODY', close:'CLOSING LINE', tag:'SPONSOR TAG' } },
+  { id:'flyer', name:'Flyer & Poster Text', desc:'Everything a printed flyer needs', icon:'flyer',
+    hint:'Headline max 8 words. Subhead one sentence. Details as short lines a designer can drop onto a poster.',
+    fields:[{k:'topic',l:'What is the flyer for?',ph:'e.g. Grand opening of my bakery on Main Street',ta:true}],
+    markers:{ head:'HEADLINE', sub:'SUBHEAD', details:'DETAILS', offer:'OFFER', contact:'CONTACT LINE' } },
+  { id:'sale', name:'Sale & Promo Blast', desc:'Urgency copy for discounts and flash sales', icon:'sale',
+    hint:'Create honest urgency without being pushy. Terms must be one clear sentence. Never invent fake deadlines or fake scarcity.',
+    fields:[{k:'topic',l:'What is the sale or promo?',ph:'e.g. Buy one journal, get one 50% off this week',ta:true}],
+    markers:{ hl:'OFFER HEADLINE', urgency:'URGENCY LINE', details:'DETAILS', terms:'TERMS' } },
+  { id:'event', name:'Event Announcement', desc:'Invitations for church and community events', icon:'event',
+    hint:'Warm, welcoming invitation tone. The invitation should make people feel personally wanted. Details formatted as clear lines: date, time, place.',
+    fields:[{k:'topic',l:'Tell me about the event',ph:'e.g. Womens prayer breakfast, Saturday 9am, Grace Chapel',ta:true}],
+    markers:{ ename:'EVENT NAME', invite:'INVITATION', details:'DATE, TIME & PLACE', cta:'RSVP CALL TO ACTION' } },
   { id:'pack', name:'Complete Ad Pack', desc:'Everything for one campaign, in one go', icon:'pack',
     fields:[{k:'topic',l:'What are we promoting?',ph:'e.g. Grand opening of my online boutique',ta:true}],
     markers:{ hl:'HEADLINE', caption:'CAPTION', hashtags:'HASHTAGS', cta:'CTA', slogan:'SLOGAN', emails:'EMAIL SUBJECTS', hook:'VIDEO HOOK' } }
@@ -346,7 +376,13 @@ const SECTION_LABELS = {
   s1:'Subject 1', s2:'Subject 2', s3:'Subject 3', s4:'Subject 4', s5:'Subject 5',
   hook:'Hook', sc1:'Scene 1', sc2:'Scene 2', sc3:'Scene 3',
   g1:'Slogan 1', g2:'Slogan 2', g3:'Slogan 3', g4:'Slogan 4', g5:'Slogan 5',
-  hl:'Headline', slogan:'Slogan', emails:'Email Subjects'
+  hl:'Headline', slogan:'Slogan', emails:'Email Subjects',
+  beats:'Scene by Scene', sound:'Sound Suggestion',
+  stext:'Story Text', poll:'Interactive Idea',
+  open:'Opening Line', body:'Script Body', close:'Closing Line', tag:'Sponsor Tag',
+  head:'Headline', sub:'Subhead', details:'Details', offer:'Offer', contact:'Contact Line',
+  urgency:'Urgency Line', terms:'Terms',
+  ename:'Event Name', invite:'Invitation'
 };
 
 function brandBlock() {
@@ -366,7 +402,10 @@ function buildPrompt(type, form) {
   return [
     'You are an elite advertising copywriter working for a small business owner with no marketing experience.',
     'Write world-class, ready-to-use advertising copy. Be specific, warm, and human \u2014 never generic filler.',
+    'Use vivid sensory words, strong verbs, and one clear message per section. Avoid tired clich\u00e9s like \u201celevate\u201d, \u201cunleash\u201d, and \u201cgame-changer\u201d.',
+    'Every line must give the reader a reason to care: a feeling, a benefit, or a promise they can picture.',
     'Honor the brand voice. Keep platform character limits when you know them (Google headlines max 30 characters, descriptions max 90).',
+    type.hint ? 'FORMAT NOTES for ' + type.name + ': ' + type.hint : '',
     '',
     'BUSINESS DETAILS:',
     brandBlock(),
@@ -377,7 +416,7 @@ function buildPrompt(type, form) {
     Object.values(type.markers).map(m => m + ': <content>').join('\n'),
     '',
     'Do not add any other sections, introductions, or explanations.'
-  ].join('\n');
+  ].filter(Boolean).join('\n');
 }
 
 function parseSections(text, markers) {
@@ -656,6 +695,56 @@ function renderPreviewCard(t, r) {
       ${['sc1','sc2','sc3'].map((k, i) => r[k] ? `<p class="adtx"><strong>Scene ${i + 1}:</strong> ${esc(r[k])}</p>` : '').join('')}
       ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
     </div><div class="adfoot">Preview: your 30-second script, ready to film</div></div>`;
+  }
+  if (t.id === 'tiktok') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.hook ? `<p class="adhl">\u201c${esc(r.hook)}\u201d</p>` : ''}
+      ${r.beats ? `<p class="adtx">${esc(r.beats)}</p>` : ''}
+      ${r.sound ? `<p class="adtx"><strong>\ud83c\udfb5 Sound:</strong> ${esc(r.sound)}</p>` : ''}
+      ${r.caption ? `<p class="adtx">${esc(r.caption)}</p>` : ''}
+      ${r.hashtags ? `<p class="adtags">${esc(r.hashtags)}</p>` : ''}
+    </div><div class="adfoot">Preview: your TikTok script, ready to film</div></div>`;
+  }
+  if (t.id === 'story') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${r.hook ? `<p class="adhl">${esc(r.hook)}</p>` : ''}
+      ${r.stext ? `<p class="adtx">${esc(r.stext)}</p>` : ''}
+      ${r.poll ? `<p class="adtx" style="background:var(--blush);border-radius:10px;padding:10px"><strong>\ud83d\udca1 Interactive:</strong> ${esc(r.poll)}</p>` : ''}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: your full-screen story</div></div>`;
+  }
+  if (t.id === 'radio') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.open ? `<p class="adhl">\u201c${esc(r.open)}\u201d</p>` : ''}
+      ${r.body ? `<p class="adtx">${esc(r.body)}</p>` : ''}
+      ${r.close ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-style:italic">${esc(r.close)}</p>` : ''}
+      ${r.tag ? `<p class="adtx"><strong>Sponsor tag:</strong> ${esc(r.tag)}</p>` : ''}
+    </div><div class="adfoot">Preview: read it aloud \u2014 about 30 seconds</div></div>`;
+  }
+  if (t.id === 'flyer') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${r.head ? `<p class="adhl" style="font-size:1.5rem">${esc(r.head)}</p>` : ''}
+      ${r.sub ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem">${esc(r.sub)}</p>` : ''}
+      ${r.details ? `<p class="adtx">${esc(r.details)}</p>` : ''}
+      ${r.offer ? `<span class="adcta">${esc(r.offer)}</span>` : ''}
+      ${r.contact ? `<p class="adtx" style="font-size:.85rem;color:var(--muted)">${esc(r.contact)}</p>` : ''}
+    </div><div class="adfoot">Preview: hand this to any print shop</div></div>`;
+  }
+  if (t.id === 'sale') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${r.hl ? `<p class="adhl" style="font-size:1.4rem">${esc(r.hl)}</p>` : ''}
+      ${r.urgency ? `<p class="adtx" style="color:var(--pink-deep);font-weight:600">${esc(r.urgency)}</p>` : ''}
+      ${r.details ? `<p class="adtx">${esc(r.details)}</p>` : ''}
+      ${r.terms ? `<p class="adtx" style="font-size:.72rem;color:var(--muted)">${esc(r.terms)}</p>` : ''}
+    </div><div class="adfoot">Preview: your promo, ready to blast</div></div>`;
+  }
+  if (t.id === 'event') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${r.ename ? `<p class="adhl" style="font-size:1.4rem">${esc(r.ename)}</p>` : ''}
+      ${r.invite ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem">${esc(r.invite)}</p>` : ''}
+      ${r.details ? `<p class="adtx">${esc(r.details)}</p>` : ''}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: your invitation, ready to send</div></div>`;
   }
   if (t.id === 'product') {
     return `<div class="adcard">${head}<div class="adbody">

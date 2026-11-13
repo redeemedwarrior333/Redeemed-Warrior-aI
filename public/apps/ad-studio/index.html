@@ -168,6 +168,16 @@ textarea.input{resize:vertical;min-height:74px}
 .slide-row{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
 .sdurl{font-size:.85rem;display:flex;align-items:center;gap:6px}
 .sdur{width:70px}
+.swatches{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.swatch{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.55);cursor:pointer;padding:0}
+.swatch.sel{outline:2px solid var(--pink);outline-offset:1px}
+.swatch[data-bg="auto"]{background:linear-gradient(135deg,#4A0A24,#5C0F33)}
+.swatch[data-bg="wine"]{background:linear-gradient(135deg,#2A0009,#4A0A24)}
+.swatch[data-bg="rose"]{background:linear-gradient(135deg,#5C0F33,#8A275D)}
+.swatch[data-bg="blush"]{background:linear-gradient(135deg,#8A275D,#C76B9A)}
+.swatch[data-bg="plum"]{background:linear-gradient(135deg,#1A0008,#3D0A2E)}
+.swatch[data-bg="gold"]{background:linear-gradient(135deg,#5C3A1E,#D4AF6A)}
+.simg{font-size:.8rem}
 </style>
 </head>
 <body>
@@ -503,7 +513,7 @@ function renderCreate() {
         <div class="vstage" id="vstage"><canvas id="vcanvas"></canvas><video id="vvideo" controls class="hidden"></video></div>
         <p class="vstatus" id="vstatus"></p>
         <a id="vdownload" class="btn btn-gold hidden" style="width:100%;margin-top:10px;text-decoration:none" download="redeemed-warrior-video-ad.webm">Download My Video</a>
-        <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. <strong>My Voice</strong> records your narration straight into the saved file (a 3-2-1 countdown gives you a moment to prepare). <strong>AI Voice</strong> reads your script aloud while the video plays — on most phones the spoken voice can't be saved into the downloaded file, so use My Voice when you want narration saved. Music is always saved. Post it straight to Instagram, TikTok, or Facebook.</div>
+        <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. <strong>My Voice</strong> records your narration straight into the saved file (a 3-2-1 countdown gives you a moment to prepare). <strong>AI Voice</strong> reads your script aloud while the video plays — on most phones the spoken voice can't be saved into the downloaded file, so use My Voice when you want narration saved. <strong>AI Photo</strong> creates a free AI picture for a slide (takes a few seconds and fills in automatically). Music is always saved. Post it straight to Instagram, TikTok, or Facebook.</div>
       </div>` : ''}
       <p class="hint" style="margin-top:12px;text-align:center">Tip: screenshot the preview card above to share it as an image.</p>`;
     el.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => copyText(b.dataset.copy)));
@@ -884,6 +894,27 @@ function wrapCanvasText(ctx, text, maxW) {
 }
 
 const VIDEO_FADE = 0.6;
+const SLIDE_PALETTES = {
+  wine: ['#2A0009', '#4A0A24', '#330010'],
+  rose: ['#330010', '#5C0F33', '#2A0009'],
+  blush: ['#4A0A24', '#8A275D', '#4A0A24'],
+  plum: ['#1A0008', '#3D0A2E', '#2A0009'],
+  gold: ['#2A0010', '#5C3A1E', '#330015']
+};
+const slideImages = new Map();
+
+function getSlideImage(src, cb) {
+  if (!src) return null;
+  const cached = slideImages.get(src);
+  if (cached !== undefined) return cached && cached.naturalWidth ? cached : null;
+  const im = new Image();
+  im.crossOrigin = 'anonymous';
+  im.onload = () => { if (cb) cb(); };
+  im.onerror = () => slideImages.set(src, null);
+  slideImages.set(src, im);
+  im.src = src;
+  return null;
+}
 
 function sparkleStar(ctx, x, y, r) {
   ctx.beginPath();
@@ -895,7 +926,7 @@ function sparkleStar(ctx, x, y, r) {
   ctx.fill();
 }
 
-function drawSceneBackground(ctx, W, H, idx, local, dur, now) {
+function drawSceneBackground(ctx, W, H, idx, local, dur, now, s) {
   const p = Math.min(1, local / Math.max(0.001, dur));
   const z = 1 + 0.08 * p;
   const panX = Math.sin(idx * 2.3) * W * 0.022 * p;
@@ -904,11 +935,27 @@ function drawSceneBackground(ctx, W, H, idx, local, dur, now) {
   ctx.translate(W / 2 + panX, H / 2 + panY);
   ctx.scale(z, z);
   ctx.translate(-W / 2, -H / 2);
-  const g = ctx.createLinearGradient(0, 0, W, H);
-  if (idx % 2 === 0) { g.addColorStop(0, '#2A0009'); g.addColorStop(0.55, '#4A0A24'); g.addColorStop(1, '#330010'); }
-  else { g.addColorStop(0, '#330010'); g.addColorStop(0.5, '#5C0F33'); g.addColorStop(1, '#2A0009'); }
-  ctx.fillStyle = g;
-  ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  const im = s && s.img ? getSlideImage(s.img) : null;
+  if (im) {
+    const ir = im.naturalWidth / im.naturalHeight, cr = W / H;
+    let dw, dh;
+    if (ir > cr) { dh = H * 1.2; dw = dh * ir; } else { dw = W * 1.2; dh = dw / ir; }
+    ctx.drawImage(im, W / 2 - dw / 2, H / 2 - dh / 2, dw, dh);
+    const ov = ctx.createLinearGradient(0, 0, 0, H);
+    ov.addColorStop(0, 'rgba(26,0,8,.6)');
+    ov.addColorStop(0.45, 'rgba(26,0,8,.32)');
+    ov.addColorStop(1, 'rgba(26,0,8,.65)');
+    ctx.fillStyle = ov;
+    ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  } else {
+    const pal = (s && s.bg && SLIDE_PALETTES[s.bg]) || (idx % 2 === 0 ? ['#2A0009', '#4A0A24', '#330010'] : ['#330010', '#5C0F33', '#2A0009']);
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, pal[0]);
+    g.addColorStop(0.55, pal[1]);
+    g.addColorStop(1, pal[2]);
+    ctx.fillStyle = g;
+    ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  }
   const gx = W / 2 + Math.sin(now * 0.35 + idx) * W * 0.06;
   const gy = H * 0.32 + Math.cos(now * 0.28 + idx) * H * 0.02;
   const glow = ctx.createRadialGradient(gx, gy, 10, gx, gy, W * 0.8);
@@ -1053,10 +1100,10 @@ function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
   const local = t - times[idx];
   const dur = times[idx + 1] - times[idx];
   const inFade = idx < scenes.length - 1 && dur - local < VIDEO_FADE;
-  drawSceneBackground(ctx, W, H, idx, local, dur, now);
+  drawSceneBackground(ctx, W, H, idx, local, dur, now, s);
   if (inFade) {
     ctx.globalAlpha = Math.min(1, (local - (dur - VIDEO_FADE)) / VIDEO_FADE);
-    drawSceneBackground(ctx, W, H, idx + 1, local - (dur - VIDEO_FADE), VIDEO_FADE, now);
+    drawSceneBackground(ctx, W, H, idx + 1, local - (dur - VIDEO_FADE), VIDEO_FADE, now, scenes[idx + 1]);
     ctx.globalAlpha = 1;
   }
   drawVideoChrome(ctx, W, H, brand);
@@ -1127,7 +1174,7 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
 }
 
 function slideBase(t, r) {
-  return buildScenes(t, r).map(s => ({ label: s.label || '', text: s.text, cta: !!s.cta, dur: Math.round(sceneDuration(s, 0, 1) * 10) / 10 }));
+  return buildScenes(t, r).map(s => ({ label: s.label || '', text: s.text, cta: !!s.cta, dur: Math.round(sceneDuration(s, 0, 1) * 10) / 10, bg: 'auto', img: '' }));
 }
 
 function drawSlidePreview() {
@@ -1140,7 +1187,7 @@ function drawSlidePreview() {
   const ctx = cv.getContext('2d');
   const W = cv.width, H = cv.height;
   const now = performance.now() / 1000;
-  drawSceneBackground(ctx, W, H, idx, 1, 1, now);
+  drawSceneBackground(ctx, W, H, idx, 1, 1, now, s);
   drawSceneContent(ctx, W, H, s, 2, now);
   drawVideoChrome(ctx, W, H, (state.profile && state.profile.name) || 'REDEEMED WARRIOR');
   drawVignette(ctx, W, H);
@@ -1166,11 +1213,17 @@ function renderSlideEditor(t, r) {
       <input class="input" data-f="label" placeholder="Small label, like HOOK" value="${esc(s.label)}" />
       <textarea class="input" data-f="text" rows="2" placeholder="The words on this slide">${esc(s.text)}</textarea>
       <div class="slide-row">
+        <span class="swatches">${['auto', 'wine', 'rose', 'blush', 'plum', 'gold'].map(p => `<button type="button" class="swatch${((s.bg || 'auto') === p) ? ' sel' : ''}" data-bg="${p}" aria-label="${p} background"></button>`).join('')}</span>
+        <button type="button" class="sbtn" data-aiphoto>&#10024; AI Photo</button>
+      </div>
+      <input class="input simg" data-f="img" placeholder="Picture URL for this slide (optional)" value="${esc(s.img || '')}" />
+      <div class="slide-row">
         <label class="sdurl">Seconds <input class="input sdur" data-f="dur" type="number" min="1.5" max="10" step="0.5" value="${s.dur}" /></label>
         <label class="vtoggle"><input type="checkbox" data-f="cta" ${s.cta ? 'checked' : ''} /> Big button slide</label>
       </div>
     </div>`).join('') +
-    '<button class="btn btn-ghost dark btn-sm" id="btnAddSlide">+ Add Slide</button>';
+    '<button class="btn btn-ghost dark btn-sm" id="btnAddSlide">+ Add Slide</button>' +
+    '<button class="btn btn-ghost dark btn-sm" id="btnAIAll" style="margin-top:8px">&#10024; AI Photos for All Slides</button>';
   ed.querySelectorAll('.slide').forEach(sl => {
     const i = Number(sl.dataset.i);
     sl.addEventListener('click', () => { state.create.slideSel = i; drawSlidePreview(); });
@@ -1181,11 +1234,19 @@ function renderSlideEditor(t, r) {
         if (inp.dataset.f === 'cta') s.cta = inp.checked;
         else if (inp.dataset.f === 'dur') s.dur = Number(inp.value) || 3;
         else s[inp.dataset.f] = inp.value;
+        if (inp.dataset.f === 'img') getSlideImage((inp.value || '').trim(), drawSlidePreview);
         state.create.slideSel = i;
         drawSlidePreview();
       };
       inp.addEventListener(inp.type === 'checkbox' || inp.type === 'number' ? 'change' : 'input', apply);
     });
+    sl.querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.create.slides[i]) state.create.slides[i].bg = b.dataset.bg;
+      renderSlideEditor(t, r);
+    }));
+    const aiBtn = sl.querySelector('[data-aiphoto]');
+    if (aiBtn) aiBtn.addEventListener('click', (e) => { e.stopPropagation(); generateSlidePhoto(t, r, i); });
     sl.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', (e) => {
       e.stopPropagation();
       const j = i + Number(b.dataset.mv);
@@ -1205,11 +1266,50 @@ function renderSlideEditor(t, r) {
     });
   });
   ed.querySelector('#btnAddSlide').addEventListener('click', () => {
-    state.create.slides.push({ label: '', text: '', cta: false, dur: 4 });
+    state.create.slides.push({ label: '', text: '', cta: false, dur: 4, bg: 'auto', img: '' });
     state.create.slideSel = state.create.slides.length - 1;
     renderSlideEditor(t, r);
   });
+  ed.querySelector('#btnAIAll').addEventListener('click', () => generateAllSlidePhotos(t, r));
   drawSlidePreview();
+}
+
+function pollinationsUrl(prompt) {
+  return 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=720&height=1280&nologo=true&seed=' + Math.floor(Math.random() * 100000);
+}
+
+async function generateSlidePhoto(t, r, i) {
+  const s = state.create.slides[i];
+  if (!s) return;
+  const btn = document.querySelector('#slideEditor .slide[data-i="' + i + '"] [data-aiphoto]');
+  if (btn) { btn.disabled = true; btn.textContent = '\u2026'; }
+  let prompt = '';
+  try {
+    const data = await api('/api/chat', { method: 'POST', body: { message: 'Write one short, vivid image-generation prompt for a luxury feminine Christian brand photo to use as a video slide background. Slide message: "' + (s.text || '') + '". Brand: ' + ((state.profile && state.profile.name) || 'Redeemed Warrior') + '. Style: elegant, cinematic lighting, soft pink and champagne gold tones, no text or words in the image. Reply with the prompt only.' } });
+    prompt = (((data && data.reply) || '').trim().split('\n')[0] || '').replace(/^["']+|["']+$/g, '').trim();
+  } catch (e) { prompt = ''; }
+  if (!prompt) prompt = 'elegant cinematic photo, soft pink and champagne gold light, ' + (s.text || 'faith and grace');
+  s.img = pollinationsUrl(prompt);
+  renderSlideEditor(t, r);
+  getSlideImage(s.img, () => { drawSlidePreview(); toast('Slide photo ready \u2713'); });
+}
+
+async function generateAllSlidePhotos(t, r) {
+  const slides = state.create.slides || [];
+  if (!slides.length) return;
+  const list = slides.map((s, i) => (i + 1) + '. ' + (s.text || '')).join('\n');
+  let lines = [];
+  try {
+    const data = await api('/api/chat', { method: 'POST', body: { message: 'I am making a video with ' + slides.length + ' slides. Write one short, vivid image-generation prompt per slide for luxury feminine Christian brand photos. Style: elegant, cinematic lighting, soft pink and champagne gold tones, no text or words in the images. Slides:\n' + list + '\nReply with only the numbered prompts, one per slide, in the same order.' } });
+    lines = (((data && data.reply) || '').trim().split('\n').map(l => l.replace(/^\s*\d+[.)]\s*/, '').replace(/^["']+|["']+$/g, '').trim()).filter(Boolean));
+  } catch (e) { lines = []; }
+  slides.forEach((s, i) => {
+    const p = lines[i] || ('elegant cinematic photo, soft pink and champagne gold light, ' + (s.text || 'faith and grace'));
+    s.img = pollinationsUrl(p);
+    getSlideImage(s.img, drawSlidePreview);
+  });
+  renderSlideEditor(t, r);
+  toast('Photos on the way \u2014 they fill in as they finish');
 }
 
 async function makeVideoAd(t, r) {
@@ -1227,7 +1327,7 @@ async function makeVideoAd(t, r) {
   const editBtn = studio.querySelector('[data-scenes="edit"]');
   const editOn = editBtn && editBtn.classList.contains('sel');
   const custom = (editOn && Array.isArray(state.create.slides) && state.create.slides.length)
-    ? state.create.slides.filter(s => s.text && s.text.trim()).map(s => ({ label: s.label || '', text: s.text.trim(), cta: !!s.cta, dur: Number(s.dur) || 0 }))
+    ? state.create.slides.filter(s => s.text && s.text.trim()).map(s => ({ label: s.label || '', text: s.text.trim(), cta: !!s.cta, dur: Number(s.dur) || 0, bg: s.bg || 'auto', img: (s.img || '').trim() }))
     : null;
   const scenes = custom || buildScenes(t, r);
   if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
@@ -1242,6 +1342,13 @@ async function makeVideoAd(t, r) {
   const brand = (state.profile && state.profile.name) || 'REDEEMED WARRIOR';
   status.textContent = 'Preparing your brand scenes\u2026';
   try { if (document.fonts && document.fonts.load) { await document.fonts.load('600 60px "Cormorant Garamond"'); await document.fonts.load('600 30px Jost'); } } catch {}
+  await Promise.all(scenes.filter(s => s.img).map(s => new Promise(res => {
+    let done = false;
+    const fin = () => { if (!done) { done = true; res(); } };
+    const im = getSlideImage(s.img, fin);
+    if (im) fin();
+    setTimeout(fin, 6000);
+  })));
   const times = [0];
   scenes.forEach((s, i) => times.push(times[i] + (s.dur ? Math.min(10, Math.max(1.5, s.dur)) : sceneDuration(s, i, scenes.length))));
   const total = times[times.length - 1];

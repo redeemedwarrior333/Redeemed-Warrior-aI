@@ -140,6 +140,15 @@ test('ad studio video offers a slides editor with add, remove, reorder and previ
   assert.match(html, /function renderSlideEditor/);
   assert.match(html, /function slideBase/);
   assert.match(html, /function drawSlidePreview/);
+  assert.match(html, /data-aiphoto/);
+  assert.match(html, /btnAIAll/);
+  assert.match(html, /data-bg="wine"/);
+  assert.match(html, /SLIDE_PALETTES/);
+  assert.match(html, /function getSlideImage/);
+  assert.match(html, /function pollinationsUrl/);
+  assert.match(html, /image\.pollinations\.ai/);
+  assert.match(html, /function generateSlidePhoto/);
+  assert.match(html, /function generateAllSlidePhotos/);
   const script = inlineScript();
   const start = script.indexOf('function buildScenes');
   const end = script.indexOf('async function makeVideoAd');

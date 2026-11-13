@@ -90,6 +90,58 @@ test('ad studio includes video ad generator with recording support', () => {
   assert.match(html, /Download My Video/);
 });
 
+test('ad studio video engine draws animated frames with crossfades and sparkles', () => {
+  const script = inlineScript();
+  const start = script.indexOf('function wrapCanvasText');
+  const end = script.indexOf('async function makeVideoAd');
+  assert.ok(start > 0 && end > start);
+  const engine = new Function(script.slice(start, end) + '; return { drawVideoFrame, VIDEO_FADE, drawSceneBackground, sparkleStar, drawVignette, drawProgressBar };')();
+  assert.equal(engine.VIDEO_FADE, 0.6);
+  assert.equal(typeof engine.drawSceneBackground, 'function');
+  assert.equal(typeof engine.sparkleStar, 'function');
+  const calls = { fillText: 0, fillRect: 0 };
+  const grad = { addColorStop() {} };
+  const ctx = {
+    save() {}, restore() {}, translate() {}, scale() {}, beginPath() {}, moveTo() {},
+    quadraticCurveTo() {}, arcTo() {}, closePath() {}, fill() {}, clip() {}, rect() {},
+    strokeRect() {}, fillRect: () => { calls.fillRect++; },
+    createLinearGradient: () => grad, createRadialGradient: () => grad,
+    measureText: (s) => ({ width: String(s).length * 12 }),
+    fillText: () => { calls.fillText++; },
+    font: '', fillStyle: '', strokeStyle: '', lineWidth: 0, textAlign: '', textBaseline: '',
+    shadowColor: '', shadowBlur: 0, globalAlpha: 1
+  };
+  const scenes = [
+    { label: 'HOOK', text: 'Stop scrolling warrior.' },
+    { label: 'CALL TO ACTION', text: 'Start today', cta: true }
+  ];
+  const times = [0, 4, 8];
+  engine.drawVideoFrame(ctx, 720, 1280, scenes, times, 0.2, 'REDEEMED WARRIOR');
+  engine.drawVideoFrame(ctx, 720, 1280, scenes, times, 3.8, 'REDEEMED WARRIOR');
+  engine.drawVideoFrame(ctx, 720, 1280, scenes, times, 7.9, 'REDEEMED WARRIOR');
+  assert.ok(calls.fillText > 0);
+  assert.ok(calls.fillRect > 0);
+  assert.equal(ctx.globalAlpha, 1);
+});
+
+test('ad studio music bed layers an arpeggio over the chord pad', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /arpFreqs/);
+  assert.match(html, /type = 'triangle'/);
+});
+
+test('ad studio video offers no-voice, ai-voice and my-voice options', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-voice="none"/);
+  assert.match(html, /data-voice="ai"/);
+  assert.match(html, /data-voice="mic"/);
+  const script = inlineScript();
+  assert.match(script, /data-voice\]\.sel/);
+  assert.match(script, /getUserMedia/);
+  assert.match(script, /speechSynthesis/);
+  assert.match(script, /SpeechSynthesisUtterance/);
+});
+
 test('ad studio video scene builder creates timed scenes from script', () => {
   const script = inlineScript();
   const start = script.indexOf('function buildScenes');

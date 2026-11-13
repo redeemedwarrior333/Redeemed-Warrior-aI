@@ -130,6 +130,28 @@ test('ad studio music bed layers an arpeggio over the chord pad', () => {
   assert.match(html, /type = 'triangle'/);
 });
 
+test('ad studio video offers a slides editor with add, remove, reorder and preview', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-scenes="auto"/);
+  assert.match(html, /data-scenes="edit"/);
+  assert.match(html, /id="slideEditor"/);
+  assert.match(html, /id="btnAddSlide"/);
+  assert.match(html, /id="slidePrev"/);
+  assert.match(html, /function renderSlideEditor/);
+  assert.match(html, /function slideBase/);
+  assert.match(html, /function drawSlidePreview/);
+  const script = inlineScript();
+  const start = script.indexOf('function buildScenes');
+  const end = script.indexOf('async function makeVideoAd');
+  assert.ok(start > 0 && end > start);
+  const slideBase = new Function(script.slice(start, script.indexOf('function drawSlidePreview')) + '; return slideBase;')();
+  const base = slideBase({ id: 'video' }, { hook: 'Stop scrolling.', sc1: 'One.', cta: 'Start today' });
+  assert.equal(base.length, 3);
+  assert.equal(base[0].cta, false);
+  assert.equal(base[2].cta, true);
+  assert.ok(base[0].dur >= 1.5 && base[0].dur <= 10);
+});
+
 test('ad studio video offers no-voice, ai-voice and my-voice options', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   assert.match(html, /data-voice="none"/);
@@ -140,6 +162,14 @@ test('ad studio video offers no-voice, ai-voice and my-voice options', () => {
   assert.match(script, /getUserMedia/);
   assert.match(script, /speechSynthesis/);
   assert.match(script, /SpeechSynthesisUtterance/);
+});
+
+test('ad studio records hd video with a high bitrate', () => {
+  const script = inlineScript();
+  assert.match(script, /const W = 1080/);
+  assert.match(script, /1080 : 1920/);
+  assert.match(script, /videoBitsPerSecond: 10000000/);
+  assert.match(script, /audioBitsPerSecond: 128000/);
 });
 
 test('ad studio video scene builder creates timed scenes from script', () => {

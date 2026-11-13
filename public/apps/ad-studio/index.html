@@ -306,7 +306,7 @@ const state = {
   video: Object.assign({ voiceName: '', rate: 0.95, pitch: 1.05 }, store.get('video', {})),
   poster: Object.assign(defaultPoster(), store.get('poster', {})),
   socials: Object.assign({ tiktok: '', instagram: '' }, store.get('socials', {})),
-  gopts: Object.assign({ len: 'std', tone: '', emoji: true, faith: true }, store.get('gopts', {}))
+  gopts: Object.assign({ len: 'std', tone: '', emoji: true, faith: true, audience: '', occasion: '', mood: '', mustsay: '', avoid: '' }, store.get('gopts', {}))
 };
 
 function defaultPoster() {
@@ -508,6 +508,11 @@ function buildPrompt(type, form, opts) {
     o.emoji === false ? 'EMOJIS: do not use any emojis in the copy.' : '',
     o.faith === true ? 'FAITH: where it fits naturally, give the copy a subtle faith-filled or scripture-inspired touch.' : '',
     o.faith === false ? 'FAITH: do not include scripture or faith references \u2014 keep the copy secular and universal.' : '',
+    o.audience ? 'AUDIENCE OVERRIDE: this ad is written for ' + o.audience + ' \u2014 speak directly to their life, desires and daily moments.' : '',
+    o.occasion ? 'OCCASION: this ad is for ' + o.occasion + ' \u2014 tie the message to it naturally, never forced.' : '',
+    o.mood ? 'MOOD OVERRIDE: the energy of this ad should be ' + o.mood + ' \u2014 let it shape every sentence.' : '',
+    o.mustsay ? 'MUST MENTION: work these words or details in naturally: ' + o.mustsay : '',
+    o.avoid ? 'AVOID: do not mention or imply any of these: ' + o.avoid : '',
     type.hint ? 'FORMAT NOTES for ' + type.name + ': ' + type.hint : '',
     '',
     'BUSINESS DETAILS:',
@@ -817,6 +822,25 @@ function renderCreate() {
           ${TONES.map(tn => `<option value="${esc(tn)}" ${state.gopts.tone === tn ? 'selected' : ''}>${esc(tn)}</option>`).join('')}
         </select>
       </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Perfect for
+        <input class="input" id="goptAudience" placeholder="e.g. busy moms, young creatives" value="${esc(state.gopts.audience)}" />
+      </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Occasion
+        <select class="input" id="goptOccasion" style="flex:1">
+          ${['', "Mother's Day", 'Christmas & Advent', 'Easter', "Valentine's Day", 'New Year Fresh Start', 'Launch Week', 'Flash Sale', 'Grand Opening', 'Back to School', 'Wedding Season'].map(oc => `<option value="${esc(oc)}" ${state.gopts.occasion === oc ? 'selected' : ''}>${oc ? esc(oc) : 'Anytime \u2014 no occasion'}</option>`).join('')}
+        </select>
+      </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Mood &amp; energy
+        <select class="input" id="goptMood" style="flex:1">
+          ${[['', 'Match my brand voice'], ['Calm and cozy', 'Calm and cozy'], ['Bold and urgent', 'Bold and urgent'], ['Fun and playful', 'Fun and playful'], ['Elegant and unhurried', 'Elegant and unhurried'], ['Inspiring and hopeful', 'Inspiring and hopeful']].map(m => `<option value="${esc(m[0])}" ${state.gopts.mood === m[0] ? 'selected' : ''}>${esc(m[1])}</option>`).join('')}
+        </select>
+      </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Must mention
+        <input class="input" id="goptMustSay" placeholder="e.g. free shipping, code QUEEN15" value="${esc(state.gopts.mustsay)}" />
+      </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Avoid mentioning
+        <input class="input" id="goptAvoid" placeholder="e.g. prices, competitor names" value="${esc(state.gopts.avoid)}" />
+      </label>
       <div class="slide-row" style="margin-top:10px">
         <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="goptEmoji" ${state.gopts.emoji ? 'checked' : ''} /> Emojis</label>
         <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="goptFaith" ${state.gopts.faith ? 'checked' : ''} /> Faith touch</label>
@@ -831,6 +855,11 @@ function renderCreate() {
   el.querySelector('#goptTone').addEventListener('change', (e) => { state.gopts.tone = e.target.value; goptSave(); renderCreate(); });
   el.querySelector('#goptEmoji').addEventListener('change', (e) => { state.gopts.emoji = e.target.checked; goptSave(); });
   el.querySelector('#goptFaith').addEventListener('change', (e) => { state.gopts.faith = e.target.checked; goptSave(); });
+  el.querySelector('#goptAudience').addEventListener('input', (e) => { state.gopts.audience = e.target.value; goptSave(); });
+  el.querySelector('#goptOccasion').addEventListener('change', (e) => { state.gopts.occasion = e.target.value; goptSave(); });
+  el.querySelector('#goptMood').addEventListener('change', (e) => { state.gopts.mood = e.target.value; goptSave(); });
+  el.querySelector('#goptMustSay').addEventListener('input', (e) => { state.gopts.mustsay = e.target.value; goptSave(); });
+  el.querySelector('#goptAvoid').addEventListener('input', (e) => { state.gopts.avoid = e.target.value; goptSave(); });
   el.querySelector('#btnGenerate').addEventListener('click', () => {
     const form = {};
     t.fields.forEach(f => { form[f.k] = (document.getElementById('f_' + f.k).value || '').trim(); });

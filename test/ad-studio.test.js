@@ -397,3 +397,30 @@ test('more menu opens a royal bottom sheet with wisdom, how-to and sharing', () 
   assert.match(script, /privacy\.html/);
   assert.match(script, /nav button\[data-nav\]/);
 });
+
+test('create window offers audience, occasion, mood, must-say and avoid options', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /id="goptAudience"/);
+  assert.match(html, /id="goptOccasion"/);
+  assert.match(html, /id="goptMood"/);
+  assert.match(html, /id="goptMustSay"/);
+  assert.match(html, /id="goptAvoid"/);
+  assert.match(html, /Mother's Day/);
+  assert.match(html, /Bold and urgent/);
+  const script = inlineScript();
+  assert.match(script, /AUDIENCE OVERRIDE/);
+  assert.match(script, /OCCASION: this ad is for/);
+  assert.match(script, /MOOD OVERRIDE/);
+  assert.match(script, /MUST MENTION: work these words/);
+  assert.match(script, /AVOID: do not mention or imply/);
+  assert.match(script, /gopt: .*audience|audience: ''/);
+  const promptFn = new Function('const state = { profile: {} };' + script.slice(script.indexOf('function brandBlock'), script.indexOf('function parseSections')) + '; return buildPrompt;')();
+  const type = { id: 'social', name: 'Social Media Caption', fields: [], markers: {} };
+  const full = promptFn(type, { topic: 'candles' }, { audience: 'busy moms', occasion: "Mother's Day", mood: 'Bold and urgent', mustsay: 'code QUEEN15', avoid: 'prices' });
+  assert.match(full, /written for busy moms/);
+  assert.match(full, /OCCASION: this ad is for Mother's Day/);
+  assert.match(full, /energy of this ad should be Bold and urgent/);
+  assert.match(full, /work these words or details in naturally: code QUEEN15/);
+  assert.match(full, /do not mention or imply any of these: prices/);
+  assert.doesNotMatch(promptFn(type, { topic: 'candles' }), /AUDIENCE OVERRIDE/);
+});

@@ -1108,6 +1108,35 @@ const POSTER_BLOCKS = [
   { k: 'contact', l: 'Contact / website', ph: 'e.g. godsredeemedwarrior.store (optional)' }
 ];
 
+function posterBlock(k, text, show, size) { return { text: text || '', show: show !== false, size: size || 'md' }; }
+
+const POSTER_TEMPLATES = [
+  { id: 'royal', name: 'Royal Announcement', icon: '\uD83D\uDC51',
+    apply: p => { p.bg = 'wine'; p.ornament = 'crown'; p.frame = true; p.sparkles = true; p.overlay = 25;
+      p.blocks = { kicker: posterBlock('kicker', 'REDEEMED WARRIOR'), headline: posterBlock('headline', 'Something Beautiful Is Here', true, 'lg'), sub: posterBlock('sub', 'Made with faith \u00b7 Made for you'), body: posterBlock('body', '', false), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'Discover'), contact: posterBlock('contact', '', false) }; } },
+  { id: 'cheetah', name: 'Cheetah Queen', icon: '\uD83D\uDC06',
+    apply: p => { p.bg = 'cheetah'; p.ornament = 'crown'; p.frame = false; p.sparkles = true; p.overlay = 30;
+      p.blocks = { kicker: posterBlock('kicker', 'FIERCE & FAITHFUL'), headline: posterBlock('headline', 'Own Your Crown', true, 'lg'), sub: posterBlock('sub', 'For the woman who rises'), body: posterBlock('body', '', false), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'Shop the Look'), contact: posterBlock('contact', '', false) }; } },
+  { id: 'verse', name: 'Verse Card', icon: '\uD83D\uDCD6',
+    apply: p => { p.bg = 'plum'; p.ornament = 'cross'; p.frame = true; p.sparkles = true; p.overlay = 20;
+      p.blocks = { kicker: posterBlock('kicker', 'VERSE OF THE DAY'), headline: posterBlock('headline', 'She is clothed with strength and dignity.', true, 'lg'), sub: posterBlock('sub', 'Proverbs 31:25'), body: posterBlock('body', '', false), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'Read Today\u2019s Devotional'), contact: posterBlock('contact', '', false) }; } },
+  { id: 'sale', name: 'Sale Blast', icon: '\uD83C\uDF81',
+    apply: p => { p.bg = 'ember'; p.ornament = 'none'; p.frame = true; p.sparkles = true; p.overlay = 15;
+      p.blocks = { kicker: posterBlock('kicker', 'LIMITED TIME'), headline: posterBlock('headline', 'The Sale Is On', true, 'lg'), sub: posterBlock('sub', 'Faith-filled favorites, royal prices'), body: posterBlock('body', '', false), offer: posterBlock('offer', '20% OFF THIS WEEK', true, 'lg'), cta: posterBlock('cta', 'Shop Now'), contact: posterBlock('contact', 'godsredeemedwarrior.store') }; } },
+  { id: 'event', name: 'Event Night', icon: '\uD83C\uDF9B\uFE0F',
+    apply: p => { p.bg = 'orchid'; p.ornament = 'cross'; p.frame = true; p.sparkles = true; p.overlay = 25;
+      p.blocks = { kicker: posterBlock('kicker', 'YOU\u2019RE INVITED'), headline: posterBlock('headline', 'An Evening of Worship', true, 'lg'), sub: posterBlock('sub', 'Friday \u00b7 7 PM \u00b7 Bring a friend'), body: posterBlock('body', 'Worship, testimony, and sisterhood.'), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'RSVP Today'), contact: posterBlock('contact', '', false) }; } },
+  { id: 'product', name: 'New Product', icon: '\u2728',
+    apply: p => { p.bg = 'gold'; p.ornament = 'crown'; p.frame = true; p.sparkles = true; p.overlay = 20;
+      p.blocks = { kicker: posterBlock('kicker', 'JUST DROPPED'), headline: posterBlock('headline', 'Meet Your New Favorite', true, 'lg'), sub: posterBlock('sub', 'Handcrafted with faith and prayer'), body: posterBlock('body', '', false), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'Get Yours'), contact: posterBlock('contact', 'godsredeemedwarrior.store') }; } },
+  { id: 'quote', name: 'Quote Card', icon: '\uD83D\uDD4A\uFE0F',
+    apply: p => { p.bg = 'noir'; p.ornament = 'none'; p.frame = false; p.sparkles = false; p.overlay = 0;
+      p.blocks = { kicker: posterBlock('kicker', '', false), headline: posterBlock('headline', 'Faith over everything.', true, 'lg'), sub: posterBlock('sub', '\u2014 Redeemed Warrior', true, 'sm'), body: posterBlock('body', '', false), offer: posterBlock('offer', '', false), cta: posterBlock('cta', '', false), contact: posterBlock('contact', '', false) }; } },
+  { id: 'opening', name: 'Grand Opening', icon: '\uD83C\uDF38',
+    apply: p => { p.bg = 'rose'; p.ornament = 'crown'; p.frame = true; p.sparkles = true; p.overlay = 25;
+      p.blocks = { kicker: posterBlock('kicker', 'GRAND OPENING'), headline: posterBlock('headline', 'The Doors Are Open', true, 'lg'), sub: posterBlock('sub', 'Come see what God built'), body: posterBlock('body', 'Every purchase supports a dream.'), offer: posterBlock('offer', '', false), cta: posterBlock('cta', 'Step Inside'), contact: posterBlock('contact', 'godsredeemedwarrior.store') }; } }
+];
+
 function posterFont(k, fs) {
   if (k === 'headline') return '600 ' + fs + 'px "Cormorant Garamond", serif';
   if (k === 'kicker' || k === 'offer') return '700 ' + fs + 'px Jost, sans-serif';
@@ -1380,6 +1409,13 @@ function renderPoster() {
       </div>
     </div>
     <div class="card">
+      <h3>Templates</h3>
+      <p class="hint" style="margin-top:4px">One tap fills your poster with a royal design \u2014 then change any word you like.</p>
+      <div class="typegrid" style="margin-top:12px">
+        ${POSTER_TEMPLATES.map(tp => `<button type="button" class="typecard" data-template="${tp.id}"><span class="tico" style="font-size:1.2rem">${tp.icon}</span><b>${esc(tp.name)}</b><small>Tap to apply</small></button>`).join('')}
+      </div>
+    </div>
+    <div class="card">
       <h3>Poster size</h3>
       <div class="vrow">${Object.keys(POSTER_SIZES).map(k => `<button class="vopt${p.size === k ? ' sel' : ''}" data-psize="${k}">${POSTER_SIZES[k].name}</button>`).join('')}</div>
     </div>
@@ -1433,6 +1469,14 @@ function renderPoster() {
       <button class="btn btn-ghost dark btn-sm" id="btnPosterFromAd" style="margin-top:10px">Fill from My Last Ad</button>
     </div>`;
   const save = () => store.set('poster', state.poster);
+  el.querySelectorAll('[data-template]').forEach(b => b.addEventListener('click', () => {
+    const tp = POSTER_TEMPLATES.find(x => x.id === b.dataset.template);
+    if (!tp) return;
+    tp.apply(state.poster);
+    save();
+    renderPoster();
+    toast(tp.name + ' applied \u2713 Make it yours!');
+  }));
   el.querySelectorAll('[data-psize]').forEach(b => b.addEventListener('click', () => {
     state.poster.size = b.dataset.psize;
     save();

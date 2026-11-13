@@ -78,3 +78,28 @@ test('ad studio api line auto-connects when hosted off the apps domain', () => {
   assert.match(script, /const API = \(location\.hostname === 'apps\.godsredeemedwarrior\.org'/);
   assert.match(script, /https:\/\/apps\.godsredeemedwarrior\.org/);
 });
+
+test('ad studio includes video ad generator with recording support', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /Make the Video/);
+  assert.match(html, /function buildScenes/);
+  assert.match(html, /async function makeVideoAd/);
+  assert.match(html, /MediaRecorder/);
+  assert.match(html, /captureStream/);
+  assert.match(html, /startMusicBed/);
+  assert.match(html, /Download My Video/);
+});
+
+test('ad studio video scene builder creates timed scenes from script', () => {
+  const script = inlineScript();
+  const start = script.indexOf('function buildScenes');
+  const end = script.indexOf('function sceneDuration');
+  assert.ok(start > 0 && end > start);
+  const buildScenes = new Function(script.slice(start, end) + '; return buildScenes;')();
+  const scenes = buildScenes({ id: 'video' }, { hook: 'Stop scrolling.', sc1: 'One.', sc2: 'Two.', sc3: 'Three.', cta: 'Start today' });
+  assert.equal(scenes.length, 5);
+  assert.equal(scenes[0].text, 'Stop scrolling.');
+  assert.equal(scenes[4].cta, true);
+  const short = buildScenes({ id: 'video' }, { hook: 'Hook only', cta: 'Go' });
+  assert.equal(short.length, 2);
+});

@@ -40,10 +40,10 @@ test('ad studio inline script is syntactically valid', () => {
   new Function(script);
 });
 
-test('ad studio defines thirteen ad types with unique ids and markers', () => {
+test('ad studio defines twenty ad types with unique ids and markers', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   const ids = [...html.matchAll(/id:'([a-z]+)', name:/g)].map(m => m[1]);
-  assert.deepEqual([...new Set(ids)].sort(), ['email', 'event', 'flyer', 'google', 'pack', 'product', 'radio', 'sale', 'slogan', 'social', 'story', 'tiktok', 'video']);
+  assert.deepEqual([...new Set(ids)].sort(), ['billboard', 'email', 'event', 'flyer', 'giveaway', 'google', 'launch', 'pack', 'product', 'push', 'radio', 'referral', 'sale', 'slogan', 'sms', 'social', 'story', 'thankyou', 'tiktok', 'video']);
   assert.match(html, /Social Media Caption/);
   assert.match(html, /Complete Ad Pack/);
   assert.match(html, /TikTok Video Script/);
@@ -52,6 +52,18 @@ test('ad studio defines thirteen ad types with unique ids and markers', () => {
   assert.match(html, /Flyer & Poster Text/);
   assert.match(html, /Sale & Promo Blast/);
   assert.match(html, /Event Announcement/);
+  assert.match(html, /Text Message Blast/);
+  assert.match(html, /Push Notification/);
+  assert.match(html, /Billboard/);
+  assert.match(html, /Launch Announcement/);
+  assert.match(html, /Giveaway & Contest/);
+  assert.match(html, /Thank-You Message/);
+  assert.match(html, /Referral Invite/);
+  assert.match(html, /Twenty professional formats/);
+  const promo = fs.readFileSync(path.join(path.dirname(APP_PATH), 'promo.html'), 'utf8');
+  assert.match(promo, /Twenty Professional Ad Types/);
+  assert.match(promo, /Text Message Blasts/);
+  assert.match(promo, /Referral Invites/);
 });
 
 test('ad studio prompts carry per-type format notes and quality instructions', () => {

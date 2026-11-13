@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Redeemed Warrior Ad Studio — Faith-Fueled Advertising, Made in Minutes</title>
+<meta name="theme-color" content="#2A0009" />
+<meta name="description" content="Type in what you sell. Get professional ads in minutes — social captions, Google ads, video scripts, slogans and more. Built for women of faith building businesses." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --pink:#E2449A; --hot:#F05AA8; --pink-deep:#C22B7E;
+  --gold:#D4AF6A; --gold-light:#EFD9B4;
+  --night:#2A0009; --night-2:#4A0A24;
+  --ivory:#FBF6EE; --cream:#F6EBDD; --blush:#F9E3EC;
+  --ink:#2B1420; --muted:#8A6B7A;
+  --ok:#1E9E6A; --err:#C0392B;
+  --radius:18px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--ivory);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,h3,h4,.display{font-family:'Cormorant Garamond',serif;line-height:1.15}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;font-size:1rem;color:var(--ink)}
+img,svg{display:block;max-width:100%}
+a{color:var(--pink-deep)}
+.hidden{display:none !important}
+
+#welcome{position:fixed;inset:0;z-index:60;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 22px;color:#fff;background:
+  radial-gradient(700px 380px at 50% -5%,rgba(212,175,122,.28),transparent 65%),
+  radial-gradient(520px 420px at 88% 108%,rgba(240,90,168,.35),transparent 60%),
+  linear-gradient(165deg,#2A0009 0%,#4A0A24 55%,#330010 100%)}
+#welcome.gone{display:none}
+#welcome .glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 50% 20%,rgba(239,217,180,.16),transparent 70%);animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+#welcome .emblem{width:104px;height:104px;margin-bottom:18px;animation:float 5s ease-in-out infinite;filter:drop-shadow(0 10px 30px rgba(240,90,168,.45))}
+#welcome .kicker{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
+#welcome h1{font-size:clamp(2.2rem,8vw,3.6rem);letter-spacing:.05em;font-weight:600}
+#welcome h1 span{color:var(--hot)}
+#welcome .tagline{margin-top:10px;font-size:1.02rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-light)}
+#welcome .motto{margin-top:14px;color:var(--blush);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;max-width:420px}
+#welcome .feats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:480px;margin-top:22px}
+#welcome .feats span{font-size:.75rem;letter-spacing:.05em;color:var(--gold-light);border:1px solid rgba(212,175,122,.45);border-radius:999px;padding:6px 13px;background:rgba(0,0,0,.22)}
+#welcome .actions{display:flex;flex-direction:column;gap:12px;margin-top:30px;width:min(320px,100%)}
+#welcome .foot{margin-top:22px;color:rgba(255,255,255,.72);font-size:.83rem;max-width:400px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:1rem;padding:13px 22px;border-radius:999px;transition:transform .15s ease,box-shadow .15s ease,opacity .15s}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#C9A45C);color:#2A1A08;box-shadow:0 10px 26px rgba(212,175,122,.4)}
+.btn-pink{background:linear-gradient(135deg,var(--hot),var(--pink-deep));color:#fff;box-shadow:0 10px 26px rgba(226,68,154,.38)}
+.btn-ghost{background:transparent;border:1.5px solid rgba(239,217,180,.55);color:#fff}
+.btn-ghost.dark{border-color:rgba(194,43,126,.4);color:var(--pink-deep)}
+.btn-sm{padding:8px 16px;font-size:.88rem}
+.btn[disabled]{opacity:.55;pointer-events:none}
+
+#app{display:none;min-height:100vh}
+#app.on{display:block}
+.topbar{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,#2A0009,#4A0A24);color:#fff;padding:14px 18px 12px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 24px rgba(42,0,9,.25)}
+.topbar .logo{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.3);object-fit:cover}
+.topbar .tt{flex:1;min-width:0}
+.topbar .tt b{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;letter-spacing:.04em;display:block;line-height:1.1}
+.topbar .tt small{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-light)}
+.badge-owner{font-size:.62rem;font-weight:700;letter-spacing:.12em;background:linear-gradient(135deg,var(--gold),#C9A45C);color:#2A1A08;border-radius:999px;padding:4px 10px;text-transform:uppercase}
+
+main{max-width:720px;margin:0 auto;padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
+.view-head{margin:6px 0 16px}
+.eyebrow{font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--pink-deep);font-weight:600}
+.view-head h2{font-size:1.9rem;color:var(--night);margin-top:2px}
+.view-head p{color:var(--muted);margin-top:4px}
+
+.card{background:#fff;border:1px solid rgba(196,139,159,.22);border-radius:var(--radius);padding:18px;box-shadow:0 4px 18px rgba(158,95,121,.08);margin-bottom:14px}
+.card h3{font-size:1.25rem;color:var(--night)}
+.hint{font-size:.85rem;color:var(--muted)}
+.err{color:var(--err);font-size:.88rem;margin-top:6px;min-height:1em}
+.ok{color:var(--ok)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+
+label{display:block;font-size:.82rem;font-weight:600;letter-spacing:.04em;color:var(--night);margin:12px 0 5px}
+.input,textarea.input,select.input{width:100%;padding:12px 14px;border:1.5px solid rgba(196,139,159,.4);border-radius:13px;background:#fff;outline:none;transition:border .15s,box-shadow .15s}
+.input:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(226,68,154,.12)}
+textarea.input{resize:vertical;min-height:74px}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{background:linear-gradient(160deg,#fff,var(--blush));border:1px solid rgba(196,139,159,.25);border-radius:16px;padding:14px 10px;text-align:center}
+.stat b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--pink-deep);line-height:1}
+.stat span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.typegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.typegrid{grid-template-columns:1fr}}
+.typecard{position:relative;text-align:left;background:#fff;border:1.5px solid rgba(196,139,159,.28);border-radius:18px;padding:16px;transition:border .15s,transform .15s,box-shadow .15s}
+.typecard:active{transform:scale(.98)}
+.typecard.sel{border-color:var(--pink);box-shadow:0 8px 24px rgba(226,68,154,.18)}
+.typecard .tico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--blush),#fff);border:1px solid rgba(196,139,159,.3);margin-bottom:10px;color:var(--pink-deep)}
+.typecard b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--night);line-height:1.2}
+.typecard small{color:var(--muted);font-size:.8rem;display:block;margin-top:3px}
+
+.adcard{border-radius:20px;overflow:hidden;box-shadow:0 14px 40px rgba(42,0,9,.16);border:1px solid rgba(196,139,159,.3);margin-bottom:14px}
+.adcard .adhead{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(135deg,#2A0009,#4A0A24);color:#fff}
+.adcard .adhead img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold)}
+.adcard .adhead b{font-family:'Cormorant Garamond',serif;font-size:1.02rem;display:block;line-height:1.1}
+.adcard .adhead small{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light)}
+.adcard .adhead .adtag{margin-left:auto;font-size:.6rem;font-weight:700;letter-spacing:.14em;background:rgba(240,90,168,.25);border:1px solid rgba(240,90,168,.6);color:#FFD7EC;border-radius:999px;padding:3px 9px;text-transform:uppercase}
+.adcard .adbody{padding:18px 16px;background:linear-gradient(170deg,#fff,var(--cream))}
+.adcard .adhl{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:var(--night);line-height:1.2}
+.adcard .adtx{margin-top:8px;color:#4A2B3A;font-size:.95rem;white-space:pre-wrap}
+.adcard .adtags{margin-top:10px;color:var(--pink-deep);font-size:.83rem;font-weight:500}
+.adcard .adcta{display:inline-block;margin-top:14px;background:linear-gradient(135deg,var(--hot),var(--pink-deep));color:#fff;font-weight:600;font-size:.9rem;padding:10px 20px;border-radius:999px;box-shadow:0 8px 20px rgba(226,68,154,.35)}
+.adcard .adfoot{padding:10px 16px;background:#fff;border-top:1px solid rgba(196,139,159,.2);font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+
+.sec{background:#fff;border:1px solid rgba(196,139,159,.25);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.sec .sl{font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-deep)}
+.sec .sv{margin-top:4px;white-space:pre-wrap}
+.sec .copy{float:right;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--pink-deep);border:1.5px solid rgba(194,43,126,.4);border-radius:999px;padding:4px 12px;text-transform:uppercase;background:var(--blush)}
+.sec .copy:active{transform:scale(.95)}
+
+.saved{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid rgba(196,139,159,.25);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.saved .si{width:38px;height:38px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--blush);color:var(--pink-deep)}
+.saved b{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--night);display:block;line-height:1.2}
+.saved small{color:var(--muted);font-size:.76rem}
+.saved .sact{margin-left:auto;display:flex;gap:6px;flex:none}
+
+.meter{height:8px;border-radius:999px;background:var(--blush);overflow:hidden;margin-top:10px}
+.meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--hot),var(--gold));transition:width .4s ease}
+
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;justify-content:space-around;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-top:1px solid rgba(196,139,159,.3);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:12px}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--pink-deep)}
+.nav button.on svg{filter:drop-shadow(0 3px 6px rgba(226,68,154,.4))}
+
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:var(--night);color:#fff;font-size:.9rem;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s ease;z-index:70;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.spin{width:46px;height:46px;margin:26px auto;border-radius:50%;border:3.5px solid var(--blush);border-top-color:var(--pink);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-state{text-align:center;padding:10px 0 4px}
+.gen-state p{color:var(--muted);font-size:.9rem;font-style:italic}
+
+.tip{background:linear-gradient(135deg,#2A0009,#4A0A24);color:var(--blush);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px}
+.tip .tl{font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light)}
+.tip p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;margin-top:6px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<div id="welcome">
+  <div class="glow"></div>
+  <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true">
+    <defs>
+      <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F05AA8"/><stop offset="1" stop-color="#D4AF6A"/>
+      </linearGradient>
+    </defs>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="url(#wg)" stroke-width="2.5" opacity=".85"/>
+    <path d="M30 72 L38 46 L48 68 L60 34 L72 68 L82 46 L90 72" fill="none" stroke="url(#wg)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="28" y="76" width="64" height="7" rx="3.5" fill="url(#wg)"/>
+    <circle cx="60" cy="22" r="4" fill="#EFD9B4"/>
+    <path d="M96 34 l2.4 5 5 2.4 -5 2.4 -2.4 5 -2.4 -5 -5 -2.4 5 -2.4z" fill="#EFD9B4" opacity=".9"/>
+    <path d="M22 88 l1.8 3.8 3.8 1.8 -3.8 1.8 -1.8 3.8 -1.8 -3.8 -3.8 -1.8 3.8 -1.8z" fill="#F05AA8" opacity=".8"/>
+  </svg>
+  <p class="kicker">Redeemed Warrior</p>
+  <h1>AD <span>STUDIO</span></h1>
+  <p class="tagline">Faith-Fueled Advertising</p>
+  <p class="motto">Type in what you sell. Walk away with professional ads — in minutes.</p>
+  <div class="feats">
+    <span>Social Captions</span><span>Google Ads</span><span>Video Scripts</span><span>Slogans</span><span>Email Subjects</span><span>Product Descriptions</span>
+  </div>
+  <div class="actions">
+    <button class="btn btn-gold" id="btnStart">Start Creating</button>
+    <button class="btn btn-ghost" id="btnWelcomeAccount">Sign In</button>
+  </div>
+  <p class="foot">Redeemed by Grace. Strengthened by Purpose. Built to Rise.</p>
+</div>
+
+<div id="app">
+  <header class="topbar">
+    <img class="logo" src="../devotional-bible/cover-sm.jpg" onerror="this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/devotional-bible/cover-sm.jpg'" alt="" />
+    <div class="tt"><b>Ad Studio</b><small>Redeemed Warrior</small></div>
+    <span class="badge-owner hidden" id="ownerBadge">Owner</span>
+  </header>
+
+  <main>
+    <section id="view-home" class="view"></section>
+    <section id="view-create" class="view hidden"></section>
+    <section id="view-ads" class="view hidden"></section>
+    <section id="view-brand" class="view hidden"></section>
+    <section id="view-account" class="view hidden"></section>
+  </main>
+
+  <nav class="nav" aria-label="Primary">
+    <button data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
+    <button data-nav="create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>Create</button>
+    <button data-nav="ads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 15h8"/></svg>My Ads</button>
+    <button data-nav="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Brand</button>
+    <button data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Account</button>
+  </nav>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script>
+const API = (location.hostname === 'apps.godsredeemedwarrior.org' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? '' : 'https://apps.godsredeemedwarrior.org';
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('rwas_' + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('rwas_' + k, JSON.stringify(v)); } catch {} }
+};
+
+const state = {
+  view: 'home',
+  auth: store.get('auth', null),
+  profile: store.get('profile', { name:'', product:'', audience:'', tone:'Warm and encouraging', benefits:'', website:'', cta:'Shop now' }),
+  ads: store.get('ads', []),
+  create: { type: null, busy: false, result: null, error: '', lastForm: null }
+};
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); toast('Copied to clipboard \u2713'); }
+  catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Copied to clipboard \u2713'); } catch { toast('Long-press the text to copy it.'); }
+    ta.remove();
+  }
+}
+
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+  if (state.auth && state.auth.token) headers['Authorization'] = 'Bearer ' + state.auth.token;
+  const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error((data.error && data.error.message) || 'Something went wrong. Please try again.');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+const ICONS = {
+  social: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>',
+  google: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
+  product: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+  email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 6L22 7"/></svg>',
+  video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="m16 10 6-3.5v11L16 14"/></svg>',
+  slogan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>',
+  pack: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8.5 22 9.3 17 14l1.2 7L12 17.8 5.8 21 7 14 2 9.3 9 8.5z"/></svg>'
+};
+
+const TIPS = [
+  'Lead with the feeling, not the feature. People buy transformation.',
+  'One ad, one promise. Clarity beats cleverness every time.',
+  'Your customer is the hero of the story \u2014 your product is just the map.',
+  'Specific numbers build trust: "5 minutes a day" beats "quick and easy."',
+  'Write like you talk. If it sounds like a brochure, rewrite it warmer.',
+  'End every ad with one clear next step. Confused people scroll away.',
+  'The best ad makes your customer say: "That sounds like me."'
+];
+
+const TONES = ['Warm and encouraging','Bold and powerful','Elegant and luxurious','Friendly and casual','Professional and polished','Playful and fun','Inspiring and visionary'];
+
+const ADTYPES = [
+  { id:'social', name:'Social Media Caption', desc:'Instagram & Facebook post with hashtags', icon:'social',
+    fields:[{k:'topic',l:'What should this post be about?',ph:'e.g. Launch week for my new devotional journal',ta:true}],
+    markers:{ caption:'CAPTION', hashtags:'HASHTAGS', cta:'CTA' } },
+  { id:'google', name:'Google Search Ad', desc:'Headlines & descriptions that fit Google limits', icon:'google',
+    fields:[{k:'topic',l:'What are we advertising?',ph:'e.g. Online beginner piano lessons for busy adults',ta:true}],
+    markers:{ h1:'HEADLINE 1', h2:'HEADLINE 2', h3:'HEADLINE 3', d1:'DESCRIPTION 1', d2:'DESCRIPTION 2' } },
+  { id:'product', name:'Product Description', desc:'Store-listing copy that sells', icon:'product',
+    fields:[{k:'topic',l:'Describe the product',ph:'e.g. Handmade soy candles with Bible-verse labels',ta:true}],
+    markers:{ title:'TITLE', short:'SHORT PITCH', full:'FULL DESCRIPTION' } },
+  { id:'email', name:'Email Subject Lines', desc:'5 subject lines people actually open', icon:'email',
+    fields:[{k:'topic',l:'What is the email about?',ph:'e.g. 20% off everything for Mother\u2019s Day weekend',ta:true}],
+    markers:{ s1:'SUBJECT 1', s2:'SUBJECT 2', s3:'SUBJECT 3', s4:'SUBJECT 4', s5:'SUBJECT 5' } },
+  { id:'video', name:'30-Second Video Script', desc:'Hook, scenes and call to action', icon:'video',
+    fields:[{k:'topic',l:'What is the video advertising?',ph:'e.g. My prayer journal app for busy moms',ta:true}],
+    markers:{ hook:'HOOK', sc1:'SCENE 1', sc2:'SCENE 2', sc3:'SCENE 3', cta:'CTA' } },
+  { id:'slogan', name:'Slogans & Taglines', desc:'5 memorable lines for your brand', icon:'slogan',
+    fields:[{k:'topic',l:'What is the brand or product?',ph:'e.g. My bakery, Sweet Grace, in Atlanta',ta:true}],
+    markers:{ g1:'SLOGAN 1', g2:'SLOGAN 2', g3:'SLOGAN 3', g4:'SLOGAN 4', g5:'SLOGAN 5' } },
+  { id:'pack', name:'Complete Ad Pack', desc:'Everything for one campaign, in one go', icon:'pack',
+    fields:[{k:'topic',l:'What are we promoting?',ph:'e.g. Grand opening of my online boutique',ta:true}],
+    markers:{ hl:'HEADLINE', caption:'CAPTION', hashtags:'HASHTAGS', cta:'CTA', slogan:'SLOGAN', emails:'EMAIL SUBJECTS', hook:'VIDEO HOOK' } }
+];
+
+const SECTION_LABELS = {
+  caption:'Caption', hashtags:'Hashtags', cta:'Call to Action',
+  h1:'Headline 1', h2:'Headline 2', h3:'Headline 3', d1:'Description 1', d2:'Description 2',
+  title:'Product Title', short:'Short Pitch', full:'Full Description',
+  s1:'Subject 1', s2:'Subject 2', s3:'Subject 3', s4:'Subject 4', s5:'Subject 5',
+  hook:'Hook', sc1:'Scene 1', sc2:'Scene 2', sc3:'Scene 3',
+  g1:'Slogan 1', g2:'Slogan 2', g3:'Slogan 3', g4:'Slogan 4', g5:'Slogan 5',
+  hl:'Headline', slogan:'Slogan', emails:'Email Subjects'
+};
+
+function brandBlock() {
+  const p = state.profile;
+  return [
+    p.name && 'Business name: ' + p.name,
+    p.product && 'What they sell: ' + p.product,
+    p.audience && 'Target audience: ' + p.audience,
+    p.benefits && 'Key benefits: ' + p.benefits,
+    p.tone && 'Brand voice: ' + p.tone,
+    p.website && 'Website: ' + p.website,
+    p.cta && 'Preferred call to action: ' + p.cta
+  ].filter(Boolean).join('\n') || '(no brand details provided)';
+}
+
+function buildPrompt(type, form) {
+  return [
+    'You are an elite advertising copywriter working for a small business owner with no marketing experience.',
+    'Write world-class, ready-to-use advertising copy. Be specific, warm, and human \u2014 never generic filler.',
+    'Honor the brand voice. Keep platform character limits when you know them (Google headlines max 30 characters, descriptions max 90).',
+    '',
+    'BUSINESS DETAILS:',
+    brandBlock(),
+    '',
+    'REQUEST: ' + type.name + ' \u2014 ' + form.topic,
+    '',
+    'OUTPUT FORMAT \u2014 respond with ONLY these labeled sections, each label at the start of its own line exactly as written, followed by a colon and the content:',
+    Object.values(type.markers).map(m => m + ': <content>').join('\n'),
+    '',
+    'Do not add any other sections, introductions, or explanations.'
+  ].join('\n');
+}
+
+function parseSections(text, markers) {
+  const out = {};
+  const keys = Object.keys(markers);
+  const labels = keys.map(k => markers[k]);
+  const labelAlt = labels.map(l => l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  for (let i = 0; i < keys.length; i++) {
+    const lab = labels[i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp('(?:^|\\n)[^\\S\\n]*(?:\\*\\*)?' + lab + '(?:\\*\\*)?\\s*:?\\s*\\**\\s*:?[ \\t]*(.+?)(?=\\n[^\\S\\n]*(?:\\*\\*)?(?:' + labelAlt + ')(?:\\*\\*)?\\s*:?|$)', 's');
+    const m = text.match(re);
+    out[keys[i]] = m ? m[1].trim().replace(/^#{1,3}\s+/, '').replace(/\*\*/g, '').trim() : '';
+  }
+  return out;
+}
+
+function isOwner() { return !!(state.auth && state.auth.role === 'owner'); }
+
+function navTo(view) {
+  state.view = view;
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  const el = document.getElementById('view-' + view);
+  if (el) el.classList.remove('hidden');
+  document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === view));
+  const renderers = { home: renderHome, create: renderCreate, ads: renderAds, brand: renderBrand, account: renderAccount };
+  if (renderers[view]) renderers[view]();
+  window.scrollTo({ top: 0 });
+}
+
+document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+
+function renderHome() {
+  const el = document.getElementById('view-home');
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const name = ((state.profile && state.profile.name) || (state.auth && state.auth.email || '').split('@')[0] || 'Warrior').split(' ')[0];
+  const tip = TIPS[Math.floor(Date.now() / 864e5) % TIPS.length];
+  const pct = brandPct();
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Ad Studio</p><h2>${greet}, ${esc(name)}!</h2>
+    <p>What are we advertising today?</p></div>
+    <div class="stat-row">
+      <div class="stat"><b>${state.ads.length}</b><span>Ads created</span></div>
+      <div class="stat"><b>${ADTYPES.length}</b><span>Ad types</span></div>
+      <div class="stat"><b>${pct}%</b><span>Brand ready</span></div>
+    </div>
+    <div class="tip"><span class="tl">Today's Marketing Wisdom</span><p>"${esc(tip)}"</p></div>
+    <div class="card">
+      <h3>Start a new ad</h3>
+      <p class="hint" style="margin-top:4px">Pick a format \u2014 the AI writes it, you approve it.</p>
+      <button class="btn btn-pink" style="margin-top:14px;width:100%" data-nav="create">Create an Ad</button>
+    </div>
+    <div class="card">
+      <h3>Your brand voice</h3>
+      <p class="hint" style="margin-top:4px">${pct < 100 ? 'Complete your brand profile so every ad sounds like you.' : 'Your brand profile is complete \u2014 every ad will sound like you.'}</p>
+      <div class="meter"><i style="width:${pct}%"></i></div>
+      <button class="btn btn-ghost dark btn-sm" style="margin-top:14px" data-nav="brand">${pct < 100 ? 'Finish my brand profile' : 'View brand profile'}</button>
+    </div>
+    <div class="card">
+      <h3>How it works</h3>
+      <p class="hint" style="margin-top:6px">1. Fill in your brand profile once.<br>2. Pick an ad type and say what you're promoting.<br>3. The AI writes professional copy in seconds.<br>4. Copy it, screenshot the preview card, and post it.</p>
+    </div>`;
+  el.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+}
+
+function renderCreate() {
+  const el = document.getElementById('view-create');
+  if (!state.create.type) {
+    el.innerHTML = `
+      <div class="view-head"><p class="eyebrow">Create</p><h2>Choose Your Ad Type</h2>
+      <p>Seven professional formats. All included.</p></div>
+      <div class="typegrid">
+        ${ADTYPES.map(t => `
+          <button class="typecard" data-type="${t.id}">
+            <span class="tico">${ICONS[t.icon]}</span>
+            <b>${esc(t.name)}</b>
+            <small>${esc(t.desc)}</small>
+          </button>`).join('')}
+      </div>`;
+    el.querySelectorAll('[data-type]').forEach(b => b.addEventListener('click', () => {
+      state.create.type = ADTYPES.find(t => t.id === b.dataset.type);
+      state.create.result = null; state.create.error = '';
+      renderCreate();
+    }));
+    return;
+  }
+
+  const t = state.create.type;
+  if (state.create.busy) {
+    el.innerHTML = `
+      <div class="view-head"><p class="eyebrow">Creating</p><h2>${esc(t.name)}</h2></div>
+      <div class="card gen-state">
+        <div class="spin"></div>
+        <p>Writing your ${esc(t.name.toLowerCase())}\u2026</p>
+        <p class="hint" style="margin-top:6px">Great copy takes a few seconds. Hold tight.</p>
+      </div>`;
+    return;
+  }
+
+  if (state.create.result) {
+    const r = state.create.result;
+    el.innerHTML = `
+      <div class="view-head"><p class="eyebrow">Your ad is ready</p><h2>${esc(t.name)}</h2>
+      <p>Copy any piece, or save the whole thing.</p></div>
+      ${renderPreviewCard(t, r)}
+      ${Object.keys(t.markers).map(k => r[k] ? `
+        <div class="sec">
+          <button class="copy" data-copy="${esc(r[k])}">Copy</button>
+          <span class="sl">${esc(SECTION_LABELS[k] || k)}</span>
+          <div class="sv">${esc(r[k])}</div>
+        </div>` : '').join('')}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn btn-pink" id="btnSaveAd" style="flex:1">Save to My Ads</button>
+        <button class="btn btn-ghost dark" id="btnRegen" style="flex:1">Try Again</button>
+        <button class="btn btn-ghost dark" id="btnNewAd" style="flex:1">New Ad</button>
+      </div>
+      <p class="hint" style="margin-top:12px;text-align:center">Tip: screenshot the preview card above to share it as an image.</p>`;
+    el.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => copyText(b.dataset.copy)));
+    el.querySelector('#btnSaveAd').addEventListener('click', () => {
+      state.ads.unshift({ id: Date.now(), type: t.id, typeName: t.name, topic: (state.create.lastForm || {}).topic || '', sections: r, date: new Date().toISOString() });
+      store.set('ads', state.ads);
+      toast('Saved to My Ads \u2713');
+      navTo('ads');
+    });
+    el.querySelector('#btnRegen').addEventListener('click', () => generate(t, state.create.lastForm));
+    el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null }; renderCreate(); });
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Create</p><h2>${esc(t.name)}</h2>
+    <p>${esc(t.desc)}</p></div>
+    ${t.fields.map(f => f.ta
+      ? `<label for="f_${f.k}">${esc(f.l)}</label><textarea class="input" id="f_${f.k}" placeholder="${esc(f.ph)}"></textarea>`
+      : `<label for="f_${f.k}">${esc(f.l)}</label><input class="input" id="f_${f.k}" placeholder="${esc(f.ph)}" />`).join('')}
+    <p class="hint" style="margin-top:10px">Using your brand voice: <strong>${esc(state.profile.tone || 'not set yet')}</strong>${state.profile.name ? ' \u00b7 ' + esc(state.profile.name) : ''}</p>
+    <p class="err" id="genErr">${esc(state.create.error)}</p>
+    <button class="btn btn-pink" id="btnGenerate" style="width:100%;margin-top:10px">Write My ${esc(t.name)}</button>
+    <button class="btn btn-ghost dark btn-sm" id="btnBack" style="margin-top:10px">Choose a different ad type</button>`;
+  el.querySelector('#btnBack').addEventListener('click', () => { state.create.type = null; renderCreate(); });
+  el.querySelector('#btnGenerate').addEventListener('click', () => {
+    const form = {};
+    t.fields.forEach(f => { form[f.k] = (document.getElementById('f_' + f.k).value || '').trim(); });
+    if (!form.topic) { document.getElementById('genErr').textContent = 'Please describe what you are advertising first.'; return; }
+    generate(t, form);
+  });
+}
+
+async function generate(t, form) {
+  state.create.busy = true;
+  state.create.lastForm = form;
+  renderCreate();
+  try {
+    const data = await api('/api/chat', { method: 'POST', body: { message: buildPrompt(t, form) } });
+    const reply = (data && data.reply) || '';
+    const parsed = parseSections(reply, t.markers);
+    if (!Object.values(parsed).filter(Boolean).length) parsed._raw = reply.trim();
+    state.create.result = parsed;
+    state.create.busy = false;
+    renderCreate();
+  } catch (e) {
+    state.create.busy = false;
+    state.create.result = null;
+    state.create.error = e.status === 429
+      ? 'The AI is resting for a moment (free-tier limit). Wait a minute and try again.'
+      : (e.message || 'Could not reach the AI. Check your connection and try again.');
+    renderCreate();
+  }
+}
+
+function renderPreviewCard(t, r) {
+  const brand = state.profile.name || 'My Business';
+  const logoSrc = '../devotional-bible/cover-sm.jpg';
+  const logoFallback = "onerror=\"this.onerror=null;this.src='https://apps.godsredeemedwarrior.org/apps/devotional-bible/cover-sm.jpg'\"";
+  const head = `<div class="adhead"><img src="${logoSrc}" ${logoFallback} alt="" /><div><b>${esc(brand)}</b><small>Sponsored</small></div><span class="adtag">Ad</span></div>`;
+  if (t.id === 'google') {
+    return `<div class="adcard">${head}<div class="adbody">
+      <p style="font-size:.72rem;color:var(--muted)">Ad \u00b7 ${esc(brand)}</p>
+      <p style="color:#1a0dab;font-family:'Jost',sans-serif;font-size:1.1rem;font-weight:600;margin-top:2px">${esc([r.h1, r.h2, r.h3].filter(Boolean).join(' | '))}</p>
+      <p style="font-size:.72rem;color:#006621;margin-top:2px">${esc(state.profile.website || 'yourwebsite.com')}</p>
+      <p class="adtx" style="font-size:.9rem">${esc([r.d1, r.d2].filter(Boolean).join(' '))}</p>
+    </div><div class="adfoot">Preview: how it appears in Google search results</div></div>`;
+  }
+  if (t.id === 'email') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${[r.s1, r.s2, r.s3, r.s4, r.s5].filter(Boolean).map((s, i) => `
+        <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:${i < 4 ? '1px solid rgba(196,139,159,.2)' : 'none'}">
+          <span style="font-size:.65rem;font-weight:700;color:var(--pink-deep);background:var(--blush);border-radius:8px;padding:3px 8px">${i + 1}</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:1.08rem;color:var(--night)">${esc(s)}</span>
+        </div>`).join('')}
+    </div><div class="adfoot">Preview: your 5 subject lines, ranked ready</div></div>`;
+  }
+  if (t.id === 'slogan') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${[r.g1, r.g2, r.g3, r.g4, r.g5].filter(Boolean).map(s => `<p style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--night);padding:8px 0;border-bottom:1px solid rgba(196,139,159,.18)">${esc(s)}</p>`).join('')}
+    </div><div class="adfoot">Preview: pick your favorite</div></div>`;
+  }
+  if (t.id === 'video') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.hook ? `<p class="adhl">"${esc(r.hook)}"</p>` : ''}
+      ${['sc1','sc2','sc3'].map((k, i) => r[k] ? `<p class="adtx"><strong>Scene ${i + 1}:</strong> ${esc(r[k])}</p>` : '').join('')}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: your 30-second script, ready to film</div></div>`;
+  }
+  if (t.id === 'product') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.title ? `<p class="adhl">${esc(r.title)}</p>` : ''}
+      ${r.short ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem">${esc(r.short)}</p>` : ''}
+      ${r.full ? `<p class="adtx">${esc(r.full)}</p>` : ''}
+      ${r._raw ? `<p class="adtx">${esc(r._raw)}</p>` : ''}
+      <span class="adcta">${esc(state.profile.cta || 'Shop now')}</span>
+    </div><div class="adfoot">Preview: your store listing</div></div>`;
+  }
+  return `<div class="adcard">${head}<div class="adbody">
+    ${r.hl ? `<p class="adhl">${esc(r.hl)}</p>` : ''}
+    ${r.caption ? `<p class="adtx">${esc(r.caption)}</p>` : ''}
+    ${r.hashtags ? `<p class="adtags">${esc(r.hashtags)}</p>` : ''}
+    ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    ${r.slogan ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-style:italic">${esc(r.slogan)}</p>` : ''}
+    ${r.emails ? `<p class="adtx"><strong>Email subjects:</strong> ${esc(r.emails)}</p>` : ''}
+    ${r.hook ? `<p class="adtx"><strong>Video hook:</strong> ${esc(r.hook)}</p>` : ''}
+    ${r._raw ? `<p class="adtx">${esc(r._raw)}</p>` : ''}
+  </div><div class="adfoot">Preview: how your post will look</div></div>`;
+}
+
+function renderAds() {
+  const el = document.getElementById('view-ads');
+  if (!state.ads.length) {
+    el.innerHTML = `
+      <div class="view-head"><p class="eyebrow">My Ads</p><h2>Your Ad Collection</h2>
+      <p>Every ad you create is saved here, on your device.</p></div>
+      <div class="card" style="text-align:center;padding:34px 18px">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--night)">No ads yet \u2014 your first masterpiece is one tap away.</p>
+        <button class="btn btn-pink" style="margin-top:16px" data-nav="create">Create your first ad</button>
+      </div>`;
+    el.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+    return;
+  }
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">My Ads</p><h2>Your Ad Collection</h2>
+    <p>${state.ads.length} saved ${state.ads.length === 1 ? 'ad' : 'ads'} \u2014 copy any of them anytime.</p></div>
+    ${state.ads.map(a => `
+      <div class="saved">
+        <span class="si">${ICONS[(ADTYPES.find(t => t.id === a.type) || {}).icon] || ICONS.pack}</span>
+        <div style="min-width:0">
+          <b>${esc(a.typeName)}</b>
+          <small>${esc(((a.topic || '').slice(0, 60)) + ((a.topic || '').length > 60 ? '\u2026' : ''))}</small>
+          <small>${new Date(a.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</small>
+        </div>
+        <div class="sact">
+          <button class="btn btn-ghost dark btn-sm" data-copy-ad="${a.id}">Copy</button>
+          <button class="btn btn-ghost dark btn-sm" data-del-ad="${a.id}">Delete</button>
+        </div>
+      </div>`).join('')}
+    <button class="btn btn-pink" style="width:100%;margin-top:6px" data-nav="create">Create another ad</button>`;
+  el.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+  el.querySelectorAll('[data-copy-ad]').forEach(b => b.addEventListener('click', () => {
+    const a = state.ads.find(x => String(x.id) === b.dataset.copyAd);
+    if (a) copyText(flattenAd(a));
+  }));
+  el.querySelectorAll('[data-del-ad]').forEach(b => b.addEventListener('click', () => {
+    state.ads = state.ads.filter(x => String(x.id) !== b.dataset.delAd);
+    store.set('ads', state.ads);
+    renderAds();
+    toast('Ad deleted');
+  }));
+}
+
+function flattenAd(a) {
+  const t = ADTYPES.find(x => x.id === a.type);
+  const keys = t ? Object.keys(t.markers) : Object.keys(a.sections || {});
+  return keys.map(k => a.sections && a.sections[k] ? (SECTION_LABELS[k] || k) + ':\n' + a.sections[k] : '').filter(Boolean).join('\n\n') || (a.sections && a.sections._raw) || '';
+}
+
+function brandPct() {
+  const filled = Object.values(state.profile).filter(v => String(v || '').trim()).length;
+  return Math.round(filled / 7 * 100);
+}
+
+function renderBrand() {
+  const el = document.getElementById('view-brand');
+  const p = state.profile;
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Brand Profile</p><h2>Your Brand Voice</h2>
+    <p>Fill this in once \u2014 every ad the AI writes will sound like you.</p></div>
+    <div class="card">
+      <div class="meter"><i style="width:${brandPct()}%"></i></div>
+      <p class="hint" style="margin-top:6px">${brandPct()}% complete${brandPct() < 100 ? ' \u2014 the more you add, the better every ad gets.' : ' \u2014 perfect. Every ad is now on-brand.'}</p>
+      <label for="bpName">Business name</label>
+      <input class="input" id="bpName" placeholder="e.g. Sweet Grace Candles" value="${esc(p.name)}" />
+      <label for="bpProduct">What do you sell?</label>
+      <textarea class="input" id="bpProduct" placeholder="e.g. Handmade soy candles with Bible-verse labels">${esc(p.product)}</textarea>
+      <label for="bpAudience">Who is your customer?</label>
+      <textarea class="input" id="bpAudience" placeholder="e.g. Christian women 25-45 who love cozy home decor">${esc(p.audience)}</textarea>
+      <label for="bpBenefits">What makes you special? (benefits)</label>
+      <textarea class="input" id="bpBenefits" placeholder="e.g. Hand-poured in small batches, 40-hour burn, scripture in every box">${esc(p.benefits)}</textarea>
+      <label for="bpTone">Brand voice</label>
+      <select class="input" id="bpTone">${TONES.map(t => `<option ${p.tone === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>
+      <label for="bpWebsite">Website or store link (optional)</label>
+      <input class="input" id="bpWebsite" placeholder="e.g. godsredeemedwarrior.store" value="${esc(p.website)}" />
+      <label for="bpCta">Favorite call to action</label>
+      <input class="input" id="bpCta" placeholder="e.g. Shop now / Start today / Order yours" value="${esc(p.cta)}" />
+      <button class="btn btn-pink" id="btnSaveBrand" style="width:100%;margin-top:14px">Save Brand Profile</button>
+      <p class="hint" style="margin-top:10px">Saved privately on this device. It is only used to write your ads.</p>
+    </div>`;
+  el.querySelector('#btnSaveBrand').addEventListener('click', () => {
+    state.profile = {
+      name: el.querySelector('#bpName').value.trim(),
+      product: el.querySelector('#bpProduct').value.trim(),
+      audience: el.querySelector('#bpAudience').value.trim(),
+      benefits: el.querySelector('#bpBenefits').value.trim(),
+      tone: el.querySelector('#bpTone').value,
+      website: el.querySelector('#bpWebsite').value.trim(),
+      cta: el.querySelector('#bpCta').value.trim()
+    };
+    store.set('profile', state.profile);
+    toast('Brand profile saved \u2713');
+    renderBrand();
+  });
+}
+
+function renderAccount() {
+  const el = document.getElementById('view-account');
+  if (!state.auth) {
+    el.innerHTML = `
+      <div class="view-head"><p class="eyebrow">Account</p><h2>Sign In</h2>
+      <p>Optional \u2014 your ads and brand save on this device either way. An account keeps you signed in across devices.</p></div>
+      <div class="card">
+        <label for="aiEmail">Email</label>
+        <input class="input" id="aiEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+        <label for="aiPass">Password</label>
+        <input class="input" id="aiPass" type="password" autocomplete="current-password" placeholder="At least 8 characters" />
+        <p class="err" id="authErr"></p>
+        <button class="btn btn-pink" id="btnAuth" style="width:100%;margin-top:10px">Sign In</button>
+        <button class="btn btn-ghost dark" id="btnAuthToggle" style="width:100%;margin-top:10px">New here? Create a free account</button>
+        <button class="btn btn-ghost dark btn-sm" id="btnForgotToggle" style="width:100%;margin-top:10px">Forgot password?</button>
+        <div id="forgotBox" class="hidden" style="margin-top:12px;padding:14px;border:1px solid rgba(196,139,159,.35);border-radius:14px;background:var(--cream)">
+          <p class="hint" style="margin-top:0">Enter your email and the platform owner will set you up with a temporary password.</p>
+          <input class="input" id="fpEmail" type="email" placeholder="Your email" style="margin-top:8px" />
+          <button class="btn btn-pink btn-sm" id="btnSendForgot" style="margin-top:8px">Send my request</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Privacy, in plain words</h3>
+        <p class="hint" style="margin-top:6px">Your brand profile and saved ads stay on your device. Your password is encrypted on our server and never stored in readable form. We never sell your information.</p>
+      </div>`;
+    let mode = 'login';
+    const authBtn = el.querySelector('#btnAuth');
+    const errEl = el.querySelector('#authErr');
+    el.querySelector('#btnAuthToggle').addEventListener('click', () => {
+      mode = mode === 'login' ? 'register' : 'login';
+      authBtn.textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+      el.querySelector('#btnAuthToggle').textContent = mode === 'login' ? 'New here? Create a free account' : 'I already have an account';
+      errEl.textContent = '';
+    });
+    el.querySelector('#btnForgotToggle').addEventListener('click', () => el.querySelector('#forgotBox').classList.toggle('hidden'));
+    el.querySelector('#btnSendForgot').addEventListener('click', async () => {
+      const email = el.querySelector('#fpEmail').value.trim();
+      if (!email) { errEl.textContent = 'Please enter your email first.'; return; }
+      try {
+        const r = await api('/api/auth/forgot', { method: 'POST', body: { email } });
+        errEl.classList.remove('err'); errEl.classList.add('ok');
+        errEl.textContent = (r && r.message) || 'Request sent. The platform owner will give you a temporary password.';
+      } catch (e) { errEl.textContent = 'Could not reach the server. Check your connection.'; }
+    });
+    authBtn.addEventListener('click', async () => {
+      errEl.classList.add('err'); errEl.classList.remove('ok');
+      errEl.textContent = '';
+      authBtn.disabled = true;
+      try {
+        const r = await api('/api/auth/' + mode, { method: 'POST', body: { email: el.querySelector('#aiEmail').value.trim(), password: el.querySelector('#aiPass').value } });
+        state.auth = { token: r.token, email: r.member.email, role: r.member.role || 'member' };
+        store.set('auth', state.auth);
+        updateOwnerBadge();
+        toast(mode === 'login' ? 'Welcome back! \u2713' : 'Account created \u2713');
+        renderAccount();
+      } catch (e) { errEl.textContent = e.message; }
+      authBtn.disabled = false;
+    });
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Account</p><h2>${esc((state.auth.email || '').split('@')[0])}</h2>
+    <p>${esc(state.auth.email)}</p></div>
+    ${isOwner() ? '<div class="card" style="border-color:var(--gold)"><h3>\ud83d\udc51 Owner Access</h3><p class="hint" style="margin-top:4px">Verified server-side. Unlimited everything, always.</p></div>' : ''}
+    <div class="card">
+      <h3>Change password</h3>
+      <label for="cpCur">Current password</label>
+      <input class="input" id="cpCur" type="password" autocomplete="current-password" />
+      <label for="cpNew">New password</label>
+      <input class="input" id="cpNew" type="password" autocomplete="new-password" placeholder="At least 8 characters" />
+      <p class="err" id="cpErr"></p>
+      <button class="btn btn-pink" id="btnChangePass" style="width:100%;margin-top:10px">Update Password</button>
+    </div>
+    <div class="card">
+      <h3>Your data</h3>
+      <p class="hint" style="margin-top:6px">Brand profile and saved ads live on this device. Clearing them here is instant.</p>
+      <button class="btn btn-ghost dark btn-sm" id="btnClearLocal" style="margin-top:10px">Clear saved ads & brand profile</button>
+    </div>
+    <button class="btn btn-ghost dark" id="btnSignOut" style="width:100%;margin-top:4px">Sign Out</button>
+    <p class="hint" style="margin-top:16px;text-align:center">Redeemed Warrior Ad Studio \u00b7 Redeemed by Grace. Built to Rise.</p>`;
+  el.querySelector('#btnChangePass').addEventListener('click', async () => {
+    const errEl = el.querySelector('#cpErr');
+    errEl.textContent = '';
+    try {
+      const r = await api('/api/auth/change-password', { method: 'POST', body: { currentPassword: el.querySelector('#cpCur').value, newPassword: el.querySelector('#cpNew').value } });
+      errEl.classList.remove('err'); errEl.classList.add('ok');
+      errEl.textContent = (r && r.message) || 'Password updated.';
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  el.querySelector('#btnClearLocal').addEventListener('click', () => {
+    state.ads = [];
+    store.set('ads', []);
+    toast('Saved ads cleared');
+  });
+  el.querySelector('#btnSignOut').addEventListener('click', () => {
+    state.auth = null;
+    store.set('auth', null);
+    updateOwnerBadge();
+    toast('Signed out');
+    navTo('home');
+  });
+}
+
+function updateOwnerBadge() {
+  document.getElementById('ownerBadge').classList.toggle('hidden', !isOwner());
+}
+
+async function verifyRole() {
+  if (!state.auth) return;
+  try {
+    const me = await api('/api/auth/me');
+    const role = me && me.member && me.member.role;
+    if (role && role !== state.auth.role) { state.auth.role = role; store.set('auth', state.auth); }
+  } catch (e) {
+    if (e.status === 401) { state.auth = null; store.set('auth', null); }
+  }
+  updateOwnerBadge();
+}
+
+document.getElementById('btnStart').addEventListener('click', () => {
+  document.getElementById('welcome').classList.add('gone');
+  document.getElementById('app').classList.add('on');
+  navTo('home');
+});
+document.getElementById('btnWelcomeAccount').addEventListener('click', () => {
+  document.getElementById('welcome').classList.add('gone');
+  document.getElementById('app').classList.add('on');
+  navTo('account');
+});
+
+if (state.auth) {
+  document.getElementById('welcome').classList.add('gone');
+  document.getElementById('app').classList.add('on');
+  navTo('home');
+  verifyRole();
+}
+</script>
+</body>
+</html>

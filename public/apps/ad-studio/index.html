@@ -157,6 +157,17 @@ textarea.input{resize:vertical;min-height:74px}
 .vstage canvas,.vstage video{width:100%;display:block}
 .vstatus{margin-top:10px;font-size:.88rem;color:var(--muted);min-height:1.3em}
 .vnote{margin-top:10px;font-size:.78rem;color:var(--muted);background:var(--cream);border-radius:12px;padding:10px 12px}
+.slide{background:var(--cream);border-radius:12px;padding:10px 12px;margin-bottom:10px;cursor:pointer}
+.slide-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.slide-num{font-weight:600;font-size:.85rem;color:var(--ink);flex:1}
+.sbtn{background:var(--blush);border:none;border-radius:8px;padding:4px 10px;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.sbtn:disabled{opacity:.4}
+.sbtn.danger{background:#f7d6e3}
+#slideEditor{margin-top:10px}
+#slidePrev{width:140px;max-width:45%;border-radius:12px;display:block;margin:0 auto 10px;border:2px solid var(--gold)}
+.slide-row{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.sdurl{font-size:.85rem;display:flex;align-items:center;gap:6px}
+.sdur{width:70px}
 </style>
 </head>
 <body>
@@ -229,7 +240,7 @@ const state = {
   auth: store.get('auth', null),
   profile: store.get('profile', { name:'', product:'', audience:'', tone:'Warm and encouraging', benefits:'', website:'', cta:'Shop now' }),
   ads: store.get('ads', []),
-  create: { type: null, busy: false, result: null, error: '', lastForm: null }
+  create: { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 }
 };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -433,6 +444,7 @@ function renderCreate() {
     el.querySelectorAll('[data-type]').forEach(b => b.addEventListener('click', () => {
       state.create.type = ADTYPES.find(t => t.id === b.dataset.type);
       state.create.result = null; state.create.error = '';
+      state.create.slides = null; state.create.slideSel = 0;
       renderCreate();
     }));
     return;
@@ -469,7 +481,7 @@ function renderCreate() {
       </div>
       ${(t.id === 'video' || t.id === 'pack') ? `<div class="card vidstudio" id="vidStudio" style="margin-top:14px">
         <h3>\ud83c\udfac Make the Video</h3>
-        <p class="hint" style="margin-top:4px">Turn this script into a real video ad — cinematic animation, crossfades, sparkles, music, your brand. Made right on your phone.</p>
+        <p class="hint" style="margin-top:4px">Turn this script into a crisp HD video ad — cinematic animation, crossfades, sparkles, music, your brand. Edit every slide yourself or let the AI scene it for you. Made right on your phone.</p>
         <div class="vrow">
           <button class="vopt sel" data-aspect="story">Story 9:16</button>
           <button class="vopt" data-aspect="square">Post 1:1</button>
@@ -479,6 +491,11 @@ function renderCreate() {
           <button class="vopt" data-voice="ai">AI Voice</button>
           <button class="vopt" data-voice="mic">My Voice</button>
         </div>
+        <div class="vrow" role="group" aria-label="Scenes">
+          <button class="vopt sel" data-scenes="auto">Auto Scenes</button>
+          <button class="vopt" data-scenes="edit">Edit Slides</button>
+        </div>
+        <div id="slideEditor" class="hidden"></div>
         <label class="vtoggle"><input type="checkbox" id="vidMusic" checked /> Add soft music to the video</label>
         <div class="vrow">
           <button class="btn btn-pink" id="btnMakeVideo" style="flex:1">Generate Video Ad</button>
@@ -497,7 +514,7 @@ function renderCreate() {
       navTo('ads');
     });
     el.querySelector('#btnRegen').addEventListener('click', () => generate(t, state.create.lastForm));
-    el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null }; renderCreate(); });
+    el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 }; renderCreate(); });
     const mvBtn = el.querySelector('#btnMakeVideo');
     if (mvBtn) {
       mvBtn.addEventListener('click', () => makeVideoAd(t, r));
@@ -508,6 +525,11 @@ function renderCreate() {
       el.querySelectorAll('#vidStudio [data-voice]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-voice]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
+      }));
+      el.querySelectorAll('#vidStudio [data-scenes]').forEach(b => b.addEventListener('click', () => {
+        el.querySelectorAll('#vidStudio [data-scenes]').forEach(x => x.classList.remove('sel'));
+        b.classList.add('sel');
+        renderSlideEditor(t, r);
       }));
     }
     return;
@@ -542,6 +564,7 @@ async function generate(t, form) {
     const parsed = parseSections(reply, t.markers);
     if (!Object.values(parsed).filter(Boolean).length) parsed._raw = reply.trim();
     state.create.result = parsed;
+    state.create.slides = null; state.create.slideSel = 0;
     state.create.busy = false;
     renderCreate();
   } catch (e) {
@@ -1103,6 +1126,92 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
   master.gain.linearRampToValueAtTime(0.0001, now + totalSeconds);
 }
 
+function slideBase(t, r) {
+  return buildScenes(t, r).map(s => ({ label: s.label || '', text: s.text, cta: !!s.cta, dur: Math.round(sceneDuration(s, 0, 1) * 10) / 10 }));
+}
+
+function drawSlidePreview() {
+  const cv = document.getElementById('slidePrev');
+  if (!cv) return;
+  const slides = state.create.slides || [];
+  const idx = Math.min(state.create.slideSel || 0, slides.length - 1);
+  const s = slides[idx];
+  if (!s) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const now = performance.now() / 1000;
+  drawSceneBackground(ctx, W, H, idx, 1, 1, now);
+  drawSceneContent(ctx, W, H, s, 2, now);
+  drawVideoChrome(ctx, W, H, (state.profile && state.profile.name) || 'REDEEMED WARRIOR');
+  drawVignette(ctx, W, H);
+}
+
+function renderSlideEditor(t, r) {
+  const ed = document.getElementById('slideEditor');
+  if (!ed) return;
+  const editBtn = document.querySelector('#vidStudio [data-scenes="edit"]');
+  if (!editBtn || !editBtn.classList.contains('sel')) { ed.classList.add('hidden'); ed.innerHTML = ''; return; }
+  if (!Array.isArray(state.create.slides) || !state.create.slides.length) state.create.slides = slideBase(t, r);
+  if (state.create.slideSel >= state.create.slides.length) state.create.slideSel = 0;
+  ed.classList.remove('hidden');
+  const last = state.create.slides.length - 1;
+  ed.innerHTML = '<canvas id="slidePrev" width="216" height="384"></canvas>' +
+    state.create.slides.map((s, i) => `
+    <div class="slide" data-i="${i}">
+      <div class="slide-top"><span class="slide-num">Slide ${i + 1}</span>
+        <button class="sbtn" data-mv="-1" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
+        <button class="sbtn" data-mv="1" ${i === last ? 'disabled' : ''}>&#9660;</button>
+        <button class="sbtn danger" data-del ${state.create.slides.length <= 1 ? 'disabled' : ''}>&#10005;</button>
+      </div>
+      <input class="input" data-f="label" placeholder="Small label, like HOOK" value="${esc(s.label)}" />
+      <textarea class="input" data-f="text" rows="2" placeholder="The words on this slide">${esc(s.text)}</textarea>
+      <div class="slide-row">
+        <label class="sdurl">Seconds <input class="input sdur" data-f="dur" type="number" min="1.5" max="10" step="0.5" value="${s.dur}" /></label>
+        <label class="vtoggle"><input type="checkbox" data-f="cta" ${s.cta ? 'checked' : ''} /> Big button slide</label>
+      </div>
+    </div>`).join('') +
+    '<button class="btn btn-ghost dark btn-sm" id="btnAddSlide">+ Add Slide</button>';
+  ed.querySelectorAll('.slide').forEach(sl => {
+    const i = Number(sl.dataset.i);
+    sl.addEventListener('click', () => { state.create.slideSel = i; drawSlidePreview(); });
+    sl.querySelectorAll('[data-f]').forEach(inp => {
+      const apply = () => {
+        const s = state.create.slides[i];
+        if (!s) return;
+        if (inp.dataset.f === 'cta') s.cta = inp.checked;
+        else if (inp.dataset.f === 'dur') s.dur = Number(inp.value) || 3;
+        else s[inp.dataset.f] = inp.value;
+        state.create.slideSel = i;
+        drawSlidePreview();
+      };
+      inp.addEventListener(inp.type === 'checkbox' || inp.type === 'number' ? 'change' : 'input', apply);
+    });
+    sl.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const j = i + Number(b.dataset.mv);
+      if (j < 0 || j >= state.create.slides.length) return;
+      const arr = state.create.slides;
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      state.create.slideSel = j;
+      renderSlideEditor(t, r);
+    }));
+    const delBtn = sl.querySelector('[data-del]');
+    if (delBtn) delBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.create.slides.length <= 1) return;
+      state.create.slides.splice(i, 1);
+      state.create.slideSel = Math.max(0, i - 1);
+      renderSlideEditor(t, r);
+    });
+  });
+  ed.querySelector('#btnAddSlide').addEventListener('click', () => {
+    state.create.slides.push({ label: '', text: '', cta: false, dur: 4 });
+    state.create.slideSel = state.create.slides.length - 1;
+    renderSlideEditor(t, r);
+  });
+  drawSlidePreview();
+}
+
 async function makeVideoAd(t, r) {
   const studio = document.getElementById('vidStudio');
   const status = document.getElementById('vstatus');
@@ -1115,10 +1224,15 @@ async function makeVideoAd(t, r) {
   const voiceOpt = studio.querySelector('[data-voice].sel');
   const voice = voiceOpt ? voiceOpt.dataset.voice : 'none';
   const aiVoiceReady = voice === 'ai' && window.speechSynthesis && window.SpeechSynthesisUtterance;
-  const scenes = buildScenes(t, r);
+  const editBtn = studio.querySelector('[data-scenes="edit"]');
+  const editOn = editBtn && editBtn.classList.contains('sel');
+  const custom = (editOn && Array.isArray(state.create.slides) && state.create.slides.length)
+    ? state.create.slides.filter(s => s.text && s.text.trim()).map(s => ({ label: s.label || '', text: s.text.trim(), cta: !!s.cta, dur: Number(s.dur) || 0 }))
+    : null;
+  const scenes = custom || buildScenes(t, r);
   if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
-  const W = aspect === 'square' ? 900 : 720;
-  const H = aspect === 'square' ? 900 : 1280;
+  const W = 1080;
+  const H = aspect === 'square' ? 1080 : 1920;
   canvas.width = W; canvas.height = H;
   video.classList.add('hidden');
   dl.classList.add('hidden');
@@ -1129,7 +1243,7 @@ async function makeVideoAd(t, r) {
   status.textContent = 'Preparing your brand scenes\u2026';
   try { if (document.fonts && document.fonts.load) { await document.fonts.load('600 60px "Cormorant Garamond"'); await document.fonts.load('600 30px Jost'); } } catch {}
   const times = [0];
-  scenes.forEach((s, i) => times.push(times[i] + sceneDuration(s, i, scenes.length)));
+  scenes.forEach((s, i) => times.push(times[i] + (s.dur ? Math.min(10, Math.max(1.5, s.dur)) : sceneDuration(s, i, scenes.length))));
   const total = times[times.length - 1];
   const canRecord = typeof MediaRecorder !== 'undefined' && canvas.captureStream;
   let recorder = null, chunks = [], audioCtx = null, micStream = null;
@@ -1152,7 +1266,8 @@ async function makeVideoAd(t, r) {
       } catch (e) { micStream = null; }
     }
     const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || '';
-    recorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    const recOpts = mime ? { mimeType: mime, videoBitsPerSecond: 10000000, audioBitsPerSecond: 128000 } : { videoBitsPerSecond: 10000000, audioBitsPerSecond: 128000 };
+    recorder = new MediaRecorder(stream, recOpts);
     recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
   }
   status.textContent = canRecord ? 'Recording your video ad\u2026' : 'Playing your video ad\u2026';

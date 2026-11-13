@@ -168,6 +168,11 @@ textarea.input{resize:vertical;min-height:74px}
 .slide-row{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
 .sdurl{font-size:.85rem;display:flex;align-items:center;gap:6px}
 .sdur{width:70px}
+#voiceSettings{background:var(--cream);border-radius:12px;padding:10px 12px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
+#voiceSettings select{font-family:var(--font-body);padding:8px;border-radius:8px;border:1px solid var(--blush);background:#fff;color:var(--ink);max-width:100%}
+#voiceSettings input[type=range]{width:130px;accent-color:#E2449A}
+.sphotolabel{display:inline-flex;align-items:center;gap:6px}
+.sphotolabel input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .swatches{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .swatch{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.55);cursor:pointer;padding:0}
 .swatch.sel{outline:2px solid var(--pink);outline-offset:1px}
@@ -250,7 +255,8 @@ const state = {
   auth: store.get('auth', null),
   profile: store.get('profile', { name:'', product:'', audience:'', tone:'Warm and encouraging', benefits:'', website:'', cta:'Shop now' }),
   ads: store.get('ads', []),
-  create: { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 }
+  create: { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 },
+  video: Object.assign({ voiceName: '', rate: 0.95, pitch: 1.05 }, store.get('video', {}))
 };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -496,10 +502,22 @@ function renderCreate() {
           <button class="vopt sel" data-aspect="story">Story 9:16</button>
           <button class="vopt" data-aspect="square">Post 1:1</button>
         </div>
+        <div class="vrow" role="group" aria-label="Video quality">
+          <button class="vopt sel" data-quality="hd">HD 1080</button>
+          <button class="vopt" data-quality="fast">Fast 720</button>
+        </div>
         <div class="vrow" role="group" aria-label="Video voice">
           <button class="vopt sel" data-voice="none">No Voice</button>
           <button class="vopt" data-voice="ai">AI Voice</button>
           <button class="vopt" data-voice="mic">My Voice</button>
+        </div>
+        <div id="voiceSettings" class="hidden">
+          <label class="sdurl">Voice
+            <select id="voiceSel"></select>
+          </label>
+          <label class="sdurl">Speed <input type="range" id="voiceRate" min="0.7" max="1.3" step="0.05" value="${state.video.rate}" /></label>
+          <label class="sdurl">Pitch <input type="range" id="voicePitch" min="0.7" max="1.3" step="0.05" value="${state.video.pitch}" /></label>
+          <button type="button" class="sbtn" id="btnVoiceTest">&#9654; Hear a sample</button>
         </div>
         <div class="vrow" role="group" aria-label="Scenes">
           <button class="vopt sel" data-scenes="auto">Auto Scenes</button>
@@ -508,6 +526,7 @@ function renderCreate() {
         <div id="slideEditor" class="hidden"></div>
         <label class="vtoggle"><input type="checkbox" id="vidMusic" checked /> Add soft music to the video</label>
         <div class="vrow">
+          <button class="btn btn-ghost dark" id="btnPreviewVideo" style="flex:1">&#9654; Preview</button>
           <button class="btn btn-pink" id="btnMakeVideo" style="flex:1">Generate Video Ad</button>
         </div>
         <div class="vstage" id="vstage"><canvas id="vcanvas"></canvas><video id="vvideo" controls class="hidden"></video></div>
@@ -527,15 +546,32 @@ function renderCreate() {
     el.querySelector('#btnNewAd').addEventListener('click', () => { state.create = { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 }; renderCreate(); });
     const mvBtn = el.querySelector('#btnMakeVideo');
     if (mvBtn) {
-      mvBtn.addEventListener('click', () => makeVideoAd(t, r));
+      mvBtn.addEventListener('click', () => makeVideoAd(t, r, false));
+      const pvBtn = el.querySelector('#btnPreviewVideo');
+      if (pvBtn) pvBtn.addEventListener('click', () => makeVideoAd(t, r, true));
       el.querySelectorAll('#vidStudio [data-aspect]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-aspect]').forEach(x => x.classList.remove('sel'));
+        b.classList.add('sel');
+      }));
+      el.querySelectorAll('#vidStudio [data-quality]').forEach(b => b.addEventListener('click', () => {
+        el.querySelectorAll('#vidStudio [data-quality]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
       }));
       el.querySelectorAll('#vidStudio [data-voice]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-voice]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
+        const vs = el.querySelector('#voiceSettings');
+        if (vs) vs.classList.toggle('hidden', b.dataset.voice !== 'ai');
+        if (b.dataset.voice === 'ai') populateVoiceSelect();
       }));
+      const vtBtn = el.querySelector('#btnVoiceTest');
+      if (vtBtn) vtBtn.addEventListener('click', () => testVoice());
+      const vSel = el.querySelector('#voiceSel');
+      if (vSel) vSel.addEventListener('change', () => { state.video.voiceName = vSel.value; store.set('video', state.video); });
+      const vRate = el.querySelector('#voiceRate');
+      if (vRate) vRate.addEventListener('input', () => { state.video.rate = Number(vRate.value) || 0.95; store.set('video', state.video); });
+      const vPitch = el.querySelector('#voicePitch');
+      if (vPitch) vPitch.addEventListener('input', () => { state.video.pitch = Number(vPitch.value) || 1.05; store.set('video', state.video); });
       el.querySelectorAll('#vidStudio [data-scenes]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-scenes]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
@@ -989,12 +1025,14 @@ function drawSceneContent(ctx, W, H, s, local, now) {
     ctx.fillStyle = 'rgba(240,90,168,' + (0.95 * ease).toFixed(3) + ')';
     ctx.fillText(s.label.split('').join('\u2009'), W / 2, H * (s.cta ? 0.32 : 0.24));
   }
-  const mainSize = Math.round(W * (s.cta ? 0.082 : 0.062));
+  const sizeMul = s.size === 'sm' ? 0.8 : s.size === 'lg' ? 1.25 : 1;
+  const mainSize = Math.round(W * (s.cta ? 0.082 : 0.062) * sizeMul);
   ctx.font = '600 ' + mainSize + 'px "Cormorant Garamond", serif';
   const lines = wrapCanvasText(ctx, s.text, W * 0.78);
   const lineH = mainSize * 1.25;
   const blockH = lines.length * lineH;
-  const cy = H * (s.cta ? 0.5 : 0.46) - blockH / 2 + lineH / 2;
+  const cyBase = s.cta ? 0.5 : (s.pos === 'top' ? 0.34 : s.pos === 'bot' ? 0.6 : 0.46);
+  const cy = H * cyBase - blockH / 2 + lineH / 2;
   ctx.shadowColor = 'rgba(0,0,0,.45)';
   ctx.shadowBlur = W * 0.012;
   lines.forEach((ln, i) => {
@@ -1173,8 +1211,34 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
   master.gain.linearRampToValueAtTime(0.0001, now + totalSeconds);
 }
 
+function populateVoiceSelect() {
+  const sel = document.getElementById('voiceSel');
+  if (!sel || !window.speechSynthesis) return;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  const en = voices.filter(v => /^en/i.test(v.lang));
+  const rest = voices.filter(v => !/^en/i.test(v.lang));
+  sel.innerHTML = en.concat(rest).map(v => '<option value="' + esc(v.name) + '">' + esc(v.name) + ' (' + esc(v.lang) + ')</option>').join('');
+  if (state.video.voiceName && voices.some(v => v.name === state.video.voiceName)) sel.value = state.video.voiceName;
+  else if (en.length) { sel.value = en[0].name; state.video.voiceName = en[0].name; store.set('video', state.video); }
+}
+
+function testVoice() {
+  if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) { toast('This browser has no AI voices'); return; }
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance('Hi Warrior! This is your ad voice. Let us build something beautiful.');
+    const voices = window.speechSynthesis.getVoices();
+    const pick = voices.find(v => v.name === state.video.voiceName) || voices.find(v => /^en/i.test(v.lang));
+    if (pick) u.voice = pick;
+    u.rate = state.video.rate;
+    u.pitch = state.video.pitch;
+    window.speechSynthesis.speak(u);
+  } catch {}
+}
+
 function slideBase(t, r) {
-  return buildScenes(t, r).map(s => ({ label: s.label || '', text: s.text, cta: !!s.cta, dur: Math.round(sceneDuration(s, 0, 1) * 10) / 10, bg: 'auto', img: '' }));
+  return buildScenes(t, r).map(s => ({ label: s.label || '', text: s.text, cta: !!s.cta, dur: Math.round(sceneDuration(s, 0, 1) * 10) / 10, bg: 'auto', img: '', size: 'md', pos: 'mid' }));
 }
 
 function drawSlidePreview() {
@@ -1208,6 +1272,7 @@ function renderSlideEditor(t, r) {
       <div class="slide-top"><span class="slide-num">Slide ${i + 1}</span>
         <button class="sbtn" data-mv="-1" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
         <button class="sbtn" data-mv="1" ${i === last ? 'disabled' : ''}>&#9660;</button>
+        <button class="sbtn" data-dup title="Duplicate slide">&#10697;</button>
         <button class="sbtn danger" data-del ${state.create.slides.length <= 1 ? 'disabled' : ''}>&#10005;</button>
       </div>
       <input class="input" data-f="label" placeholder="Small label, like HOOK" value="${esc(s.label)}" />
@@ -1215,8 +1280,25 @@ function renderSlideEditor(t, r) {
       <div class="slide-row">
         <span class="swatches">${['auto', 'wine', 'rose', 'blush', 'plum', 'gold'].map(p => `<button type="button" class="swatch${((s.bg || 'auto') === p) ? ' sel' : ''}" data-bg="${p}" aria-label="${p} background"></button>`).join('')}</span>
         <button type="button" class="sbtn" data-aiphoto>&#10024; AI Photo</button>
+        <label class="sbtn sphotolabel">&#128247; Upload Photo<input type="file" accept="image/*" data-photo /></label>
       </div>
-      <input class="input simg" data-f="img" placeholder="Picture URL for this slide (optional)" value="${esc(s.img || '')}" />
+      <input class="input simg" data-f="img" placeholder="Picture URL for this slide (optional)" value="${esc(s.img && !s.img.startsWith('data:') ? s.img : '')}" />
+      <div class="slide-row">
+        <label class="sdurl">Text
+          <select class="input sdur" data-f="size">
+            <option value="sm" ${s.size === 'sm' ? 'selected' : ''}>Small</option>
+            <option value="md" ${!s.size || s.size === 'md' ? 'selected' : ''}>Medium</option>
+            <option value="lg" ${s.size === 'lg' ? 'selected' : ''}>Large</option>
+          </select>
+        </label>
+        <label class="sdurl">Position
+          <select class="input sdur" data-f="pos">
+            <option value="top" ${s.pos === 'top' ? 'selected' : ''}>Top</option>
+            <option value="mid" ${!s.pos || s.pos === 'mid' ? 'selected' : ''}>Middle</option>
+            <option value="bot" ${s.pos === 'bot' ? 'selected' : ''}>Lower</option>
+          </select>
+        </label>
+      </div>
       <div class="slide-row">
         <label class="sdurl">Seconds <input class="input sdur" data-f="dur" type="number" min="1.5" max="10" step="0.5" value="${s.dur}" /></label>
         <label class="vtoggle"><input type="checkbox" data-f="cta" ${s.cta ? 'checked' : ''} /> Big button slide</label>
@@ -1238,7 +1320,7 @@ function renderSlideEditor(t, r) {
         state.create.slideSel = i;
         drawSlidePreview();
       };
-      inp.addEventListener(inp.type === 'checkbox' || inp.type === 'number' ? 'change' : 'input', apply);
+      inp.addEventListener(inp.tagName === 'SELECT' || inp.type === 'checkbox' || inp.type === 'number' ? 'change' : 'input', apply);
     });
     sl.querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1247,6 +1329,29 @@ function renderSlideEditor(t, r) {
     }));
     const aiBtn = sl.querySelector('[data-aiphoto]');
     if (aiBtn) aiBtn.addEventListener('click', (e) => { e.stopPropagation(); generateSlidePhoto(t, r, i); });
+    const photoInput = sl.querySelector('[data-photo]');
+    if (photoInput) photoInput.addEventListener('change', () => {
+      const file = photoInput.files && photoInput.files[0];
+      if (!file) return;
+      if (file.size > 12 * 1024 * 1024) { toast('That photo is too large (max 12 MB)'); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.create.slides[i].img = reader.result;
+        state.create.slideSel = i;
+        renderSlideEditor(t, r);
+        getSlideImage(reader.result, drawSlidePreview);
+        toast('Photo added to slide \u2713');
+      };
+      reader.readAsDataURL(file);
+    });
+    const dupBtn = sl.querySelector('[data-dup]');
+    if (dupBtn) dupBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const copy = Object.assign({}, state.create.slides[i]);
+      state.create.slides.splice(i + 1, 0, copy);
+      state.create.slideSel = i + 1;
+      renderSlideEditor(t, r);
+    });
     sl.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', (e) => {
       e.stopPropagation();
       const j = i + Number(b.dataset.mv);
@@ -1312,7 +1417,7 @@ async function generateAllSlidePhotos(t, r) {
   toast('Photos on the way \u2014 they fill in as they finish');
 }
 
-async function makeVideoAd(t, r) {
+async function makeVideoAd(t, r, previewOnly) {
   const studio = document.getElementById('vidStudio');
   const status = document.getElementById('vstatus');
   const stage = document.getElementById('vstage');
@@ -1320,19 +1425,22 @@ async function makeVideoAd(t, r) {
   const video = document.getElementById('vvideo');
   const dl = document.getElementById('vdownload');
   const aspect = studio.querySelector('[data-aspect].sel').dataset.aspect;
+  const qBtn = studio.querySelector('[data-quality].sel');
+  const quality = qBtn ? qBtn.dataset.quality : 'hd';
   const withMusic = document.getElementById('vidMusic').checked;
+  const preview = previewOnly === true;
   const voiceOpt = studio.querySelector('[data-voice].sel');
   const voice = voiceOpt ? voiceOpt.dataset.voice : 'none';
   const aiVoiceReady = voice === 'ai' && window.speechSynthesis && window.SpeechSynthesisUtterance;
   const editBtn = studio.querySelector('[data-scenes="edit"]');
   const editOn = editBtn && editBtn.classList.contains('sel');
   const custom = (editOn && Array.isArray(state.create.slides) && state.create.slides.length)
-    ? state.create.slides.filter(s => s.text && s.text.trim()).map(s => ({ label: s.label || '', text: s.text.trim(), cta: !!s.cta, dur: Number(s.dur) || 0, bg: s.bg || 'auto', img: (s.img || '').trim() }))
+    ? state.create.slides.filter(s => s.text && s.text.trim()).map(s => ({ label: s.label || '', text: s.text.trim(), cta: !!s.cta, dur: Number(s.dur) || 0, bg: s.bg || 'auto', img: (s.img || '').trim(), size: s.size || 'md', pos: s.pos || 'mid' }))
     : null;
   const scenes = custom || buildScenes(t, r);
   if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
-  const W = 1080;
-  const H = aspect === 'square' ? 1080 : 1920;
+  const W = quality === 'fast' ? 720 : 1080;
+  const H = aspect === 'square' ? W : Math.round(W * 16 / 9);
   canvas.width = W; canvas.height = H;
   video.classList.add('hidden');
   dl.classList.add('hidden');
@@ -1352,7 +1460,7 @@ async function makeVideoAd(t, r) {
   const times = [0];
   scenes.forEach((s, i) => times.push(times[i] + (s.dur ? Math.min(10, Math.max(1.5, s.dur)) : sceneDuration(s, i, scenes.length))));
   const total = times[times.length - 1];
-  const canRecord = typeof MediaRecorder !== 'undefined' && canvas.captureStream;
+  const canRecord = !preview && typeof MediaRecorder !== 'undefined' && canvas.captureStream;
   let recorder = null, chunks = [], audioCtx = null, micStream = null;
   const streams = [];
   if (canRecord) {
@@ -1373,12 +1481,14 @@ async function makeVideoAd(t, r) {
       } catch (e) { micStream = null; }
     }
     const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || '';
-    const recOpts = mime ? { mimeType: mime, videoBitsPerSecond: 10000000, audioBitsPerSecond: 128000 } : { videoBitsPerSecond: 10000000, audioBitsPerSecond: 128000 };
+    const vbr = quality === 'fast' ? 6000000 : 10000000;
+    const abr = quality === 'fast' ? 96000 : 128000;
+    const recOpts = mime ? { mimeType: mime, videoBitsPerSecond: vbr, audioBitsPerSecond: abr } : { videoBitsPerSecond: vbr, audioBitsPerSecond: abr };
     recorder = new MediaRecorder(stream, recOpts);
     recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
   }
-  status.textContent = canRecord ? 'Recording your video ad\u2026' : 'Playing your video ad\u2026';
-  if (voice === 'mic' && !micStream) status.textContent = 'Microphone not available \u2014 recording without voice.';
+  status.textContent = canRecord ? 'Recording your video ad\u2026' : (preview ? 'Playing your preview\u2026' : 'Playing your video ad\u2026');
+  if (!preview && voice === 'mic' && !micStream) status.textContent = 'Microphone not available \u2014 recording without voice.';
   if (voice === 'ai' && !aiVoiceReady) status.textContent = 'AI voice is not supported in this browser \u2014 playing without voice.';
   const recStart = performance.now();
   let rafId = null;
@@ -1402,7 +1512,9 @@ async function makeVideoAd(t, r) {
       };
       recorder.stop();
     } else {
-      status.textContent = 'Your browser cannot save video files. Watch the live version above \u2014 or screenshot the scenes and post those.';
+      status.textContent = preview
+        ? 'Preview finished! Tap Generate Video Ad to save the file.'
+        : 'Your browser cannot save video files. Watch the live version above \u2014 or screenshot the scenes and post those.';
     }
   };
   const speakScene = (i) => {
@@ -1410,8 +1522,11 @@ async function makeVideoAd(t, r) {
     try {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(scenes[i].text);
-      u.rate = 0.95;
-      u.pitch = 1.05;
+      const voices = window.speechSynthesis.getVoices();
+      const pick = voices.find(v => v.name === state.video.voiceName) || voices.find(v => /^en/i.test(v.lang));
+      if (pick) u.voice = pick;
+      u.rate = state.video.rate;
+      u.pitch = state.video.pitch;
       window.speechSynthesis.speak(u);
     } catch {}
   };

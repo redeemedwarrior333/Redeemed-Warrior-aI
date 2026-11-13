@@ -189,12 +189,39 @@ test('ad studio video offers no-voice, ai-voice and my-voice options', () => {
   assert.match(script, /SpeechSynthesisUtterance/);
 });
 
-test('ad studio records hd video with a high bitrate', () => {
+test('ad studio records hd video with a high bitrate and offers a fast mode', () => {
   const script = inlineScript();
-  assert.match(script, /const W = 1080/);
-  assert.match(script, /1080 : 1920/);
-  assert.match(script, /videoBitsPerSecond: 10000000/);
-  assert.match(script, /audioBitsPerSecond: 128000/);
+  assert.match(script, /data-quality="hd"/);
+  assert.match(script, /data-quality="fast"/);
+  assert.match(script, /const W = quality === 'fast' \? 720 : 1080/);
+  assert.match(script, /quality === 'fast' \? 6000000 : 10000000/);
+  assert.match(script, /quality === 'fast' \? 96000 : 128000/);
+});
+
+test('ad studio voice picker offers device voices with speed, pitch and sample', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /id="voiceSel"/);
+  assert.match(html, /id="voiceRate"/);
+  assert.match(html, /id="voicePitch"/);
+  assert.match(html, /id="btnVoiceTest"/);
+  const script = inlineScript();
+  assert.match(script, /function populateVoiceSelect/);
+  assert.match(script, /function testVoice/);
+  assert.match(script, /getVoices/);
+});
+
+test('ad studio slides support photo upload, text size, position and duplicate', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-photo/);
+  assert.match(html, /accept="image\/\*"/);
+  assert.match(html, /data-dup/);
+  assert.match(html, /data-f="size"/);
+  assert.match(html, /data-f="pos"/);
+  const script = inlineScript();
+  assert.match(script, /sizeMul/);
+  assert.match(script, /cyBase/);
+  assert.match(script, /readAsDataURL/);
+  assert.match(script, /Preview/);
 });
 
 test('ad studio video scene builder creates timed scenes from script', () => {

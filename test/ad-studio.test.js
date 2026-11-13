@@ -345,3 +345,55 @@ test('ad studio video scene builder creates timed scenes from script', () => {
   const short = buildScenes({ id: 'video' }, { hook: 'Hook only', cta: 'Go' });
   assert.equal(short.length, 2);
 });
+
+test('create window offers generation options that shape the AI prompt', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /id="goptLen"/);
+  assert.match(html, /id="goptTone"/);
+  assert.match(html, /id="goptEmoji"/);
+  assert.match(html, /id="goptFaith"/);
+  assert.match(html, /Use my brand voice/);
+  const script = inlineScript();
+  assert.match(script, /gopts: Object\.assign/);
+  assert.match(script, /o\.len === 'short'/);
+  assert.match(script, /o\.len === 'long'/);
+  assert.match(script, /TONES OVERRIDE/);
+  assert.match(script, /EMOJIS: do not use any emojis/);
+  assert.match(script, /FAITH: where it fits naturally/);
+  assert.match(script, /FAITH: do not include scripture/);
+  assert.match(script, /buildPrompt\(t, form, state\.gopts\)/);
+  const promptFn = new Function('const state = { profile: {} };' + script.slice(script.indexOf('function brandBlock'), script.indexOf('function parseSections')) + '; return buildPrompt;')();
+  const type = { id: 'social', name: 'Social Media Caption', fields: [], markers: {} };
+  const short = promptFn(type, { topic: 'candles' }, { len: 'short', tone: '', emoji: true, faith: true });
+  assert.match(short, /LENGTH: Keep every section SHORT/);
+  assert.match(short, /FAITH: where it fits naturally/);
+  const noEmoji = promptFn(type, { topic: 'candles' }, { len: 'std', tone: '', emoji: false, faith: false });
+  assert.match(noEmoji, /EMOJIS: do not use any emojis/);
+  assert.match(noEmoji, /FAITH: do not include scripture/);
+  const toned = promptFn(type, { topic: 'candles' }, { len: 'std', tone: 'Bold and powerful', emoji: true, faith: true });
+  assert.match(toned, /TONES OVERRIDE: for this ad write in this tone: Bold and powerful/);
+  assert.doesNotMatch(promptFn(type, { topic: 'candles' }), /LENGTH: Keep every section SHORT/);
+});
+
+test('more menu opens a royal bottom sheet with wisdom, how-to and sharing', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-more/);
+  assert.match(html, /id="moreSheet"/);
+  assert.match(html, /sheet-grip/);
+  assert.match(html, /class="mitem" data-mact="templates"/);
+  assert.match(html, /data-mact="socials"/);
+  assert.match(html, /data-mact="wisdom"/);
+  assert.match(html, /data-mact="how"/);
+  assert.match(html, /data-mact="privacy"/);
+  assert.match(html, /data-mact="share"/);
+  assert.match(html, /id="wisdomList"/);
+  assert.match(html, /id="howBox"/);
+  assert.match(html, /id="btnCloseSheet"/);
+  const script = inlineScript();
+  assert.match(script, /function openMore/);
+  assert.match(script, /function closeMore/);
+  assert.match(script, /nav button\[data-more\]/);
+  assert.match(script, /navigator\.share\(\{ title: 'Redeemed Warrior Ad Studio'/);
+  assert.match(script, /privacy\.html/);
+  assert.match(script, /nav button\[data-nav\]/);
+});

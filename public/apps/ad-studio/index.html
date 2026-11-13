@@ -140,6 +140,19 @@ textarea.input{resize:vertical;min-height:74px}
 .nav button svg{width:22px;height:22px}
 .nav button.on{color:var(--pink-deep);background:linear-gradient(180deg,rgba(240,90,168,.12),rgba(212,175,122,.12))}
 .nav button.on svg{filter:drop-shadow(0 3px 6px rgba(226,68,154,.4))}
+#moreSheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;background:rgba(42,0,9,.5)}
+#moreSheet.hidden{display:none}
+.sheet{width:100%;background:#fff;border-radius:22px 22px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;box-shadow:0 -12px 40px rgba(42,0,9,.3)}
+.sheet-grip{width:44px;height:4px;border-radius:999px;background:rgba(196,139,159,.4);margin:0 auto 10px}
+.sheet h3{font-family:'Cormorant Garamond',serif;color:var(--night);text-align:center;font-size:1.3rem;margin-bottom:4px}
+.mitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--cream);border:1px solid rgba(212,175,122,.35);border-radius:14px;padding:12px 14px;margin-top:8px;font-family:var(--font-body);font-size:.95rem;color:var(--ink);cursor:pointer}
+.mitem .mi{font-size:1.3rem;flex:none}
+.mitem b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--night);line-height:1.15}
+.mitem small{color:var(--muted);font-size:.76rem}
+#wisdomList{background:var(--cream);border-radius:14px;padding:12px 14px;margin-top:10px}
+#wisdomList p{font-size:.88rem;margin-top:6px;color:var(--ink)}
+#howBox{background:var(--cream);border-radius:14px;padding:12px 14px;margin-top:10px}
+#howBox p{font-size:.88rem;margin-top:6px;color:var(--ink)}
 
 #toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:var(--night);color:#fff;font-size:.9rem;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s ease;z-index:70;max-width:88vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -254,7 +267,24 @@ textarea.input{resize:vertical;min-height:74px}
     <button data-nav="poster"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h4"/></svg>Poster</button>
     <button data-nav="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Brand</button>
     <button data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Account</button>
+    <button data-more><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
   </nav>
+
+  <div id="moreSheet" class="hidden">
+    <div class="sheet">
+      <div class="sheet-grip"></div>
+      <h3>More of the Kingdom</h3>
+      <button type="button" class="mitem" data-mact="templates"><span class="mi">👑</span><span><b>Template Gallery</b><small>One-tap poster designs</small></span></button>
+      <button type="button" class="mitem" data-mact="socials"><span class="mi">📤</span><span><b>Connect Socials</b><small>TikTok &amp; Instagram sharing</small></span></button>
+      <button type="button" class="mitem" data-mact="wisdom"><span class="mi">💡</span><span><b>Marketing Wisdom</b><small>Every tip in one place</small></span></button>
+      <button type="button" class="mitem" data-mact="how"><span class="mi">🎬</span><span><b>How It Works</b><small>Your first ad in 4 steps</small></span></button>
+      <button type="button" class="mitem" data-mact="privacy"><span class="mi">📜</span><span><b>Privacy Policy</b><small>In plain words</small></span></button>
+      <button type="button" class="mitem" data-mact="share"><span class="mi">💗</span><span><b>Share This App</b><small>Invite a sister to Ad Studio</small></span></button>
+      <div id="wisdomList" class="hidden"></div>
+      <div id="howBox" class="hidden"></div>
+      <button type="button" class="btn btn-ghost dark btn-sm" id="btnCloseSheet" style="width:100%;margin-top:12px">Close</button>
+    </div>
+  </div>
 </div>
 
 <div id="toast" role="status"></div>
@@ -275,7 +305,8 @@ const state = {
   create: { type: null, busy: false, result: null, error: '', lastForm: null, slides: null, slideSel: 0 },
   video: Object.assign({ voiceName: '', rate: 0.95, pitch: 1.05 }, store.get('video', {})),
   poster: Object.assign(defaultPoster(), store.get('poster', {})),
-  socials: Object.assign({ tiktok: '', instagram: '' }, store.get('socials', {}))
+  socials: Object.assign({ tiktok: '', instagram: '' }, store.get('socials', {})),
+  gopts: Object.assign({ len: 'std', tone: '', emoji: true, faith: true }, store.get('gopts', {}))
 };
 
 function defaultPoster() {
@@ -463,13 +494,20 @@ function brandBlock() {
   ].filter(Boolean).join('\n') || '(no brand details provided)';
 }
 
-function buildPrompt(type, form) {
+function buildPrompt(type, form, opts) {
+  const o = opts || {};
   return [
     'You are an elite advertising copywriter working for a small business owner with no marketing experience.',
     'Write world-class, ready-to-use advertising copy. Be specific, warm, and human \u2014 never generic filler.',
     'Use vivid sensory words, strong verbs, and one clear message per section. Avoid tired clich\u00e9s like \u201celevate\u201d, \u201cunleash\u201d, and \u201cgame-changer\u201d.',
     'Every line must give the reader a reason to care: a feeling, a benefit, or a promise they can picture.',
     'Honor the brand voice. Keep platform character limits when you know them (Google headlines max 30 characters, descriptions max 90).',
+    o.len === 'short' ? 'LENGTH: Keep every section SHORT and punchy \u2014 a few powerful words, zero filler.' : '',
+    o.len === 'long' ? 'LENGTH: Write fuller, richer sections with more detail and depth \u2014 give me everything.' : '',
+    o.tone ? 'TONES OVERRIDE: for this ad write in this tone: ' + o.tone + ' \u2014 even if it differs from the brand voice.' : '',
+    o.emoji === false ? 'EMOJIS: do not use any emojis in the copy.' : '',
+    o.faith === true ? 'FAITH: where it fits naturally, give the copy a subtle faith-filled or scripture-inspired touch.' : '',
+    o.faith === false ? 'FAITH: do not include scripture or faith references \u2014 keep the copy secular and universal.' : '',
     type.hint ? 'FORMAT NOTES for ' + type.name + ': ' + type.hint : '',
     '',
     'BUSINESS DETAILS:',
@@ -511,7 +549,36 @@ function navTo(view) {
   window.scrollTo({ top: 0 });
 }
 
-document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+document.querySelectorAll('.nav button[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+
+const moreSheet = document.getElementById('moreSheet');
+function openMore() {
+  if (!moreSheet.classList.contains('hidden')) return;
+  document.getElementById('wisdomList').innerHTML = '<p><b>Marketing Wisdom</b></p>' + TIPS.map((tip, i) => '<p>' + (i + 1) + '. ' + esc(tip) + '</p>').join('');
+  document.getElementById('howBox').innerHTML = '<p><b>How It Works</b></p><p>1. Fill in your brand profile once.</p><p>2. Pick an ad type and answer the questions.</p><p>3. The AI writes your ad in your voice.</p><p>4. Make a video or poster, then share it straight to TikTok or Instagram.</p>';
+  moreSheet.classList.remove('hidden');
+}
+function closeMore() {
+  moreSheet.classList.add('hidden');
+  document.getElementById('wisdomList').classList.add('hidden');
+  document.getElementById('howBox').classList.add('hidden');
+}
+document.querySelector('.nav button[data-more]').addEventListener('click', openMore);
+document.getElementById('btnCloseSheet').addEventListener('click', closeMore);
+moreSheet.addEventListener('click', (e) => { if (e.target === moreSheet) closeMore(); });
+document.querySelectorAll('.mitem[data-mact]').forEach(b => b.addEventListener('click', () => {
+  const act = b.dataset.mact;
+  if (act === 'templates') { closeMore(); navTo('poster'); }
+  else if (act === 'socials') { closeMore(); navTo('account'); }
+  else if (act === 'wisdom') { document.getElementById('wisdomList').classList.toggle('hidden'); }
+  else if (act === 'how') { document.getElementById('howBox').classList.toggle('hidden'); }
+  else if (act === 'privacy') { closeMore(); window.open('privacy.html', '_blank'); }
+  else if (act === 'share') {
+    const url = 'https://apps.godsredeemedwarrior.org/apps/ad-studio';
+    if (navigator.share) navigator.share({ title: 'Redeemed Warrior Ad Studio', text: 'Faith-fueled advertising, made in minutes \ud83d\udc51', url }).catch(() => {});
+    else copyText(url);
+  }
+}));
 
 function renderHome() {
   const el = document.getElementById('view-home');
@@ -733,11 +800,37 @@ function renderCreate() {
     ${t.fields.map(f => f.ta
       ? `<label for="f_${f.k}">${esc(f.l)}</label><textarea class="input" id="f_${f.k}" placeholder="${esc(f.ph)}"></textarea>`
       : `<label for="f_${f.k}">${esc(f.l)}</label><input class="input" id="f_${f.k}" placeholder="${esc(f.ph)}" />`).join('')}
-    <p class="hint" style="margin-top:10px">Using your brand voice: <strong>${esc(state.profile.tone || 'not set yet')}</strong>${state.profile.name ? ' \u00b7 ' + esc(state.profile.name) : ''}</p>
+    <p class="hint" style="margin-top:10px">Using your brand voice: <strong>${esc(state.gopts.tone || state.profile.tone || 'not set yet')}</strong>${state.profile.name ? ' \u00b7 ' + esc(state.profile.name) : ''}</p>
+    <div class="card" style="margin-top:12px">
+      <h3>Options</h3>
+      <p class="hint" style="margin-top:4px">Fine-tune this ad before the AI writes it.</p>
+      <label class="sdurl" style="display:block;margin-top:10px">Length
+        <select class="input" id="goptLen" style="flex:1">
+          <option value="short" ${state.gopts.len === 'short' ? 'selected' : ''}>Short &amp; punchy</option>
+          <option value="std" ${state.gopts.len === 'std' ? 'selected' : ''}>Standard</option>
+          <option value="long" ${state.gopts.len === 'long' ? 'selected' : ''}>Detailed</option>
+        </select>
+      </label>
+      <label class="sdurl" style="display:block;margin-top:10px">Tone for this ad
+        <select class="input" id="goptTone" style="flex:1">
+          <option value="">Use my brand voice</option>
+          ${TONES.map(tn => `<option value="${esc(tn)}" ${state.gopts.tone === tn ? 'selected' : ''}>${esc(tn)}</option>`).join('')}
+        </select>
+      </label>
+      <div class="slide-row" style="margin-top:10px">
+        <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="goptEmoji" ${state.gopts.emoji ? 'checked' : ''} /> Emojis</label>
+        <label class="vtoggle" style="margin-top:0"><input type="checkbox" id="goptFaith" ${state.gopts.faith ? 'checked' : ''} /> Faith touch</label>
+      </div>
+    </div>
     <p class="err" id="genErr">${esc(state.create.error)}</p>
     <button class="btn btn-pink" id="btnGenerate" style="width:100%;margin-top:10px">Write My ${esc(t.name)}</button>
     <button class="btn btn-ghost dark btn-sm" id="btnBack" style="margin-top:10px">Choose a different ad type</button>`;
   el.querySelector('#btnBack').addEventListener('click', () => { state.create.type = null; renderCreate(); });
+  const goptSave = () => store.set('gopts', state.gopts);
+  el.querySelector('#goptLen').addEventListener('change', (e) => { state.gopts.len = e.target.value; goptSave(); });
+  el.querySelector('#goptTone').addEventListener('change', (e) => { state.gopts.tone = e.target.value; goptSave(); renderCreate(); });
+  el.querySelector('#goptEmoji').addEventListener('change', (e) => { state.gopts.emoji = e.target.checked; goptSave(); });
+  el.querySelector('#goptFaith').addEventListener('change', (e) => { state.gopts.faith = e.target.checked; goptSave(); });
   el.querySelector('#btnGenerate').addEventListener('click', () => {
     const form = {};
     t.fields.forEach(f => { form[f.k] = (document.getElementById('f_' + f.k).value || '').trim(); });
@@ -751,7 +844,7 @@ async function generate(t, form) {
   state.create.lastForm = form;
   renderCreate();
   try {
-    const data = await api('/api/chat', { method: 'POST', body: { message: buildPrompt(t, form) } });
+    const data = await api('/api/chat', { method: 'POST', body: { message: buildPrompt(t, form, state.gopts) } });
     const reply = (data && data.reply) || '';
     const parsed = parseSections(reply, t.markers);
     if (!Object.values(parsed).filter(Boolean).length) parsed._raw = reply.trim();

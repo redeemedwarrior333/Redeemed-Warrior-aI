@@ -269,6 +269,18 @@ test('poster studio builds, edits, watermarks and shares posters', () => {
   assert.match(script, /drawCrossOrnament/);
 });
 
+test('poster studio offers one-tap templates', () => {
+  const html = fs.readFileSync(APP_PATH, 'utf8');
+  assert.match(html, /data-template=/);
+  const script = inlineScript();
+  assert.match(script, /POSTER_TEMPLATES/);
+  assert.match(script, /function posterBlock/);
+  ['royal', 'cheetah', 'verse', 'sale', 'event', 'product', 'quote', 'opening'].forEach(id => {
+    assert.match(script, new RegExp("id: '" + id + "'"));
+  });
+  assert.match(script, /tp\.apply\(state\.poster\)/);
+});
+
 test('share hub connects tiktok and instagram with one-tap sharing', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   assert.match(html, /id="socialTikTok"/);

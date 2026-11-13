@@ -73,6 +73,22 @@ test('ad studio parser keeps hashtags intact and handles markdown labels', () =>
   assert.equal(out.cta, 'Buy');
 });
 
+test('ad studio promo page is served and links to the app', async () => {
+  const server = await startServer();
+  try {
+    const port = server.address().port;
+    const res = await fetch(`http://localhost:${port}/apps/ad-studio/promo.html`);
+    const body = await res.text();
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get('content-type'), /text\/html/);
+    assert.match(body, /Redeemed Warrior Ad Studio/);
+    assert.match(body, /https:\/\/apps\.godsredeemedwarrior\.org\/apps\/ad-studio/);
+    assert.match(body, /Make a Video Ad/);
+  } finally {
+    server.close();
+  }
+});
+
 test('ad studio api line auto-connects when hosted off the apps domain', () => {
   const script = inlineScript();
   assert.match(script, /const API = \(location\.hostname === 'apps\.godsredeemedwarrior\.org'/);

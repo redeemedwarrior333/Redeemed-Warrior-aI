@@ -469,10 +469,15 @@ function renderCreate() {
       </div>
       ${(t.id === 'video' || t.id === 'pack') ? `<div class="card vidstudio" id="vidStudio" style="margin-top:14px">
         <h3>\ud83c\udfac Make the Video</h3>
-        <p class="hint" style="margin-top:4px">Turn this script into a real video ad — animated scenes, music, your brand. Made right on your phone.</p>
+        <p class="hint" style="margin-top:4px">Turn this script into a real video ad — cinematic animation, crossfades, sparkles, music, your brand. Made right on your phone.</p>
         <div class="vrow">
           <button class="vopt sel" data-aspect="story">Story 9:16</button>
           <button class="vopt" data-aspect="square">Post 1:1</button>
+        </div>
+        <div class="vrow" role="group" aria-label="Video voice">
+          <button class="vopt sel" data-voice="none">No Voice</button>
+          <button class="vopt" data-voice="ai">AI Voice</button>
+          <button class="vopt" data-voice="mic">My Voice</button>
         </div>
         <label class="vtoggle"><input type="checkbox" id="vidMusic" checked /> Add soft music to the video</label>
         <div class="vrow">
@@ -481,7 +486,7 @@ function renderCreate() {
         <div class="vstage" id="vstage"><canvas id="vcanvas"></canvas><video id="vvideo" controls class="hidden"></video></div>
         <p class="vstatus" id="vstatus"></p>
         <a id="vdownload" class="btn btn-gold hidden" style="width:100%;margin-top:10px;text-decoration:none" download="redeemed-warrior-video-ad.webm">Download My Video</a>
-        <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. The downloaded file includes music; post it straight to Instagram, TikTok, or Facebook.</div>
+        <div class="vnote">How it works: the video is created and saved by your own browser — nothing is uploaded anywhere. <strong>My Voice</strong> records your narration straight into the saved file (a 3-2-1 countdown gives you a moment to prepare). <strong>AI Voice</strong> reads your script aloud while the video plays — on most phones the spoken voice can't be saved into the downloaded file, so use My Voice when you want narration saved. Music is always saved. Post it straight to Instagram, TikTok, or Facebook.</div>
       </div>` : ''}
       <p class="hint" style="margin-top:12px;text-align:center">Tip: screenshot the preview card above to share it as an image.</p>`;
     el.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => copyText(b.dataset.copy)));
@@ -498,6 +503,10 @@ function renderCreate() {
       mvBtn.addEventListener('click', () => makeVideoAd(t, r));
       el.querySelectorAll('#vidStudio [data-aspect]').forEach(b => b.addEventListener('click', () => {
         el.querySelectorAll('#vidStudio [data-aspect]').forEach(x => x.classList.remove('sel'));
+        b.classList.add('sel');
+      }));
+      el.querySelectorAll('#vidStudio [data-voice]').forEach(b => b.addEventListener('click', () => {
+        el.querySelectorAll('#vidStudio [data-voice]').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
       }));
     }
@@ -851,26 +860,122 @@ function wrapCanvasText(ctx, text, maxW) {
   return lines;
 }
 
-function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
-  const total = times[times.length - 1];
-  const t = Math.min(now, total - 0.001);
-  let idx = 0;
-  while (idx < times.length - 2 && t >= times[idx + 1]) idx++;
-  const s = scenes[idx];
-  const local = t - times[idx];
-  const dur = times[idx + 1] - times[idx];
-  const fade = 0.5;
+const VIDEO_FADE = 0.6;
+
+function sparkleStar(ctx, x, y, r) {
+  ctx.beginPath();
+  ctx.moveTo(x, y - r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.quadraticCurveTo(x, y, x, y + r);
+  ctx.quadraticCurveTo(x, y, x - r, y);
+  ctx.quadraticCurveTo(x, y, x, y - r);
+  ctx.fill();
+}
+
+function drawSceneBackground(ctx, W, H, idx, local, dur, now) {
+  const p = Math.min(1, local / Math.max(0.001, dur));
+  const z = 1 + 0.08 * p;
+  const panX = Math.sin(idx * 2.3) * W * 0.022 * p;
+  const panY = Math.cos(idx * 1.7) * H * 0.014 * p;
+  ctx.save();
+  ctx.translate(W / 2 + panX, H / 2 + panY);
+  ctx.scale(z, z);
+  ctx.translate(-W / 2, -H / 2);
   const g = ctx.createLinearGradient(0, 0, W, H);
   if (idx % 2 === 0) { g.addColorStop(0, '#2A0009'); g.addColorStop(0.55, '#4A0A24'); g.addColorStop(1, '#330010'); }
   else { g.addColorStop(0, '#330010'); g.addColorStop(0.5, '#5C0F33'); g.addColorStop(1, '#2A0009'); }
   ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, H);
-  const glow = ctx.createRadialGradient(W / 2, H * 0.32, 10, W / 2, H * 0.32, W * 0.75);
+  ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  const gx = W / 2 + Math.sin(now * 0.35 + idx) * W * 0.06;
+  const gy = H * 0.32 + Math.cos(now * 0.28 + idx) * H * 0.02;
+  const glow = ctx.createRadialGradient(gx, gy, 10, gx, gy, W * 0.8);
   const pulse = 0.16 + 0.07 * Math.sin(now * 1.4);
   glow.addColorStop(0, 'rgba(239,217,180,' + pulse + ')');
   glow.addColorStop(1, 'rgba(239,217,180,0)');
   ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(-W * 0.1, -H * 0.1, W * 1.2, H * 1.2);
+  for (let i = 0; i < 14; i++) {
+    const seed = ((idx * 97 + i * 131) % 1000) / 1000;
+    const bx = W * (0.08 + 0.84 * ((seed * 7.13 + idx * 0.37) % 1));
+    const by = H * (0.1 + 0.78 * ((seed * 3.71 + i * 0.11) % 1));
+    const dx = Math.sin(now * 0.5 + seed * 6.28) * W * 0.016;
+    const dy = Math.cos(now * 0.38 + seed * 6.28) * H * 0.012;
+    const tw = 0.3 + 0.7 * Math.abs(Math.sin(now * (1.1 + seed * 1.4) + seed * 6.28));
+    const size = W * (0.004 + 0.006 * seed);
+    ctx.fillStyle = 'rgba(' + (seed > 0.55 ? '239,217,180' : '240,90,168') + ',' + (0.75 * tw).toFixed(3) + ')';
+    sparkleStar(ctx, bx + dx, by + dy, size);
+  }
+  ctx.restore();
+}
+
+function drawSceneContent(ctx, W, H, s, local, now) {
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const appear = Math.min(1, local / 0.6);
+  const ease = 1 - Math.pow(1 - appear, 3);
+  if (s.label) {
+    const lSize = Math.round(W * 0.032);
+    ctx.font = '700 ' + lSize + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(240,90,168,' + (0.95 * ease).toFixed(3) + ')';
+    ctx.fillText(s.label.split('').join('\u2009'), W / 2, H * (s.cta ? 0.32 : 0.24));
+  }
+  const mainSize = Math.round(W * (s.cta ? 0.082 : 0.062));
+  ctx.font = '600 ' + mainSize + 'px "Cormorant Garamond", serif';
+  const lines = wrapCanvasText(ctx, s.text, W * 0.78);
+  const lineH = mainSize * 1.25;
+  const blockH = lines.length * lineH;
+  const cy = H * (s.cta ? 0.5 : 0.46) - blockH / 2 + lineH / 2;
+  ctx.shadowColor = 'rgba(0,0,0,.45)';
+  ctx.shadowBlur = W * 0.012;
+  lines.forEach((ln, i) => {
+    const la = Math.min(1, Math.max(0, (local - 0.15 - i * 0.18) / 0.55));
+    const le = 1 - Math.pow(1 - la, 3);
+    const y = cy + i * lineH + (1 - le) * H * 0.035;
+    ctx.fillStyle = 'rgba(251,246,238,' + (0.98 * le).toFixed(3) + ')';
+    ctx.fillText(ln, W / 2, y);
+  });
+  ctx.shadowBlur = 0;
+  if (s.cta) {
+    const pulse = 1 + 0.03 * Math.sin(now * 3.2);
+    const bw = W * 0.5 * pulse, bh = H * 0.062 * pulse;
+    const bx = W / 2 - bw / 2, by = H * 0.66 - (bh - H * 0.062) / 2;
+    const cg = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+    cg.addColorStop(0, '#F05AA8'); cg.addColorStop(1, '#C22B7E');
+    const r = bh / 2;
+    const buttonPath = () => {
+      ctx.beginPath();
+      ctx.moveTo(bx + r, by);
+      ctx.arcTo(bx + bw, by, bx + bw, by + bh, r);
+      ctx.arcTo(bx + bw, by + bh, bx, by + bh, r);
+      ctx.arcTo(bx, by + bh, bx, by, r);
+      ctx.arcTo(bx, by, bx + bw, by, r);
+      ctx.closePath();
+    };
+    ctx.save();
+    ctx.globalAlpha *= ease;
+    ctx.fillStyle = cg;
+    buttonPath();
+    ctx.fill();
+    buttonPath();
+    ctx.clip();
+    const shX = bx + ((now * W * 0.9) % (bw * 1.6)) - bw * 0.3;
+    const sh = ctx.createLinearGradient(shX - W * 0.06, 0, shX + W * 0.06, 0);
+    sh.addColorStop(0, 'rgba(255,255,255,0)');
+    sh.addColorStop(0.5, 'rgba(255,255,255,.35)');
+    sh.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sh;
+    ctx.fillRect(bx, by, bw, bh);
+    ctx.restore();
+    ctx.font = '600 ' + Math.round(W * 0.036) + 'px Jost, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,' + ease.toFixed(3) + ')';
+    ctx.fillText(s.text.toUpperCase(), W / 2, by + bh / 2);
+    ctx.font = 'italic 500 ' + Math.round(W * 0.03) + 'px "Cormorant Garamond", serif';
+    ctx.fillStyle = 'rgba(239,217,180,.9)';
+    ctx.fillText('Redeemed by Grace. Built to Rise.', W / 2, by + bh + H * 0.045);
+  }
+}
+
+function drawVideoChrome(ctx, W, H, brand) {
   ctx.strokeStyle = 'rgba(212,175,122,.5)';
   ctx.lineWidth = Math.max(2, W * 0.004);
   ctx.strokeRect(W * 0.045, H * 0.035, W * 0.91, H * 0.93);
@@ -883,52 +988,17 @@ function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
   ctx.fillText(wm, W / 2, H * 0.085);
   ctx.fillStyle = 'rgba(212,175,122,.9)';
   ctx.fillRect(W / 2 - W * 0.05, H * 0.115, W * 0.1, Math.max(1.5, H * 0.002));
-  const appear = Math.min(1, local / 0.6);
-  const ease = 1 - Math.pow(1 - appear, 3);
-  if (s.label) {
-    const lSize = Math.round(W * 0.032);
-    ctx.font = '700 ' + lSize + 'px Jost, sans-serif';
-    ctx.fillStyle = 'rgba(240,90,168,' + (0.95 * ease) + ')';
-    ctx.fillText(s.label.split('').join('\u2009'), W / 2, H * (s.cta ? 0.32 : 0.24));
-  }
-  const mainSize = Math.round(W * (s.cta ? 0.082 : 0.062));
-  ctx.font = '600 ' + mainSize + 'px "Cormorant Garamond", serif';
-  const maxW = W * 0.78;
-  const lines = wrapCanvasText(ctx, s.text, maxW);
-  const lineH = mainSize * 1.25;
-  const blockH = lines.length * lineH;
-  const cy = H * (s.cta ? 0.5 : 0.46) - blockH / 2 + lineH / 2;
-  ctx.fillStyle = 'rgba(251,246,238,' + ease + ')';
-  ctx.shadowColor = 'rgba(0,0,0,.45)';
-  ctx.shadowBlur = W * 0.012;
-  lines.forEach((ln, i) => {
-    const y = cy + i * lineH;
-    const slide = (1 - ease) * H * 0.03;
-    ctx.fillText(ln, W / 2, y + slide);
-  });
-  ctx.shadowBlur = 0;
-  if (s.cta) {
-    const bw = W * 0.5, bh = H * 0.062;
-    const bx = W / 2 - bw / 2, by = H * 0.66;
-    const cg = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
-    cg.addColorStop(0, '#F05AA8'); cg.addColorStop(1, '#C22B7E');
-    ctx.fillStyle = cg;
-    const r = bh / 2;
-    ctx.beginPath();
-    ctx.moveTo(bx + r, by);
-    ctx.arcTo(bx + bw, by, bx + bw, by + bh, r);
-    ctx.arcTo(bx + bw, by + bh, bx, by + bh, r);
-    ctx.arcTo(bx, by + bh, bx, by, r);
-    ctx.arcTo(bx, by, bx + bw, by, r);
-    ctx.closePath();
-    ctx.fill();
-    ctx.font = '600 ' + Math.round(W * 0.036) + 'px Jost, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,' + ease + ')';
-    ctx.fillText(s.text.toUpperCase(), W / 2, by + bh / 2);
-    ctx.font = 'italic 500 ' + Math.round(W * 0.03) + 'px "Cormorant Garamond", serif';
-    ctx.fillStyle = 'rgba(239,217,180,.9)';
-    ctx.fillText('Redeemed by Grace. Built to Rise.', W / 2, by + bh + H * 0.045);
-  }
+}
+
+function drawVignette(ctx, W, H) {
+  const v = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
+  v.addColorStop(0, 'rgba(0,0,0,0)');
+  v.addColorStop(1, 'rgba(10,0,4,.4)');
+  ctx.fillStyle = v;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function drawProgressBar(ctx, W, H, t, total, now) {
   const pbW = W * 0.7, pbH = Math.max(3, H * 0.004);
   const pbX = W / 2 - pbW / 2, pbY = H * 0.915;
   ctx.fillStyle = 'rgba(251,246,238,.18)';
@@ -936,7 +1006,45 @@ function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
   const pg = ctx.createLinearGradient(pbX, 0, pbX + pbW, 0);
   pg.addColorStop(0, '#F05AA8'); pg.addColorStop(1, '#D4AF6A');
   ctx.fillStyle = pg;
-  ctx.fillRect(pbX, pbY, pbW * (t / total), pbH);
+  ctx.fillRect(pbX, pbY, pbW * Math.min(1, t / total), pbH);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(pbX, pbY, pbW * Math.min(1, t / total), pbH);
+  ctx.clip();
+  const hx = pbX + ((now * pbW * 0.6) % (pbW * 1.4)) - pbW * 0.2;
+  const hg = ctx.createLinearGradient(hx - pbW * 0.08, 0, hx + pbW * 0.08, 0);
+  hg.addColorStop(0, 'rgba(255,255,255,0)');
+  hg.addColorStop(0.5, 'rgba(255,255,255,.5)');
+  hg.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = hg;
+  ctx.fillRect(pbX, pbY, pbW, pbH);
+  ctx.restore();
+}
+
+function drawVideoFrame(ctx, W, H, scenes, times, now, brand) {
+  const total = times[times.length - 1];
+  const t = Math.min(now, total - 0.001);
+  let idx = 0;
+  while (idx < times.length - 2 && t >= times[idx + 1]) idx++;
+  const s = scenes[idx];
+  const local = t - times[idx];
+  const dur = times[idx + 1] - times[idx];
+  const inFade = idx < scenes.length - 1 && dur - local < VIDEO_FADE;
+  drawSceneBackground(ctx, W, H, idx, local, dur, now);
+  if (inFade) {
+    ctx.globalAlpha = Math.min(1, (local - (dur - VIDEO_FADE)) / VIDEO_FADE);
+    drawSceneBackground(ctx, W, H, idx + 1, local - (dur - VIDEO_FADE), VIDEO_FADE, now);
+    ctx.globalAlpha = 1;
+  }
+  drawVideoChrome(ctx, W, H, brand);
+  drawSceneContent(ctx, W, H, s, idx === 0 ? local : local + VIDEO_FADE, now);
+  if (inFade) {
+    ctx.globalAlpha = Math.min(1, (local - (dur - VIDEO_FADE)) / VIDEO_FADE);
+    drawSceneContent(ctx, W, H, scenes[idx + 1], local - dur + VIDEO_FADE, now);
+    ctx.globalAlpha = 1;
+  }
+  drawVignette(ctx, W, H);
+  drawProgressBar(ctx, W, H, t, total, now);
 }
 
 function startMusicBed(audioCtx, dest, totalSeconds) {
@@ -944,7 +1052,7 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
   master.gain.value = 0.0001;
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 900;
+  filter.frequency.value = 1400;
   master.connect(filter);
   filter.connect(dest);
   const chords = [
@@ -971,6 +1079,23 @@ function startMusicBed(audioCtx, dest, totalSeconds) {
       osc.start(t0);
       osc.stop(t0 + chordLen + 0.05);
     });
+    const arpFreqs = [freqs[2] * 2, freqs[1] * 2, freqs[2] * 2, freqs[0] * 4];
+    const steps = 8;
+    const stepLen = chordLen / steps;
+    for (let st = 0; st < steps; st++) {
+      const at = t0 + st * stepLen;
+      const osc = audioCtx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.value = arpFreqs[st % arpFreqs.length];
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.linearRampToValueAtTime(0.028, at + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + Math.min(stepLen * 1.8, 0.9));
+      osc.connect(g);
+      g.connect(master);
+      osc.start(at);
+      osc.stop(at + 1);
+    }
   });
   master.gain.setValueAtTime(0.0001, now);
   master.gain.linearRampToValueAtTime(1.0, now + 0.5);
@@ -987,6 +1112,9 @@ async function makeVideoAd(t, r) {
   const dl = document.getElementById('vdownload');
   const aspect = studio.querySelector('[data-aspect].sel').dataset.aspect;
   const withMusic = document.getElementById('vidMusic').checked;
+  const voiceOpt = studio.querySelector('[data-voice].sel');
+  const voice = voiceOpt ? voiceOpt.dataset.voice : 'none';
+  const aiVoiceReady = voice === 'ai' && window.speechSynthesis && window.SpeechSynthesisUtterance;
   const scenes = buildScenes(t, r);
   if (!scenes.length) { status.textContent = 'Generate the script first, then make the video.'; return; }
   const W = aspect === 'square' ? 900 : 720;
@@ -1004,7 +1132,7 @@ async function makeVideoAd(t, r) {
   scenes.forEach((s, i) => times.push(times[i] + sceneDuration(s, i, scenes.length)));
   const total = times[times.length - 1];
   const canRecord = typeof MediaRecorder !== 'undefined' && canvas.captureStream;
-  let recorder = null, chunks = [], audioCtx = null;
+  let recorder = null, chunks = [], audioCtx = null, micStream = null;
   const streams = [];
   if (canRecord) {
     const stream = canvas.captureStream(30);
@@ -1017,16 +1145,26 @@ async function makeVideoAd(t, r) {
         dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
       } catch (e) { audioCtx = null; }
     }
+    if (voice === 'mic' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+        micStream.getAudioTracks().forEach(tr => stream.addTrack(tr));
+      } catch (e) { micStream = null; }
+    }
     const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || '';
     recorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
     recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
   }
   status.textContent = canRecord ? 'Recording your video ad\u2026' : 'Playing your video ad\u2026';
+  if (voice === 'mic' && !micStream) status.textContent = 'Microphone not available \u2014 recording without voice.';
+  if (voice === 'ai' && !aiVoiceReady) status.textContent = 'AI voice is not supported in this browser \u2014 playing without voice.';
   const recStart = performance.now();
   let rafId = null;
   const finish = () => {
     cancelAnimationFrame(rafId);
     if (audioCtx) { try { audioCtx.close(); } catch {} }
+    if (micStream) { try { micStream.getTracks().forEach(tr => tr.stop()); } catch {} }
+    if (aiVoiceReady) { try { window.speechSynthesis.cancel(); } catch {} }
     if (recorder && recorder.state !== 'inactive') {
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: (recorder.mimeType || 'video/webm').split(';')[0] });
@@ -1045,10 +1183,41 @@ async function makeVideoAd(t, r) {
       status.textContent = 'Your browser cannot save video files. Watch the live version above \u2014 or screenshot the scenes and post those.';
     }
   };
+  const speakScene = (i) => {
+    if (!aiVoiceReady) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(scenes[i].text);
+      u.rate = 0.95;
+      u.pitch = 1.05;
+      window.speechSynthesis.speak(u);
+    } catch {}
+  };
+  const sceneIndexAt = (tt) => { let i = 0; while (i < times.length - 2 && tt >= times[i + 1]) i++; return i; };
+  let spokenIdx = -1;
+  if (voice === 'mic' && micStream) {
+    for (let c = 3; c > 0; c--) {
+      status.textContent = 'Get ready \u2014 recording in ' + c + '\u2026';
+      drawVideoFrame(ctx, W, H, scenes, times, 0, brand);
+      ctx.save();
+      ctx.font = '700 ' + Math.round(W * 0.22) + 'px "Cormorant Garamond", serif';
+      ctx.fillStyle = 'rgba(240,90,168,.92)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,.5)';
+      ctx.shadowBlur = W * 0.03;
+      ctx.fillText(String(c), W / 2, H / 2);
+      ctx.restore();
+      await new Promise(res => setTimeout(res, 750));
+    }
+    status.textContent = 'Recording \u2014 speak your script now!';
+  }
   if (recorder) recorder.start(250);
   const loop = () => {
     const now = (performance.now() - recStart) / 1000;
     drawVideoFrame(ctx, W, H, scenes, times, now, brand);
+    const si = sceneIndexAt(Math.min(now, total - 0.001));
+    if (si !== spokenIdx) { spokenIdx = si; speakScene(si); }
     if (now >= total) { finish(); return; }
     rafId = requestAnimationFrame(loop);
   };

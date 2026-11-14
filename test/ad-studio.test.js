@@ -40,15 +40,21 @@ test('ad studio inline script is syntactically valid', () => {
   new Function(script);
 });
 
-test('ad studio defines twenty-seven ad types with unique ids and markers', () => {
+test('ad studio defines thirty-three ad types with unique ids and markers', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   const ids = [...html.matchAll(/id:'([a-z]+)', name:/g)].map(m => m[1]);
-  assert.deepEqual([...new Set(ids)].sort(), ['abandon', 'billboard', 'bio', 'birthday', 'calendar', 'elevator', 'email', 'event', 'flyer', 'giveaway', 'google', 'launch', 'pack', 'product', 'push', 'radio', 'referral', 'review', 'sale', 'slogan', 'sms', 'social', 'story', 'thankyou', 'tiktok', 'video', 'youtube']);
+  assert.deepEqual([...new Set(ids)].sort(), ['abandon', 'banner', 'billboard', 'bio', 'birthday', 'calendar', 'countdown', 'elevator', 'email', 'event', 'flyer', 'giveaway', 'google', 'launch', 'linkedin', 'pack', 'pinterest', 'product', 'push', 'radio', 'referral', 'review', 'sale', 'seasonal', 'slogan', 'sms', 'social', 'story', 'testimonial', 'thankyou', 'tiktok', 'video', 'youtube']);
   assert.match(html, /Social Media Caption/);
   assert.match(html, /Complete Ad Pack/);
   assert.match(html, /TikTok Video Script/);
   assert.match(html, /Instagram Story Ad/);
   assert.match(html, /Radio & Podcast Ad/);
+  assert.match(html, /Pinterest Pin/);
+  assert.match(html, /LinkedIn Post/);
+  assert.match(html, /Website Banner/);
+  assert.match(html, /Customer Testimonial Ad/);
+  assert.match(html, /Seasonal & Holiday Ad/);
+  assert.match(html, /Countdown Flash Sale/);
   assert.match(html, /Flyer & Poster Text/);
   assert.match(html, /Sale & Promo Blast/);
   assert.match(html, /Event Announcement/);
@@ -68,7 +74,7 @@ test('ad studio defines twenty-seven ad types with unique ids and markers', () =
   assert.match(html, /7-Day Content Calendar/);
   assert.match(html, /Twenty-seven professional formats/);
   const promo = fs.readFileSync(path.join(path.dirname(APP_PATH), 'promo.html'), 'utf8');
-  assert.match(promo, /Twenty-Seven Professional Ad Types/);
+  assert.match(promo, /Thirty-Three Professional Ad Types/);
   assert.match(promo, /Text Message Blasts/);
   assert.match(promo, /Referral Invites/);
   assert.match(promo, /7-Day Content Calendars/);

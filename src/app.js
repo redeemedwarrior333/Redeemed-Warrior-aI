@@ -21,6 +21,7 @@ const ohanaRoutes = require('./routes/ohana');
 const app = express();
 
 app.disable('x-powered-by');
+app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json({ limit: '12mb' }));
 app.use(rateLimit);

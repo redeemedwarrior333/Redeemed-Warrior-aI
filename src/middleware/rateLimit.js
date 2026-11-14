@@ -12,8 +12,10 @@ setInterval(() => {
 
 function limitFor(req) {
   if (isValidKey(req)) return config.rateLimitMax;
-  if (config.publicChatEnabled) return config.publicRateLimitMax;
-  return 0;
+  if (req.path === '/api/chat' || req.path.startsWith('/api/chat/')) {
+    return config.publicChatEnabled ? config.publicRateLimitMax : 0;
+  }
+  return config.rateLimitMax;
 }
 
 module.exports = function rateLimit(req, res, next) {
@@ -22,7 +24,8 @@ module.exports = function rateLimit(req, res, next) {
     return next();
   }
   const now = Date.now();
-  const key = req.ip || 'unknown';
+  const forwarded = req.headers['x-forwarded-for'];
+  const key = (forwarded ? String(forwarded).split(',')[0].trim() : req.ip) || 'unknown';
   const entry = hits.get(key) || { count: 0, resetAt: now + config.rateLimitWindowMs };
   if (now > entry.resetAt) {
     entry.count = 0;

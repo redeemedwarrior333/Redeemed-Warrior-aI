@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Ohana by Redeemed Warrior</title>
+<meta name="description" content="More than a community. We're family. A Christian women's sisterhood — different stories, different journeys, one faith, one family, one Ohana." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --rose:#C98D9E; --rose-deep:#A96677; --rose-soft:#E8C7D0;
+  --blush:#F6E3E8; --blush-2:#FAF0F3;
+  --gold:#C9A86A; --gold-light:#E9D9B8; --gold-deep:#A8853F;
+  --ivory:#FDF9F3; --beige:#F1E8DC; --taupe:#A08B80; --taupe-light:#C7B5AB;
+  --espresso:#4A342E; --ink:#3A2A25; --muted:#8E7A70;
+  --font-display:'Cormorant Garamond',serif; --font-body:'Jost',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);background:var(--ivory);color:var(--ink);min-height:100vh;line-height:1.55}
+.hidden{display:none !important}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--espresso);font-weight:600;line-height:1.2}
+a{color:var(--rose-deep)}
+.eyebrow{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+.app{max-width:640px;margin:0 auto;padding:18px 16px 110px}
+.view-head{margin-bottom:16px}
+.view-head h2{font-size:1.9rem}
+.view-head p{color:var(--muted);font-size:.92rem;margin-top:4px}
+.card{background:#fff;border:1px solid rgba(201,168,106,.28);border-radius:18px;padding:18px;margin-top:14px;box-shadow:0 4px 18px rgba(74,52,46,.05)}
+.card h3{font-size:1.25rem;margin-bottom:6px}
+.hint{font-size:.8rem;color:var(--muted)}
+label{display:block;font-size:.8rem;font-weight:600;color:var(--taupe);margin-top:12px;letter-spacing:.04em}
+.input,textarea.input{width:100%;border:1px solid rgba(160,139,128,.35);border-radius:12px;padding:11px 13px;font-family:var(--font-body);font-size:.95rem;color:var(--ink);background:var(--blush-2);margin-top:5px;-webkit-appearance:none}
+textarea.input{min-height:90px;resize:vertical}
+.input:focus{outline:none;border-color:var(--rose);background:#fff}
+.btn{display:inline-block;width:100%;border:none;border-radius:999px;padding:13px 20px;font-family:var(--font-body);font-size:.92rem;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:active{transform:scale(.98)}
+.btn-rose{background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;box-shadow:0 6px 16px rgba(169,102,119,.3)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 6px 16px rgba(168,133,63,.3)}
+.btn-ghost{background:transparent;border:1px solid rgba(160,139,128,.4);color:var(--taupe)}
+.btn-sm{padding:9px 16px;font-size:.82rem;width:auto}
+.err{color:#B04A3A;font-size:.85rem;min-height:1.2em;margin-top:8px}
+.ok{color:#5E7D46}
+.badge{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:999px;padding:3px 10px}
+.badge-gold{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#fff}
+.badge-rose{background:var(--blush);color:var(--rose-deep)}
+.welcome{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;background:linear-gradient(160deg,#F6E3E8 0%,#FDF9F3 45%,#F1E8DC 100%);overflow:auto}
+.welcome .crest{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-deep));display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(169,102,119,.35),inset 0 0 0 3px rgba(233,217,184,.6);margin-bottom:18px}
+.welcome h1{font-size:2.5rem;font-style:italic}
+.welcome .tag{font-family:var(--font-display);font-size:1.02rem;color:var(--rose-deep);margin-top:10px;max-width:340px}
+.welcome .from{max-width:360px;margin-top:16px;color:var(--muted);font-size:.88rem;font-style:italic;font-family:var(--font-display)}
+.welcome .btn{max-width:320px;margin-top:10px}
+.values{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:400px;margin-top:16px}
+.values span{font-size:.72rem;background:rgba(255,255,255,.8);border:1px solid rgba(201,168,106,.4);border-radius:999px;padding:5px 12px;color:var(--taupe)}
+.hero{border-radius:20px;padding:26px 20px;background:linear-gradient(150deg,var(--rose-soft),var(--blush) 55%,var(--beige));border:1px solid rgba(201,168,106,.35);position:relative;overflow:hidden}
+.hero::after{content:'\2740';position:absolute;right:-8px;top:-18px;font-size:6rem;color:rgba(201,168,106,.18)}
+.hero h2{font-size:1.7rem;font-style:italic}
+.hero p{color:var(--taupe);font-size:.9rem;margin-top:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.stat{background:#fff;border:1px solid rgba(201,168,106,.28);border-radius:16px;padding:14px;text-align:center}
+.stat b{font-family:var(--font-display);font-size:1.5rem;color:var(--rose-deep);display:block}
+.stat small{color:var(--muted);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.feed-item{background:#fff;border:1px solid rgba(201,168,106,.25);border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 3px 14px rgba(74,52,46,.05)}
+.feed-head{display:flex;align-items:center;gap:10px}
+.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--rose-soft),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:var(--rose-deep);font-size:1.05rem;flex:none;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.feed-head b{font-family:var(--font-display);font-size:1.05rem;color:var(--espresso);display:block;line-height:1.1}
+.feed-head small{color:var(--muted);font-size:.72rem}
+.feed-text{margin-top:10px;font-size:.95rem;white-space:pre-line;word-wrap:break-word}
+.feed-img{width:100%;border-radius:14px;margin-top:10px;display:block}
+.reactions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.react{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(201,168,106,.35);background:var(--blush-2);border-radius:999px;padding:6px 12px;font-size:.78rem;color:var(--taupe);cursor:pointer;transition:all .15s}
+.react.on{background:linear-gradient(135deg,var(--rose-soft),var(--blush));border-color:var(--rose);color:var(--rose-deep);font-weight:600}
+.comments{margin-top:12px;border-top:1px solid rgba(160,139,128,.18);padding-top:10px}
+.comment{font-size:.85rem;margin-top:8px}
+.comment b{color:var(--rose-deep);font-family:var(--font-display)}
+.pill-row{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
+.pill{flex:none;border:1px solid rgba(201,168,106,.4);background:#fff;border-radius:999px;padding:8px 16px;font-size:.82rem;color:var(--taupe);cursor:pointer;font-family:var(--font-body)}
+.pill.on{background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;border-color:transparent}
+.circle-card{background:#fff;border:1px solid rgba(201,168,106,.28);border-radius:16px;padding:16px;margin-top:12px}
+.circle-card h3{font-size:1.15rem}
+.circle-card p{font-size:.85rem;color:var(--muted);margin-top:3px}
+.list-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(201,168,106,.25);border-radius:14px;padding:13px 15px;margin-top:10px}
+.list-item .li-icon{width:40px;height:40px;border-radius:12px;background:var(--blush);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none}
+.list-item b{font-family:var(--font-display);font-size:1.02rem;color:var(--espresso);display:block;line-height:1.15}
+.list-item small{color:var(--muted);font-size:.76rem}
+.verse-card{background:linear-gradient(150deg,var(--rose-soft),var(--blush));border:1px solid rgba(201,168,106,.4);border-radius:18px;padding:22px 20px;text-align:center;margin-top:14px}
+.verse-card .v{font-family:var(--font-display);font-style:italic;font-size:1.15rem;color:var(--espresso)}
+.verse-card .r{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);margin-top:10px;font-weight:600}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;justify-content:space-around;background:rgba(253,249,243,.96);backdrop-filter:blur(14px);border-top:1px solid rgba(201,168,106,.45);box-shadow:0 -8px 30px rgba(74,52,46,.08);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--taupe);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:12px;background:none;border:none;cursor:pointer;transition:color .2s}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--rose-deep);background:linear-gradient(180deg,rgba(201,141,158,.14),rgba(201,168,106,.14))}
+.nav button.on svg{filter:drop-shadow(0 3px 6px rgba(201,141,158,.45))}
+#moreSheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;background:rgba(74,52,46,.45)}
+#moreSheet.hidden{display:none}
+.sheet{width:100%;background:var(--ivory);border-radius:22px 22px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;box-shadow:0 -12px 40px rgba(74,52,46,.3)}
+.sheet-grip{width:44px;height:4px;border-radius:999px;background:rgba(160,139,128,.4);margin:0 auto 10px}
+.sheet h3{text-align:center;font-size:1.3rem;margin-bottom:4px}
+.mitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--blush-2);border:1px solid rgba(201,168,106,.35);border-radius:14px;padding:12px 14px;margin-top:8px;font-family:var(--font-body);font-size:.95rem;color:var(--ink);cursor:pointer}
+.mitem .mi{font-size:1.3rem;flex:none}
+.mitem b{display:block;font-family:var(--font-display);font-size:1.05rem;color:var(--espresso);line-height:1.15}
+.mitem small{color:var(--muted);font-size:.76rem}
+.msg-bubble{max-width:78%;padding:10px 14px;border-radius:16px;font-size:.92rem;margin-top:8px;white-space:pre-line;word-wrap:break-word}
+.msg-mine{background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.msg-theirs{background:#fff;border:1px solid rgba(201,168,106,.3);border-bottom-left-radius:4px}
+.chat-row{display:flex}
+.journal-entry{background:#fff;border:1px solid rgba(201,168,106,.25);border-radius:14px;padding:14px;margin-top:10px}
+.journal-entry small{color:var(--gold-deep);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.journal-entry p{font-size:.9rem;margin-top:6px;white-space:pre-line}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--espresso);color:var(--ivory);padding:11px 22px;border-radius:999px;font-size:.85rem;opacity:0;pointer-events:none;transition:all .3s;z-index:90;max-width:86vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:4px 0 10px}
+.topbar .brand{font-family:var(--font-display);font-size:1.2rem;color:var(--espresso);font-weight:600}
+.topbar .brand em{color:var(--rose-deep)}
+.bell{position:relative;background:none;border:none;cursor:pointer;color:var(--taupe);padding:6px}
+.bell svg{width:22px;height:22px}
+.bell .dot{position:absolute;top:2px;right:2px;width:9px;height:9px;border-radius:50%;background:var(--rose-deep);border:2px solid var(--ivory)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:10px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid rgba(160,139,128,.18)}
+th{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe)}
+.ass-msg{background:#fff;border:1px solid rgba(201,168,106,.3);border-radius:16px 16px 16px 4px;padding:12px 15px;margin-top:10px;font-size:.93rem;white-space:pre-line}
+.ass-msg.me{background:linear-gradient(135deg,var(--rose-soft),var(--blush));border-color:var(--rose-soft);border-radius:16px 16px 4px 16px}
+@media(min-width:700px){.app{max-width:720px}}
+.live-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#D64550;margin-right:8px;animation:livePulse 1.4s infinite;flex:none}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(214,69,80,.5)}70%{box-shadow:0 0 0 10px rgba(214,69,80,0)}100%{box-shadow:0 0 0 0 rgba(214,69,80,0)}}
+.live-banner{display:flex;flex-direction:column;gap:4px}
+.live-banner small{color:var(--muted)}
+.live-stage{position:relative;width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;border:1px solid rgba(201,141,158,.4);background:var(--espresso)}
+.live-stage iframe{width:100%;height:100%;border:0}
+</style>
+</head>
+<body>
+<div id="welcome" class="welcome">
+  <div class="crest">
+    <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#FDF9F3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 17 3 13.5 3 9.5 3 6.5 5.5 4 8.5 4c1.8 0 3 .8 3.5 1.7C12.5 4.8 13.7 4 15.5 4 18.5 4 21 6.5 21 9.5c0 4-4 7.5-9 11.5z"/><path d="M8 3l4 2 4-2" stroke="#E9D9B8"/></svg>
+  </div>
+  <p class="eyebrow">Ohana by Redeemed Warrior</p>
+  <h1>Welcome Home, Sister.</h1>
+  <p class="tag">Different stories. Different journeys. One faith. One family. One Ohana.</p>
+  <p class="from">"You came looking for community. You found a family. Here, you never have to walk alone." — with love, Redeemed Warrior</p>
+  <div class="values">
+    <span>❀ Belonging</span><span>❀ Encouragement</span><span>❀ Faith</span><span>❀ Sisterhood</span><span>❀ Healing</span><span>❀ Kindness</span>
+  </div>
+  <div id="welcomeAuth" style="width:100%;max-width:340px;margin-top:10px"></div>
+  <button class="btn btn-ghost btn-sm" id="btnExploreMembership" style="margin-top:12px">Explore membership</button>
+</div>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand">Ohana <em>by Redeemed Warrior</em></div>
+    <button class="bell" id="btnBell" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      <span class="dot hidden" id="bellDot"></span>
+    </button>
+  </div>
+
+  <main>
+    <section id="view-home" class="view hidden"></section>
+    <section id="view-wall" class="view hidden"></section>
+    <section id="view-prayer" class="view hidden"></section>
+    <section id="view-sisterhood" class="view hidden"></section>
+    <section id="view-circle" class="view hidden"></section>
+    <section id="view-healing" class="view hidden"></section>
+    <section id="view-faith" class="view hidden"></section>
+    <section id="view-testimonies" class="view hidden"></section>
+    <section id="view-messages" class="view hidden"></section>
+    <section id="view-chat" class="view hidden"></section>
+    <section id="view-events" class="view hidden"></section>
+    <section id="view-live" class="view hidden"></section>
+    <section id="view-business" class="view hidden"></section>
+    <section id="view-journal" class="view hidden"></section>
+    <section id="view-membership" class="view hidden"></section>
+    <section id="view-profile" class="view hidden"></section>
+    <section id="view-directory" class="view hidden"></section>
+    <section id="view-sister" class="view hidden"></section>
+    <section id="view-notifications" class="view hidden"></section>
+    <section id="view-admin" class="view hidden"></section>
+    <section id="view-guidelines" class="view hidden"></section>
+    <section id="view-store" class="view hidden"></section>
+  </main>
+</div>
+
+<nav class="nav" aria-label="Primary">
+  <button data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
+  <button data-nav="wall"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Family Wall</button>
+  <button data-nav="prayer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 17 3 13.5 3 9.5 3 6.5 5.5 4 8.5 4c1.8 0 3 .8 3.5 1.7C12.5 4.8 13.7 4 15.5 4 18.5 4 21 6.5 21 9.5c0 4-4 7.5-9 11.5z"/></svg>Prayer</button>
+  <button data-nav="sisterhood"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Sisterhood</button>
+  <button data-nav="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Profile</button>
+  <button data-more><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
+</nav>
+
+<div id="moreSheet" class="hidden">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <h3>More of the Family</h3>
+    <button type="button" class="mitem" data-mact="faith"><span class="mi">✨</span><span><b>Faith &amp; Devotional Center</b><small>Daily verse, devotional, prayer &amp; studies</small></span></button>
+    <button type="button" class="mitem" data-mact="healing"><span class="mi">🌸</span><span><b>Healing &amp; Restoration Room</b><small>A gentle place for hard seasons</small></span></button>
+    <button type="button" class="mitem" data-mact="testimonies"><span class="mi">🙌</span><span><b>Testimony &amp; Praise Room</b><small>Celebrate God's faithfulness</small></span></button>
+    <button type="button" class="mitem" data-mact="messages"><span class="mi">✉️</span><span><b>Sister Messages</b><small>Private conversations</small></span></button>
+    <button type="button" class="mitem" data-mact="assistant"><span class="mi">💛</span><span><b>Ohana AI Sister</b><small>Faith, scripture &amp; encouragement</small></span></button>
+    <button type="button" class="mitem" data-mact="live"><span class="mi">🔴</span><span><b>Live Gathering</b><small>Meet the family face-to-face</small></span></button>
+    <button type="button" class="mitem" data-mact="events"><span class="mi">📅</span><span><b>Family Events</b><small>Gatherings &amp; studies</small></span></button>
+    <button type="button" class="mitem" data-mact="business"><span class="mi">💼</span><span><b>Business &amp; Creator Corner</b><small>Support each other's dreams</small></span></button>
+    <button type="button" class="mitem" data-mact="journal"><span class="mi">🔒</span><span><b>My Private Journal</b><small>Only you can read it</small></span></button>
+    <button type="button" class="mitem" data-mact="membership"><span class="mi">👑</span><span><b>Membership</b><small>Free &amp; Premium family</small></span></button>
+    <button type="button" class="mitem" data-mact="directory"><span class="mi">🔍</span><span><b>Family Directory</b><small>Find your sisters</small></span></button>
+    <button type="button" class="mitem" data-mact="store"><span class="mi">🛍️</span><span><b>Redeemed Warrior Store</b><small>Planners, devotionals &amp; more</small></span></button>
+    <button type="button" class="mitem" data-mact="guidelines"><span class="mi">💖</span><span><b>Family Values &amp; Safety</b><small>How we love each other here</small></span></button>
+    <button type="button" class="mitem hidden" data-mact="admin" id="mitemAdmin"><span class="mi">🛡️</span><span><b>Family Administration</b><small>Owner only</small></span></button>
+    <button type="button" class="btn btn-ghost btn-sm" id="btnCloseSheet" style="width:100%;margin-top:12px">Close</button>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+const API = (location.hostname === 'apps.godsredeemedwarrior.org' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? '' : 'https://apps.godsredeemedwarrior.org';
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('rwohana_' + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('rwohana_' + k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem('rwohana_' + k); } catch {} }
+};
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+const state = {
+  view: 'home',
+  auth: store.get('auth', null),
+  profile: null,
+  membership: { level: 'free', owner: false },
+  circles: [],
+  announcements: [],
+  live: [],
+  unread: 0,
+  wallTab: 'all',
+  circleId: null,
+  dmWith: null,
+  journal: store.get('journal', []),
+  privatePrayers: store.get('privatePrayers', []),
+  favDevos: store.get('favDevos', []),
+  assChat: store.get('assChat', []),
+  onb: store.get('onb', 0)
+};
+
+async function api(path, opts) {
+  opts = opts || {};
+  const headers = { 'Content-Type': 'application/json' };
+  if (state.auth && state.auth.token) headers['Authorization'] = 'Bearer ' + state.auth.token;
+  const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  let data = null;
+  try { data = await res.json(); } catch {}
+  if (!res.ok) {
+    const err = new Error((data && data.error && data.error.message) || 'Ohana could not reach the family server. Check your connection.');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function initials(name) {
+  return String(name || 'O').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() || 'O';
+}
+
+function avatarHtml(name, photo) {
+  return photo
+    ? '<span class="avatar"><img src="' + esc(photo) + '" alt="" onerror="this.remove()" /></span>'
+    : '<span class="avatar">' + esc(initials(name)) + '</span>';
+}
+
+function timeAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+
+function dayIndex() {
+  return Math.floor(Date.now() / 86400000);
+}
+
+const DAILY_VERSES = [
+  { v: 'For where two or three gather in my name, there am I with them.', r: 'Matthew 18:20' },
+  { v: 'She is clothed with strength and dignity, and she laughs without fear of the future.', r: 'Proverbs 31:25' },
+  { v: 'Carry each other\u2019s burdens, and in this way you will fulfill the law of Christ.', r: 'Galatians 6:2' },
+  { v: 'The Lord your God is with you, the Mighty Warrior who saves.', r: 'Zephaniah 3:17' },
+  { v: 'Above all, love each other deeply, because love covers over a multitude of sins.', r: '1 Peter 4:8' },
+  { v: 'A friend loves at all times, and a brother is born for a time of adversity.', r: 'Proverbs 17:17' },
+  { v: 'He heals the brokenhearted and binds up their wounds.', r: 'Psalm 147:3' },
+  { v: 'And let us consider how we may spur one another on toward love and good deeds.', r: 'Hebrews 10:24' },
+  { v: 'I can do all this through him who gives me strength.', r: 'Philippians 4:13' },
+  { v: 'Be completely humble and gentle; be patient, bearing with one another in love.', r: 'Ephesians 4:2' },
+  { v: 'The Lord is close to the brokenhearted and saves those who are crushed in spirit.', r: 'Psalm 34:18' },
+  { v: 'Therefore encourage one another and build each other up.', r: '1 Thessalonians 5:11' },
+  { v: 'God is our refuge and strength, an ever-present help in trouble.', r: 'Psalm 46:1' },
+  { v: 'Let all that you do be done in love.', r: '1 Corinthians 16:14' },
+  { v: 'When you pass through the waters, I will be with you.', r: 'Isaiah 43:2' },
+  { v: 'May the God of hope fill you with all joy and peace as you trust in him.', r: 'Romans 15:13' }
+];
+
+const DAILY_DEVOS = [
+  { t: 'You Were Meant for Family', b: 'From the very beginning, God said it was not good to be alone. Ohana exists because no woman should have to carry her story by herself. Today, reach out to one sister \u2014 a simple "How are you, really?" can change her whole week.' },
+  { t: 'Different Stories, One Faith', b: 'Your journey is unlike anyone else\u2019s here \u2014 and that is the beauty of it. The body of Christ has many members, one heart. Celebrate a sister whose story looks nothing like yours today.' },
+  { t: 'Love That Shows Up', b: 'Real love is not loud; it is present. It sends the text, prays the prayer, remembers the date. Ask God today to make you a woman who simply shows up.' },
+  { t: 'Healing Happens Together', b: 'Some wounds only close in the light of safe love. You do not have to tell your whole story to be healed \u2014 you just have to stop walking alone. Let this family hold a corner of your heart today.' },
+  { t: 'The Ministry of Encouragement', b: 'Scripture says to encourage one another daily. Encouragement is not a personality trait \u2014 it is a holy habit. Build it today: one genuine, specific, life-giving word to someone in Ohana.' },
+  { t: 'You Are Seen', b: 'El Roi \u2014 the God who sees \u2014 saw Hagar in the wilderness and He sees you: the hidden effort, the quiet faithfulness, the tears no one counted. You are not invisible here.' },
+  { t: 'Grace for Her Journey', b: 'Every sister here is somewhere different: grieving, growing, starting over, holding on. Judge less, love more. Grace is the family language of Ohana.' },
+  { t: 'Prayer Is the Family Hearth', b: 'A home grows warm around its hearth; a family grows close around prayer. When you pray for a sister by name, you build the fire everyone gathers around.' },
+  { t: 'Purpose Has a People', b: 'Your God-given dream was never meant to grow in isolation. Somewhere in this family is a sister whose prayers, skills or words are the missing piece. Dream out loud today.' },
+  { t: 'Joy Is a Family Song', b: 'Celebrate loudly. When one sister wins, the whole family wins. Rejoice with those who rejoice \u2014 it trains your heart to believe God still writes good stories.' },
+  { t: 'Rest Is Holy Too', b: 'Even God rested. You do not have to earn your worth with exhaustion. Today, put one thing down and pick up His peace instead.' },
+  { t: 'Courage in Community', b: 'Esther had her people fasting with her; David had his mighty men. Your bravest seasons will be easier because someone is standing with you. Let them.' },
+  { t: 'Kindness Is a Seed', b: 'One kind word can reroute a woman\u2019s entire day. Plant seeds today \u2014 in the Wall, in a message, in a prayer. The harvest belongs to God.' },
+  { t: 'Faithful in the Small', b: 'God trusts us with much because He watches us in little things: the daily prayer, the small kindness, the quiet integrity. Be faithful today; Heaven is noticing.' },
+  { t: 'You Belong Here', b: 'Belonging is not a feeling you wait for \u2014 it is a chair you take. Pull up your chair in Ohana. Share once this week. Your voice makes this family more complete.' },
+  { t: 'One Faith, One Family', b: 'The same Spirit that raised Christ lives in every sister here. That makes us more than friends \u2014 it makes us family, now and forever. Walk in that today.' }
+];
+
+const DAILY_PRAYERS = [
+  'Father, thank You for my Ohana family. Make me a source of warmth and courage to every sister I meet today. In Jesus\u2019 name, Amen.',
+  'Lord, You see every woman in this family \u2014 the strong and the struggling. Let each one feel Your nearness today. Amen.',
+  'God, heal the hidden places in my sisters\u2019 hearts. Use me, if You wish, as a gentle bandage. Amen.',
+  'Father, give me eyes to notice the sister who is quietly hurting and the courage to reach out. Amen.',
+  'Lord, I lift every prayer request in this family to You. You are able. You are willing. You are here. Amen.',
+  'Father, teach me to celebrate my sisters without envy and to grieve with them without fear. Amen.',
+  'God, bless the work of every woman\u2019s hands in this family \u2014 her home, her business, her ministry. Amen.',
+  'Lord, where fear has been my compass, make faith my map today. And let me walk it with my sisters. Amen.'
+];
+
+const DAILY_LOVE = [
+  'Sister, you are allowed to be both a masterpiece and a work in progress.',
+  'Somebody in this family is stronger today because you are in it.',
+  'You have survived 100% of your hardest days. That is not luck \u2014 that is grace carrying you.',
+  'Your prayers are not falling on deaf ears. Heaven is listening, always.',
+  'You do not have to bloom today. Resting in the garden counts too.',
+  'The same God who parted seas can handle your Monday.',
+  'You are loved here. Not for what you do \u2014 just for who you are.',
+  'One faithful step today is enough. Take it with your family beside you.',
+  'Your story is not over. God is still writing \u2014 and He writes in hope.',
+  'Whatever you are facing, face it loved. That changes everything.'
+];
+
+const HEALING_DEVOS = [
+  { t: 'When the Wound Is Fresh', b: 'Right now you do not need answers \u2014 you need a safe place. Breathe. God is not in a hurry, and neither are we. Let the tears flow if they come; He collects every one in a bottle (Psalm 56:8).' },
+  { t: 'You Can Be Honest Here', b: 'The psalms are full of holy honesty \u2014 David complained, questioned, and wept, and God called him a man after His own heart. Your honesty is not a lack of faith. It is the doorway to comfort.' },
+  { t: 'Healing Is a Road, Not a Door', b: 'You do not walk through hurt once and close it behind you. Healing has seasons \u2014 some days forward, some days back. Both count. Keep walking with Jesus at your pace.' },
+  { t: 'When Forgiveness Feels Impossible', b: 'Forgiveness is not saying it was okay. It is setting down the poison you have been carrying and trusting God with justice. Start with a whisper: "Lord, help me want to want to forgive." That is enough for today.' },
+  { t: 'God Collects Your Tears', b: 'Nothing you have cried has been wasted or unseen. The God who wept at a friend\u2019s tomb understands your sorrow from the inside. You are not being dramatic. You are being human, and He is being near.' },
+  { t: 'Beauty After Ashes', b: 'Isaiah promised a crown of beauty for ashes \u2014 not the erasing of the ashes, but a crown made from them. Your story, even the broken chapters, is becoming something that will help another sister breathe.' }
+];
+
+const HEALING_VERSES = [
+  { v: 'He heals the brokenhearted and binds up their wounds.', r: 'Psalm 147:3' },
+  { v: 'Come to me, all you who are weary and burdened, and I will give you rest.', r: 'Matthew 11:28' },
+  { v: 'Weeping may stay for the night, but rejoicing comes in the morning.', r: 'Psalm 30:5' },
+  { v: 'The Lord is close to the brokenhearted and saves those who are crushed in spirit.', r: 'Psalm 34:18' },
+  { v: 'He will wipe every tear from their eyes.', r: 'Revelation 21:4' },
+  { v: 'Do not fear, for I have redeemed you; I have summoned you by name; you are mine.', r: 'Isaiah 43:1' }
+];
+
+const HEALING_QUESTIONS = [
+  'What do I need most from God in this season \u2014 comfort, courage, or rest?',
+  'Who is one safe person I can be fully honest with this week?',
+  'What is one small kindness I can offer myself today?',
+  'Where have I already seen God\u2019s faithfulness in my story?',
+  'What am I carrying that I was never meant to carry alone?'
+];
+
+const WOMEN_OF_FAITH = [
+  { n: 'Esther', s: 'For such a time as this', d: 'An orphan queen who risked everything for her people. Courage is not the absence of fear \u2014 it is love that moves anyway.' },
+  { n: 'Ruth', s: 'Where you go I will go', d: 'A widow who chose loyalty over comfort. God wove her faithfulness into the lineage of Jesus Himself.' },
+  { n: 'Deborah', s: 'A mother in Israel', d: 'Judge, prophet, warrior \u2014 she led with wisdom in a dark season. Your voice matters in the places others fear to go.' },
+  { n: 'Hannah', s: 'She gave her sorrow a voice', d: 'She wept and prayed and made vows, and God remembered her. Honest prayer is never wasted prayer.' },
+  { n: 'Mary Magdalene', s: 'The first witness', d: 'Delivered and devoted, she was chosen to announce the resurrection. Your past does not disqualify your calling.' },
+  { n: 'Lydia', s: 'A worshipper and a businesswoman', d: 'A seller of purple who opened her home to the church. Faith and enterprise can grow in the same garden.' },
+  { n: 'The Samaritan Woman', s: 'Known and loved anyway', d: 'Jesus met her at the well, in her whole truth \u2014 and she ran to tell a city. Grace meets us mid-day, mid-story.' },
+  { n: 'Priscilla', s: 'A teacher of teachers', d: 'Alongside Aquila, she explained the way of God more accurately. Sisters teaching sisters builds the whole church.' },
+  { n: 'Abigail', s: 'Wisdom that stopped a war', d: 'She spoke peace into rage with courage and tact. Your gentle wisdom can be the difference in someone\u2019s worst moment.' },
+  { n: 'Mary of Bethany', s: 'She chose the better part', d: 'She sat at Jesus\u2019 feet while the world demanded tasks. Presence over performance \u2014 it will not be taken from you.' }
+];
+
+const GRATITUDE_PROMPTS = [
+  'Three gifts from today, however small\u2026',
+  'A person I thanked God for today\u2026',
+  'Something beautiful I almost missed\u2026',
+  'A hard thing that is quietly making me stronger\u2026',
+  'Where I saw God\u2019s kindness this week\u2026'
+];
+
+const REACTION_META = {
+  love: { emoji: '\u2764\ufe0f', label: 'Sending Love' },
+  praying: { emoji: '\ud83d\ude4f', label: 'Praying for You' },
+  here: { emoji: '\ud83e\udd70', label: 'I\u2019m Here for You' },
+  celebrating: { emoji: '\ud83c\udf89', label: 'Celebrating You' },
+  amen: { emoji: '\u2728', label: 'Amen' }
+};
+
+function isPremium() { return state.membership.level === 'premium' || state.membership.owner; }
+function isOwner() { return !!(state.auth && state.membership.owner); }
+
+function navTo(view) {
+  state.view = view;
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  const el = document.getElementById('view-' + view);
+  if (el) el.classList.remove('hidden');
+  document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === view));
+  const renderers = {
+    home: renderHome, wall: renderWall, prayer: renderPrayer, sisterhood: renderSisterhood,
+    circle: renderCircle, healing: renderHealing, faith: renderFaith, testimonies: renderTestimonies,
+    messages: renderMessages, chat: renderChat, events: renderEvents, business: renderBusiness,
+    live: renderLive,
+    journal: renderJournal, membership: renderMembership, profile: renderProfile,
+    directory: renderDirectory, sister: renderSister, notifications: renderNotifications,
+    admin: renderAdmin, guidelines: renderGuidelines, store: renderStore
+  };
+  if (renderers[view]) renderers[view]();
+  if (view !== 'live' && window.liveHb) { clearInterval(window.liveHb); window.liveHb = null; }
+  window.scrollTo({ top: 0 });
+}
+
+async function refreshBootstrap() {
+  try {
+    const b = await api('/api/ohana/bootstrap');
+    state.profile = b.profile;
+    state.membership = b.membership;
+    state.circles = b.circles;
+    state.announcements = b.announcements;
+    state.live = b.live || [];
+    state.unread = b.unread;
+    document.getElementById('bellDot').classList.toggle('hidden', !b.unread);
+    document.getElementById('mitemAdmin').classList.toggle('hidden', !b.membership.owner);
+    if (state.auth) store.set('auth', state.auth);
+  } catch (e) {
+    if (e.status === 401) {
+      state.auth = null;
+      store.del('auth');
+      renderWelcomeAuth();
+      toast('Please sign in again, sister.');
+    }
+  }
+}
+
+function renderWelcomeAuth() {
+  const el = document.getElementById('welcomeAuth');
+  if (state.auth) {
+    el.innerHTML = '<button class="btn btn-rose" id="btnEnterOhana">Enter Ohana \u2740</button>';
+    el.querySelector('#btnEnterOhana').addEventListener('click', enterOhana);
+    return;
+  }
+  el.innerHTML = `
+    <button class="btn btn-rose" id="btnShowJoin">Create an account</button>
+    <button class="btn btn-ghost" id="btnShowSignin" style="margin-top:10px;background:rgba(255,255,255,.8)">Sign in</button>
+    <div id="authBox" class="hidden" style="text-align:left;background:#fff;border:1px solid rgba(201,168,106,.35);border-radius:18px;padding:18px;margin-top:14px">
+      <h3 id="authTitle">Create an account</h3>
+      <label for="auEmail">Your email</label>
+      <input class="input" id="auEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+      <label for="auPass">Password</label>
+      <input class="input" id="auPass" type="password" placeholder="At least 8 characters" autocomplete="new-password" />
+      <p class="err" id="auErr"></p>
+      <button class="btn btn-rose" id="btnAuthGo">Join the family \u2740</button>
+    </div>`;
+  const authBox = el.querySelector('#authBox');
+  el.querySelector('#btnShowJoin').addEventListener('click', () => {
+    authBox.classList.remove('hidden');
+    el.querySelector('#authTitle').textContent = 'Create an account';
+    el.querySelector('#btnAuthGo').textContent = 'Join the family \u2740';
+    authBox.dataset.mode = 'register';
+  });
+  el.querySelector('#btnShowSignin').addEventListener('click', () => {
+    authBox.classList.remove('hidden');
+    el.querySelector('#authTitle').textContent = 'Welcome back, sister';
+    el.querySelector('#btnAuthGo').textContent = 'Sign in \u2740';
+    authBox.dataset.mode = 'login';
+  });
+  el.querySelector('#btnAuthGo').addEventListener('click', async () => {
+    const errEl = el.querySelector('#auErr');
+    errEl.textContent = '';
+    const email = el.querySelector('#auEmail').value.trim();
+    const password = el.querySelector('#auPass').value;
+    const mode = authBox.dataset.mode || 'register';
+    try {
+      const r = await api('/api/auth/' + mode, { method: 'POST', body: { email, password } });
+      state.auth = { token: r.token, email: r.member.email };
+      store.set('auth', state.auth);
+      toast(mode === 'register' ? 'Welcome to the family! \u2740' : 'Welcome back, sister! \u2740');
+      await enterOhana();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  const exploreBtn = document.getElementById('btnExploreMembership');
+  if (exploreBtn) exploreBtn.addEventListener('click', () => {
+    document.getElementById('welcome').classList.add('hidden');
+    navTo('membership');
+  });
+}
+
+async function enterOhana() {
+  await refreshBootstrap();
+  if (!state.auth) return;
+  document.getElementById('welcome').classList.add('hidden');
+  navTo('home');
+}
+
+function renderHome() {
+  const el = document.getElementById('view-home');
+  if (!state.auth) { renderWelcomeAuth(); document.getElementById('welcome').classList.remove('hidden'); return; }
+  const name = (state.profile && state.profile.displayName) || (state.auth.email || '').split('@')[0];
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const verse = DAILY_VERSES[dayIndex() % DAILY_VERSES.length];
+  const devo = DAILY_DEVOS[dayIndex() % DAILY_DEVOS.length];
+  const prayer = DAILY_PRAYERS[dayIndex() % DAILY_PRAYERS.length];
+  const love = DAILY_LOVE[dayIndex() % DAILY_LOVE.length];
+  const ann = state.announcements.length
+    ? state.announcements.slice(0, 2).map(a => '<div class="list-item"><span class="li-icon">\ud83d\udce3</span><span><b>Family Announcement</b><small>' + esc(a.text) + '</small></span></div>').join('')
+    : '';
+  const liveBanner = state.live.length
+    ? '<button type="button" class="card live-banner" id="homeLiveBanner" style="width:100%;text-align:left;cursor:pointer;border:1px solid rgba(201,141,158,.5)"><span class="live-dot"></span><b>Live right now: ' + esc(state.live[0].title) + '</b><small>' + state.live[0].here + ' sister' + (state.live[0].here === 1 ? '' : 's') + ' gathered \u2014 tap to join \u2740</small></button>'
+    : '';
+  el.innerHTML = `
+    <div class="hero">
+      <p class="eyebrow">${greet}, Sister</p>
+      <h2>${esc(name)}, you are home \u2740</h2>
+      <p>Different stories. Different journeys. One faith. One family. One Ohana.</p>
+    </div>
+    ${ann}
+    ${liveBanner}
+    <div class="verse-card">
+      <p class="v">\u201c${esc(verse.v)}\u201d</p>
+      <p class="r">${esc(verse.r)} \u00b7 Daily Scripture</p>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udcd6 Daily Devotional</h3>
+      <p style="font-family:var(--font-display);font-size:1.1rem;color:var(--rose-deep)">${esc(devo.t)}</p>
+      <p class="feed-text">${esc(devo.b)}</p>
+    </div>
+    <div class="card">
+      <h3>\ud83d\ude4c Today's Prayer</h3>
+      <p class="feed-text" style="font-style:italic;font-family:var(--font-display)">${esc(prayer)}</p>
+    </div>
+    <div class="card" style="background:linear-gradient(150deg,var(--blush),var(--blush-2));border-color:var(--rose-soft)">
+      <h3>\ud83d\udc95 A Little Love From Your Ohana</h3>
+      <p class="feed-text" style="font-family:var(--font-display);font-size:1.08rem">${esc(love)}</p>
+    </div>
+    <div class="grid2">
+      <div class="stat"><b>${state.circles.filter(c => c.joined).length}</b><small>My Circles</small></div>
+      <div class="stat"><b>${state.circles.length}</b><small>Sisterhood Circles</small></div>
+    </div>
+    <div class="card">
+      <h3>Quick access</h3>
+      <div class="pill-row" style="margin-top:8px">
+        <button class="pill" data-quick="wall">Family Wall</button>
+        <button class="pill" data-quick="prayer">Prayer Room</button>
+        <button class="pill" data-quick="faith">Faith Center</button>
+        <button class="pill" data-quick="testimonies">Praise Room</button>
+        <button class="pill" data-quick="healing">Healing Room</button>
+        <button class="pill" data-quick="journal">My Journal</button>
+        <button class="pill" data-quick="events">Events</button>
+        <button class="pill" data-quick="assistant">AI Sister</button>
+      </div>
+    </div>`;
+  el.querySelectorAll('[data-quick]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.quick)));
+  const hb = el.querySelector('#homeLiveBanner');
+  if (hb) hb.addEventListener('click', () => navTo('live'));
+}
+
+function renderWall() {
+  const el = document.getElementById('view-wall');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">The Heart of Ohana</p><h2>Family Wall</h2>
+    <p>Share your heart. Your sisters are listening.</p></div>
+    <div class="card">
+      <textarea class="input" id="wallText" placeholder="What's on your heart today, sister? Share a victory, a question, a testimony, or just say hello..."></textarea>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        <label class="btn btn-ghost btn-sm" style="margin:0;cursor:pointer">📷 Picture<input type="file" id="wallPhoto" accept="image/*" class="hidden" /></label>
+        <select class="input" id="wallKind" style="width:auto;margin:0">
+          <option value="post">Sharing</option>
+          <option value="testimony">Testimony</option>
+          <option value="praise">Praise report</option>
+        </select>
+        <select class="input" id="wallCircle" style="width:auto;margin:0">
+          <option value="">Whole family</option>
+          ${state.circles.filter(c => c.joined).map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('')}
+        </select>
+      </div>
+      <img id="wallPreview" class="feed-img hidden" alt="" />
+      <p class="err" id="wallErr"></p>
+      <button class="btn btn-rose" id="btnShareWall" style="margin-top:10px">Share with the family \u2740</button>
+    </div>
+    <div class="pill-row" id="wallTabs" style="margin-top:14px">
+      <button class="pill ${state.wallTab === 'all' ? 'on' : ''}" data-wtab="all">Everything</button>
+      <button class="pill ${state.wallTab === 'post' ? 'on' : ''}" data-wtab="post">Sharing</button>
+      <button class="pill ${state.wallTab === 'testimony' ? 'on' : ''}" data-wtab="testimony">Testimonies</button>
+      <button class="pill ${state.wallTab === 'praise' ? 'on' : ''}" data-wtab="praise">Praise</button>
+    </div>
+    <div id="wallFeed"><p class="hint" style="text-align:center;margin-top:20px">Gathering the family's posts\u2026</p></div>`;
+  let wallImage = '';
+  const photoInput = el.querySelector('#wallPhoto');
+  const preview = el.querySelector('#wallPreview');
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files && photoInput.files[0];
+    if (!file) return;
+    if (file.size > 12 * 1024 * 1024) { el.querySelector('#wallErr').textContent = 'That picture is over 12 MB. Please choose a smaller one.'; return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 1000;
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        wallImage = canvas.toDataURL('image/jpeg', 0.72);
+        preview.src = wallImage;
+        preview.classList.remove('hidden');
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  el.querySelector('#btnShareWall').addEventListener('click', async () => {
+    const errEl = el.querySelector('#wallErr');
+    errEl.textContent = '';
+    const text = el.querySelector('#wallText').value.trim();
+    if (!text && !wallImage) { errEl.textContent = 'Write a little something first, sister.'; return; }
+    try {
+      await api('/api/ohana/wall', { method: 'POST', body: { text, image: wallImage, kind: el.querySelector('#wallKind').value, circleId: el.querySelector('#wallCircle').value } });
+      toast('Shared with the family \u2740');
+      state.wallTab = 'all';
+      renderWall();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  el.querySelectorAll('[data-wtab]').forEach(b => b.addEventListener('click', () => { state.wallTab = b.dataset.wtab; renderWall(); }));
+  loadWall();
+}
+
+async function loadWall() {
+  const feed = document.getElementById('wallFeed');
+  try {
+    const q = state.wallTab === 'all' ? '' : '?kind=' + state.wallTab;
+    const data = await api('/api/ohana/wall' + q);
+    if (!data.posts.length) {
+      feed.innerHTML = '<div class="card" style="text-align:center"><h3>\u2740</h3><p class="hint">The wall is waiting for its first word. Be the sister who starts the warmth.</p></div>';
+      return;
+    }
+    feed.innerHTML = data.posts.map(p => feedItemHtml(p)).join('');
+    wireFeed(feed);
+  } catch (e) {
+    feed.innerHTML = '<p class="err" style="text-align:center">' + esc(e.message) + '</p>';
+  }
+}
+
+function feedItemHtml(p) {
+  const mine = state.profile && p.memberId === state.profile.memberId;
+  return `<div class="feed-item" data-post="${esc(p.id)}">
+    <div class="feed-head">
+      ${avatarHtml(p.name, '')}
+      <div style="flex:1"><b>${esc(p.name)}</b><small>${timeAgo(p.createdAt)}${p.circleId ? ' \u00b7 ' + esc((state.circles.find(c => c.id === p.circleId) || {}).name || '') : ''}</small></div>
+      ${p.kind !== 'post' ? `<span class="badge ${p.kind === 'testimony' ? 'badge-gold' : 'badge-rose'}">${p.kind === 'testimony' ? 'Testimony' : 'Praise'}</span>` : ''}
+      ${mine ? '<button class="btn btn-ghost btn-sm" data-del="' + esc(p.id) + '" style="padding:4px 10px">\u2715</button>' : '<button class="btn btn-ghost btn-sm" data-report="' + esc(p.id) + '" style="padding:4px 10px">\u26a0\ufe0f</button>'}
+    </div>
+    ${p.text ? '<p class="feed-text">' + esc(p.text) + '</p>' : ''}
+    ${p.image ? '<img class="feed-img" src="' + esc(p.image) + '" alt="" loading="lazy" />' : ''}
+    <div class="reactions">
+      ${Object.keys(REACTION_META).map(k => `<button class="react" data-react="${k}"><span>${REACTION_META[k].emoji}</span><span>${REACTION_META[k].label}${p.reactions[k] ? ' \u00b7 ' + p.reactions[k] : ''}</span></button>`).join('')}
+    </div>
+    <div class="comments">
+      ${p.comments.map(c => `<p class="comment"><b>${esc(c.name)}</b> ${esc(c.text)}</p>`).join('')}
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="input" style="margin:0" placeholder="Write something kind..." data-comment-input />
+        <button class="btn btn-rose btn-sm" data-comment-send style="flex:none">Send</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function wireFeed(feed) {
+  feed.querySelectorAll('[data-react]').forEach(b => b.addEventListener('click', async () => {
+    const item = b.closest('[data-post]');
+    try {
+      const r = await api('/api/ohana/posts/' + item.dataset.post + '/react', { method: 'POST', body: { reaction: b.dataset.react } });
+      b.classList.toggle('on');
+      const label = b.children[1];
+      const base = REACTION_META[b.dataset.react].label;
+      label.textContent = base + (r.reactions[b.dataset.react] ? ' \u00b7 ' + r.reactions[b.dataset.react] : '');
+    } catch (e) { toast(e.message); }
+  }));
+  feed.querySelectorAll('[data-comment-send]').forEach(b => b.addEventListener('click', async () => {
+    const item = b.closest('[data-post]');
+    const input = item.querySelector('[data-comment-input]');
+    if (!input.value.trim()) return;
+    try {
+      const r = await api('/api/ohana/posts/' + item.dataset.post + '/comments', { method: 'POST', body: { text: input.value.trim() } });
+      const box = item.querySelector('.comments');
+      box.innerHTML = r.comments.map(c => '<p class="comment"><b>' + esc(c.name) + '</b> ' + esc(c.text) + '</p>').join('') + box.innerHTML.slice(box.innerHTML.indexOf('<div style'));
+      input.value = '';
+    } catch (e) { toast(e.message); }
+  }));
+  feed.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    try { await api('/api/ohana/posts/' + b.dataset.del, { method: 'DELETE' }); toast('Post removed.'); renderWall(); } catch (e) { toast(e.message); }
+  }));
+  feed.querySelectorAll('[data-report]').forEach(b => b.addEventListener('click', async () => {
+    try {
+      await api('/api/ohana/report', { method: 'POST', body: { targetType: 'post', targetId: b.dataset.report, reason: 'Reported from Family Wall' } });
+      toast('Thank you, sister. The family admin will review this with care.');
+    } catch (e) { toast(e.message); }
+  }));
+}
+
+function renderPrayer() {
+  const el = document.getElementById('view-prayer');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">The Family Hearth</p><h2>Prayer Room</h2>
+    <p>Ask. Pray. Believe together.</p></div>
+    <div class="card">
+      <h3>Share a prayer request</h3>
+      <p class="hint" style="margin-top:4px">Public requests are prayed over by the whole family. Private requests stay on your device only \u2014 between you and God.</p>
+      <textarea class="input" id="prayerText" placeholder="What can your family pray for, sister?"></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn btn-rose btn-sm" id="btnPublicPrayer" style="flex:1">Share with family</button>
+        <button class="btn btn-ghost btn-sm" id="btnPrivatePrayer" style="flex:1">Keep private</button>
+      </div>
+      <p class="err" id="prayerErr"></p>
+    </div>
+    <div class="verse-card">
+      <p class="v">\u201cPray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.\u201d</p>
+      <p class="r">James 5:16</p>
+    </div>
+    <h3 style="margin-top:18px">Family prayer requests</h3>
+    <div id="prayerList"><p class="hint" style="text-align:center;margin-top:12px">Lifting the family's requests\u2026</p></div>
+    <h3 style="margin-top:18px">My private prayers <span class="badge badge-rose">On my device only</span></h3>
+    <div id="privatePrayers"></div>`;
+  el.querySelector('#btnPublicPrayer').addEventListener('click', async () => {
+    const errEl = el.querySelector('#prayerErr');
+    const text = el.querySelector('#prayerText').value.trim();
+    if (!text) { errEl.textContent = 'Write your prayer request first, sister.'; return; }
+    try {
+      await api('/api/ohana/prayers', { method: 'POST', body: { text } });
+      el.querySelector('#prayerText').value = '';
+      toast('Your family is praying \u2740');
+      loadPrayers();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  el.querySelector('#btnPrivatePrayer').addEventListener('click', () => {
+    const text = el.querySelector('#prayerText').value.trim();
+    if (!text) { el.querySelector('#prayerErr').textContent = 'Write your prayer request first, sister.'; return; }
+    state.privatePrayers.unshift({ text, at: Date.now() });
+    store.set('privatePrayers', state.privatePrayers);
+    el.querySelector('#prayerText').value = '';
+    toast('Kept between you and God \u2740');
+    renderPrivatePrayers();
+  });
+  renderPrivatePrayers();
+  loadPrayers();
+}
+
+function renderPrivatePrayers() {
+  const box = document.getElementById('privatePrayers');
+  if (!state.privatePrayers.length) {
+    box.innerHTML = '<p class="hint" style="margin-top:8px">Your private prayers live here, on your device. No one \u2014 not even Ohana \u2014 can see them.</p>';
+    return;
+  }
+  box.innerHTML = state.privatePrayers.map((p, i) => `
+    <div class="journal-entry">
+      <small>${new Date(p.at).toLocaleDateString()} \u00b7 Private</small>
+      <p>${esc(p.text)}</p>
+      <button class="btn btn-ghost btn-sm" data-delpp="${i}" style="margin-top:8px">Remove</button>
+    </div>`).join('');
+  box.querySelectorAll('[data-delpp]').forEach(b => b.addEventListener('click', () => {
+    state.privatePrayers.splice(Number(b.dataset.delpp), 1);
+    store.set('privatePrayers', state.privatePrayers);
+    renderPrivatePrayers();
+  }));
+}
+
+async function loadPrayers() {
+  const box = document.getElementById('prayerList');
+  try {
+    const data = await api('/api/ohana/prayers');
+    if (!data.prayers.length) {
+      box.innerHTML = '<p class="hint" style="text-align:center;margin-top:8px">No family requests yet. Yours can be the first \u2014 there is no burden too small.</p>';
+      return;
+    }
+    box.innerHTML = data.prayers.map(p => `
+      <div class="feed-item">
+        <div class="feed-head">
+          ${avatarHtml(p.name, '')}
+          <div style="flex:1"><b>${esc(p.name)}</b><small>${timeAgo(p.at)}${p.mine ? ' \u00b7 you' : ''}</small></div>
+          ${p.answered ? '<span class="badge badge-gold">Answered</span>' : ''}
+        </div>
+        <p class="feed-text">${esc(p.text)}</p>
+        ${p.praise ? '<p class="feed-text" style="font-style:italic;color:var(--gold-deep)">\ud83c\udf89 ' + esc(p.praise) + '</p>' : ''}
+        <div class="reactions">
+          <button class="react ${p.prayed ? 'on' : ''}" data-prayed="${esc(p.id)}">\ud83d\ude4f I Prayed for You${p.prayerCount ? ' \u00b7 ' + p.prayerCount : ''}</button>
+          ${p.mine && !p.answered ? '<button class="react" data-answered="' + esc(p.id) + '">\ud83c\udf89 Mark answered</button>' : ''}
+        </div>
+      </div>`).join('');
+    box.querySelectorAll('[data-prayed]').forEach(b => b.addEventListener('click', async () => {
+      try {
+        const r = await api('/api/ohana/prayers/' + b.dataset.prayed + '/prayed', { method: 'POST' });
+        toast('They will feel that \u2740');
+        b.classList.add('on');
+        b.textContent = '\ud83d\ude4f I Prayed for You \u00b7 ' + r.prayerCount;
+      } catch (e) { toast(e.message); }
+    }));
+    box.querySelectorAll('[data-answered]').forEach(b => b.addEventListener('click', async () => {
+      const praise = prompt('Share your praise report (optional):') || '';
+      try {
+        await api('/api/ohana/prayers/' + b.dataset.answered + '/answer', { method: 'POST', body: { praise } });
+        toast('To God be the glory \u2740');
+        loadPrayers();
+      } catch (e) { toast(e.message); }
+    }));
+  } catch (e) {
+    box.innerHTML = '<p class="err" style="text-align:center">' + esc(e.message) + '</p>';
+  }
+}
+
+function renderSisterhood() {
+  const el = document.getElementById('view-sisterhood');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Find Your People</p><h2>Sisterhood Circles</h2>
+    <p>Smaller families inside the family.</p></div>
+    <div id="circleList"></div>`;
+  const box = el.querySelector('#circleList');
+  box.innerHTML = state.circles.map(c => `
+    <div class="circle-card">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <h3 style="flex:1">${esc(c.name)}</h3>
+        ${c.premium ? '<span class="badge badge-gold">Premium</span>' : ''}
+      </div>
+      <p>${esc(c.desc)}</p>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn ${c.joined ? 'btn-ghost' : 'btn-rose'} btn-sm" data-circle="${esc(c.id)}" data-join="${c.joined ? 'leave' : 'join'}">${c.joined ? 'Leave circle' : 'Join circle'}</button>
+        <button class="btn btn-ghost btn-sm" data-open="${esc(c.id)}">Open circle</button>
+        <small class="hint">${c.members} sister${c.members === 1 ? '' : 's'}</small>
+      </div>
+    </div>`).join('');
+  box.querySelectorAll('[data-join]').forEach(b => b.addEventListener('click', async () => {
+    const action = b.dataset.join;
+    try {
+      await api('/api/ohana/circles/' + b.dataset.circle + '/' + action, { method: 'POST' });
+      toast(action === 'join' ? 'Welcome to the circle \u2740' : 'You left the circle.');
+      await refreshBootstrap();
+      renderSisterhood();
+    } catch (e) { toast(e.message); }
+  }));
+  box.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
+    state.circleId = b.dataset.open;
+    navTo('circle');
+  }));
+}
+
+function renderCircle() {
+  const el = document.getElementById('view-circle');
+  const circle = state.circles.find(c => c.id === state.circleId) || { name: 'Circle', desc: '' };
+  el.innerHTML = `
+    <button class="btn btn-ghost btn-sm" id="btnBackCircles">\u2190 All circles</button>
+    <div class="view-head" style="margin-top:12px"><p class="eyebrow">Sisterhood Circle</p><h2>${esc(circle.name)}</h2>
+    <p>${esc(circle.desc)}</p></div>
+    <div class="card">
+      <textarea class="input" id="circleText" placeholder="Share with your circle, sister..."></textarea>
+      <p class="err" id="circleErr"></p>
+      <button class="btn btn-rose" id="btnCircleShare" style="margin-top:10px">Share in circle \u2740</button>
+    </div>
+    <div id="circleFeed"></div>`;
+  el.querySelector('#btnBackCircles').addEventListener('click', () => navTo('sisterhood'));
+  el.querySelector('#btnCircleShare').addEventListener('click', async () => {
+    const errEl = el.querySelector('#circleErr');
+    const text = el.querySelector('#circleText').value.trim();
+    if (!text) { errEl.textContent = 'Write a little something first, sister.'; return; }
+    try {
+      await api('/api/ohana/wall', { method: 'POST', body: { text, kind: 'post', circleId: state.circleId } });
+      toast('Shared with your circle \u2740');
+      renderCircle();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  loadCircleFeed();
+}
+
+async function loadCircleFeed() {
+  const feed = document.getElementById('circleFeed');
+  try {
+    const data = await api('/api/ohana/wall?circle=' + encodeURIComponent(state.circleId));
+    feed.innerHTML = data.posts.length
+      ? data.posts.map(p => feedItemHtml(p)).join('')
+      : '<div class="card" style="text-align:center"><p class="hint">No circle posts yet. Start the conversation, sister.</p></div>';
+    wireFeed(feed);
+  } catch (e) {
+    feed.innerHTML = '<p class="err" style="text-align:center">' + esc(e.message) + '</p>';
+  }
+}
+
+function renderHealing() {
+  const el = document.getElementById('view-healing');
+  const devo = HEALING_DEVOS[dayIndex() % HEALING_DEVOS.length];
+  const verse = HEALING_VERSES[dayIndex() % HEALING_VERSES.length];
+  const question = HEALING_QUESTIONS[dayIndex() % HEALING_QUESTIONS.length];
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">A Gentle Place</p><h2>Healing &amp; Restoration Room</h2>
+    <p>For the seasons that hurt. Come as you are.</p></div>
+    <div class="card" style="background:var(--blush-2);border-color:var(--rose-soft)">
+      <p class="hint">This room is a faith and peer-support space, not therapy or professional mental health treatment. If you are in crisis, please reach out to a trusted professional or local emergency services. You matter, sister.</p>
+    </div>
+    <div class="verse-card">
+      <p class="v">\u201c${esc(verse.v)}\u201d</p>
+      <p class="r">${esc(verse.r)}</p>
+    </div>
+    <div class="card">
+      <h3>\ud83c\udf38 Healing devotional \u00b7 ${esc(devo.t)}</h3>
+      <p class="feed-text">${esc(devo.b)}</p>
+    </div>
+    <div class="card">
+      <h3>\ud83d\uddd3\ufe0f Today's reflection</h3>
+      <p class="feed-text" style="font-style:italic">${esc(question)}</p>
+      <textarea class="input" id="healReflect" placeholder="Your reflection stays on your device, always private..."></textarea>
+      <button class="btn btn-rose btn-sm" id="btnSaveReflect" style="margin-top:10px">Save to my private journal</button>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udc9c Encouragement from your sisters</h3>
+      <p class="hint" style="margin-top:4px">You never have to share your story. But if you want prayer or encouragement, your Ohana is here.</p>
+      <button class="btn btn-rose btn-sm" id="btnHealPrayer" style="margin-top:10px">Ask for prayer in the Prayer Room</button>
+      <button class="btn btn-ghost btn-sm" id="btnHealWall" style="margin-top:10px">Ask for encouragement on the Wall</button>
+    </div>
+    <h3 style="margin-top:18px">Scriptures for the healing road</h3>
+    ${HEALING_VERSES.map(hv => '<div class="journal-entry"><p style="font-family:var(--font-display);font-style:italic">\u201c' + esc(hv.v) + '\u201d</p><small>' + esc(hv.r) + '</small></div>').join('')}`;
+  el.querySelector('#btnSaveReflect').addEventListener('click', () => {
+    const text = el.querySelector('#healReflect').value.trim();
+    if (!text) { toast('Write your reflection first, sister.'); return; }
+    state.journal.unshift({ kind: 'Reflection', text, at: Date.now() });
+    store.set('journal', state.journal);
+    el.querySelector('#healReflect').value = '';
+    toast('Saved to your private journal \u2740');
+  });
+  el.querySelector('#btnHealPrayer').addEventListener('click', () => navTo('prayer'));
+  el.querySelector('#btnHealWall').addEventListener('click', () => navTo('wall'));
+}
+
+function renderFaith() {
+  const el = document.getElementById('view-faith');
+  const verse = DAILY_VERSES[dayIndex() % DAILY_VERSES.length];
+  const devo = DAILY_DEVOS[dayIndex() % DAILY_DEVOS.length];
+  const prayer = DAILY_PRAYERS[dayIndex() % DAILY_PRAYERS.length];
+  const woman = WOMEN_OF_FAITH[dayIndex() % WOMEN_OF_FAITH.length];
+  const gratitude = GRATITUDE_PROMPTS[dayIndex() % GRATITUDE_PROMPTS.length];
+  const favs = state.favDevos;
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Grow With Your Family</p><h2>Faith &amp; Devotional Center</h2>
+    <p>Daily bread for your journey.</p></div>
+    <div class="verse-card">
+      <p class="v">\u201c${esc(verse.v)}\u201d</p>
+      <p class="r">${esc(verse.r)} \u00b7 Daily Scripture</p>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udcd6 Daily devotional \u00b7 ${esc(devo.t)}</h3>
+      <p class="feed-text">${esc(devo.b)}</p>
+      <button class="btn btn-ghost btn-sm" id="btnFavDevo" style="margin-top:10px">${'\u2661'} Save to favorites</button>
+    </div>
+    <div class="card">
+      <h3>\ud83d\ude4c Daily prayer</h3>
+      <p class="feed-text" style="font-style:italic;font-family:var(--font-display)">${esc(prayer)}</p>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udc78 Woman of the Bible \u00b7 ${esc(woman.n)}</h3>
+      <p style="font-family:var(--font-display);font-style:italic;color:var(--rose-deep)">${esc(woman.s)}</p>
+      <p class="feed-text">${esc(woman.d)}</p>
+    </div>
+    <div class="card">
+      <h3>\ud83c\udf3f Gratitude reflection</h3>
+      <p class="feed-text" style="font-style:italic">${esc(gratitude)}</p>
+      <textarea class="input" id="gratitudeText" placeholder="Write it here \u2014 saved to your private journal..."></textarea>
+      <button class="btn btn-rose btn-sm" id="btnSaveGratitude" style="margin-top:10px">Save with thanksgiving</button>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udcd6 Reading plan \u00b7 Psalms of comfort</h3>
+      <p class="hint">A gentle 7-day walk: Psalm 23 \u00b7 Psalm 34 \u00b7 Psalm 46 \u00b7 Psalm 91 \u00b7 Psalm 121 \u00b7 Psalm 139 \u00b7 Psalm 147</p>
+    </div>
+    <h3 style="margin-top:18px">My favorites <span class="badge badge-rose">On my device</span></h3>
+    <div id="favList">${favs.length ? '' : '<p class="hint" style="margin-top:8px">Saved devotionals will gather here.</p>'}</div>`;
+  if (favs.length) {
+    el.querySelector('#favList').innerHTML = favs.map((f, i) => `
+      <div class="journal-entry"><small>${esc(f.t)}</small><p>${esc(f.b)}</p>
+      <button class="btn btn-ghost btn-sm" data-unfav="${i}" style="margin-top:8px">Remove</button></div>`).join('');
+    el.querySelectorAll('[data-unfav]').forEach(b => b.addEventListener('click', () => {
+      state.favDevos.splice(Number(b.dataset.unfav), 1);
+      store.set('favDevos', state.favDevos);
+      renderFaith();
+    }));
+  }
+  el.querySelector('#btnFavDevo').addEventListener('click', () => {
+    if (state.favDevos.some(f => f.t === devo.t)) { toast('Already in your favorites \u2740'); return; }
+    state.favDevos.unshift({ t: devo.t, b: devo.b });
+    store.set('favDevos', state.favDevos);
+    toast('Saved to favorites \u2740');
+  });
+  el.querySelector('#btnSaveGratitude').addEventListener('click', () => {
+    const text = el.querySelector('#gratitudeText').value.trim();
+    if (!text) { toast('Write your gratitude first, sister.'); return; }
+    state.journal.unshift({ kind: 'Gratitude', text, at: Date.now() });
+    store.set('journal', state.journal);
+    el.querySelector('#gratitudeText').value = '';
+    toast('Saved with thanksgiving \u2740');
+  });
+}
+
+function renderTestimonies() {
+  const el = document.getElementById('view-testimonies');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Praise Be to God</p><h2>Testimony &amp; Praise Room</h2>
+    <p>Every story of His faithfulness strengthens us all.</p></div>
+    <div class="card">
+      <h3>Share what God has done</h3>
+      <p class="hint" style="margin-top:4px">Salvation, healing, answered prayer, restoration, breakthroughs, blessings \u2014 big or small, it all belongs here.</p>
+      <textarea class="input" id="testimonyText" placeholder="Tell your sisters what the Lord has done..."></textarea>
+      <p class="err" id="testimonyErr"></p>
+      <button class="btn btn-gold" id="btnShareTestimony" style="margin-top:10px">Share my testimony \ud83d\ude4c</button>
+    </div>
+    <h3 style="margin-top:18px">The family's testimonies</h3>
+    <div id="testimonyFeed"></div>`;
+  el.querySelector('#btnShareTestimony').addEventListener('click', async () => {
+    const errEl = el.querySelector('#testimonyErr');
+    const text = el.querySelector('#testimonyText').value.trim();
+    if (!text) { errEl.textContent = 'Tell your sisters what the Lord has done first.'; return; }
+    try {
+      await api('/api/ohana/wall', { method: 'POST', body: { text, kind: 'testimony' } });
+      toast('Your testimony is up \u2014 glory to God \u2740');
+      renderTestimonies();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  loadTestimonies();
+}
+
+async function loadTestimonies() {
+  const feed = document.getElementById('testimonyFeed');
+  try {
+    const data = await api('/api/ohana/wall?kind=testimony');
+    const praise = await api('/api/ohana/wall?kind=praise');
+    const all = data.posts.concat(praise.posts).sort((a, b) => b.createdAt - a.createdAt);
+    feed.innerHTML = all.length
+      ? all.map(p => feedItemHtml(p)).join('')
+      : '<div class="card" style="text-align:center"><p class="hint">The first testimony written here could be the spark another sister needs. Would you share yours?</p></div>';
+    wireFeed(feed);
+  } catch (e) {
+    feed.innerHTML = '<p class="err" style="text-align:center">' + esc(e.message) + '</p>';
+  }
+}
+
+function renderMessages() {
+  const el = document.getElementById('view-messages');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Just Between Sisters</p><h2>Sister Messages</h2>
+    <p>Private conversations, protected with care.</p></div>
+    <div id="convoList"></div>
+    <div id="dmBox" class="hidden"></div>`;
+  loadConversations();
+}
+
+async function loadConversations() {
+  const box = document.getElementById('convoList');
+  try {
+    const data = await api('/api/ohana/conversations');
+    box.innerHTML = data.conversations.length
+      ? data.conversations.map(c => `
+        <div class="list-item" data-dm="${esc(c.memberId)}" style="cursor:pointer">
+          ${avatarHtml(c.name, '')}
+          <span style="flex:1"><b>${esc(c.name)}</b><small>${esc(c.last)}</small></span>
+          <small class="hint">${timeAgo(c.at)}</small>
+        </div>`).join('')
+      : '<p class="hint" style="margin-top:8px">No conversations yet. Find a sister in the Family Directory and say hello \u2740</p>';
+    box.querySelectorAll('[data-dm]').forEach(b => b.addEventListener('click', () => {
+      state.dmWith = b.dataset.dm;
+      openDm();
+    }));
+  } catch (e) {
+    box.innerHTML = '<p class="err">' + esc(e.message) + '</p>';
+  }
+}
+
+async function openDm() {
+  document.getElementById('convoList').classList.add('hidden');
+  const box = document.getElementById('dmBox');
+  box.classList.remove('hidden');
+  box.innerHTML = '<p class="hint" style="text-align:center;margin-top:12px">Opening conversation\u2026</p>';
+  try {
+    const data = await api('/api/ohana/messages/' + state.dmWith);
+    box.innerHTML = `
+      <button class="btn btn-ghost btn-sm" id="btnBackConvos">\u2190 All conversations</button>
+      <h3 style="margin-top:12px">${esc(data.name)}</h3>
+      <div id="dmMessages" style="margin-top:8px">
+        ${data.messages.length ? data.messages.map(m => `
+          <div class="chat-row"><div class="msg-bubble ${m.mine ? 'msg-mine' : 'msg-theirs'}">${esc(m.text)}</div></div>`).join('')
+          : '<p class="hint" style="margin-top:8px">Say hello, sister \u2740</p>'}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <input class="input" style="margin:0" id="dmInput" placeholder="Write your message..." />
+        <button class="btn btn-rose btn-sm" id="btnDmSend" style="flex:none">Send</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-ghost btn-sm" id="btnDmProfile">View profile</button>
+        <button class="btn btn-ghost btn-sm" id="btnDmBlock">Block sister</button>
+        <button class="btn btn-ghost btn-sm" id="btnDmReport">Report</button>
+      </div>`;
+    box.querySelector('#btnBackConvos').addEventListener('click', () => {
+      box.classList.add('hidden');
+      document.getElementById('convoList').classList.remove('hidden');
+      loadConversations();
+    });
+    box.querySelector('#btnDmSend').addEventListener('click', async () => {
+      const input = box.querySelector('#dmInput');
+      const text = input.value.trim();
+      if (!text) return;
+      try {
+        await api('/api/ohana/messages/' + state.dmWith, { method: 'POST', body: { text } });
+        input.value = '';
+        openDm();
+      } catch (e) { toast(e.message); }
+    });
+    box.querySelector('#btnDmProfile').addEventListener('click', () => { state.sisterId = state.dmWith; navTo('sister'); });
+    box.querySelector('#btnDmBlock').addEventListener('click', async () => {
+      if (!confirm('Block this sister? You will no longer be able to message each other.')) return;
+      try { await api('/api/ohana/block/' + state.dmWith, { method: 'POST' }); toast('Blocked with care.'); } catch (e) { toast(e.message); }
+    });
+    box.querySelector('#btnDmReport').addEventListener('click', async () => {
+      try {
+        await api('/api/ohana/report', { method: 'POST', body: { targetType: 'member', targetId: state.dmWith, reason: 'Reported from messages' } });
+        toast('Thank you, sister. The family admin will review this with care.');
+      } catch (e) { toast(e.message); }
+    });
+  } catch (e) {
+    box.innerHTML = '<button class="btn btn-ghost btn-sm" id="btnBackConvos2">\u2190 Back</button><p class="err">' + esc(e.message) + '</p>';
+    box.querySelector('#btnBackConvos2').addEventListener('click', () => {
+      box.classList.add('hidden');
+      document.getElementById('convoList').classList.remove('hidden');
+    });
+  }
+}
+
+function renderChat() {
+  const el = document.getElementById('view-chat');
+  const suggestions = ['Find me a scripture about strength', 'Write a prayer for my family', 'I had a hard day, sister', 'Which circle should I join?'];
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Your Ohana AI Sister</p><h2>Talk with your AI Sister \ud83d\udc9b</h2>
+    <p>Warm, faith-filled help \u2014 scriptures, prayers, devotionals and direction. She is an assistant, never a replacement for God, your pastors, or your real sisters.</p></div>
+    <div id="assFeed">
+      ${state.assChat.length ? state.assChat.map(m => '<div class="ass-msg' + (m.me ? ' me' : '') + '">' + esc(m.text) + '</div>').join('') : `
+      <div class="ass-msg">Hello, sister \u2740 I'm your Ohana AI Sister. I can help you find Scripture, write a prayer, reflect on a devotional, or just listen when today was a lot. What's on your heart?</div>`}
+    </div>
+    <div class="pill-row" style="margin-top:12px">
+      ${suggestions.map(s => '<button class="pill" data-sug="' + esc(s) + '">' + esc(s) + '</button>').join('')}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <input class="input" style="margin:0" id="assInput" placeholder="Talk to your AI sister..." />
+      <button class="btn btn-rose btn-sm" id="btnAssSend" style="flex:none">Send</button>
+    </div>
+    <p class="hint" style="margin-top:10px">She will never claim to speak for God or replace professional care. Your conversation stays on your device.</p>`;
+  const input = el.querySelector('#assInput');
+  const send = async () => {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    state.assChat.push({ me: true, text });
+    store.set('assChat', state.assChat);
+    const feed = el.querySelector('#assFeed');
+    feed.insertAdjacentHTML('beforeend', '<div class="ass-msg me">' + esc(text) + '</div><div class="ass-msg" id="assWait">Thinking of you, sister...\u2740</div>');
+    try {
+      const prompt = 'You are the Ohana AI Sister for a Christian women\'s community called Ohana by Redeemed Warrior. Speak warmly, femininely and briefly (under 150 words), with gentle faith. You may share relevant Scripture, help write prayers, suggest devotionals or Sisterhood Circles, and encourage journaling. NEVER impersonate God, claim divine revelation, give medical or mental-health advice, or replace human relationships \u2014 gently point to real help when needed. The sister says: ' + text;
+      const r = await api('/api/chat', { method: 'POST', body: { message: prompt } });
+      state.assChat.push({ me: false, text: r.reply });
+      store.set('assChat', state.assChat);
+      const wait = document.getElementById('assWait');
+      if (wait) wait.textContent = r.reply;
+    } catch (e) {
+      const wait = document.getElementById('assWait');
+      if (wait) wait.textContent = e.message;
+    }
+  };
+  el.querySelector('#btnAssSend').addEventListener('click', send);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+  el.querySelectorAll('[data-sug]').forEach(b => b.addEventListener('click', () => { input.value = b.dataset.sug; send(); }));
+}
+
+function renderLive() {
+  const el = document.getElementById('view-live');
+  if (!state.auth) { renderWelcomeAuth(); document.getElementById('welcome').classList.remove('hidden'); return; }
+  const owner = isOwner();
+  const room = state.live[0] || null;
+  const joined = state.liveJoined && room && state.liveJoined === room.id;
+  if (joined && room) {
+    el.innerHTML = `
+      <h2 class="page-title"><span class="live-dot"></span>${esc(room.title)}</h2>
+      <div class="live-stage">
+        <iframe id="liveFrame" src="https://meet.jit.si/${encodeURIComponent(room.room)}#userInfo.displayName=${encodeURIComponent((state.profile && state.profile.displayName) || (state.auth.email || 'Sister'))}" allow="camera; microphone; display-capture; autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+      <p class="hint" style="margin-top:10px"><span id="liveHere">${room.here}</span> sister(s) gathered \u00b7 Host: ${esc(room.hostName)}</p>
+      <div class="row" style="display:flex;gap:10px;margin-top:10px">
+        <a class="btn btn-ghost btn-sm" style="width:auto" href="https://meet.jit.si/${encodeURIComponent(room.room)}" target="_blank" rel="noopener">Open in a new tab</a>
+        <button class="btn btn-ghost btn-sm" id="btnLeaveLive" style="width:auto">Leave</button>
+        ${room.mine || owner ? '<button class="btn btn-ghost btn-sm" id="btnEndLive" style="width:auto;color:#B04A3A;border-color:rgba(176,74,58,.4)">End gathering</button>' : ''}
+      </div>
+      <p class="hint" style="margin-top:10px">Your browser will ask for camera and microphone permission. If the room does not load on your phone, tap \u201cOpen in a new tab\u201d.</p>`;
+    el.querySelector('#btnLeaveLive').addEventListener('click', () => { state.liveJoined = null; if (window.liveHb) { clearInterval(window.liveHb); window.liveHb = null; } renderLive(); });
+    const endBtn = el.querySelector('#btnEndLive');
+    if (endBtn) endBtn.addEventListener('click', async () => {
+      if (!confirm('End this live gathering for the whole family?')) return;
+      try { await api('/api/ohana/live/' + room.id + '/end', { method: 'POST' }); } catch {}
+      state.liveJoined = null;
+      if (window.liveHb) { clearInterval(window.liveHb); window.liveHb = null; }
+      toast('The gathering has ended. Rest well, sister \u2740');
+      renderLive();
+    });
+    if (window.liveHb) clearInterval(window.liveHb);
+    window.liveHb = setInterval(async () => {
+      try {
+        const r = await api('/api/ohana/live/' + room.id + '/heartbeat', { method: 'POST' });
+        const here = el.querySelector('#liveHere');
+        if (here) here.textContent = r.here;
+      } catch (e) {
+        if (e.status === 404) {
+          if (window.liveHb) { clearInterval(window.liveHb); window.liveHb = null; }
+          state.liveJoined = null;
+          toast('The live gathering has ended.');
+          renderLive();
+        }
+      }
+    }, 20000);
+    return;
+  }
+  if (room) {
+    el.innerHTML = `
+      <h2 class="page-title">Live Gathering</h2>
+      <div class="card">
+        <p style="display:flex;align-items:center;font-weight:600"><span class="live-dot"></span>${esc(room.title)}</p>
+        <p class="hint" style="margin-top:6px">Started by ${esc(room.hostName)} \u00b7 <span id="liveHere">${room.here}</span> sister(s) gathered</p>
+        <button class="btn btn-rose" id="btnJoinLive" style="margin-top:12px">Join the Live Gathering</button>
+        ${room.mine || owner ? '<button class="btn btn-ghost btn-sm" id="btnEndLive" style="margin-top:10px;color:#B04A3A;border-color:rgba(176,74,58,.4)">End gathering</button>' : ''}
+      </div>
+      <div class="verse-card"><p class="v">\u201cFor where two or three gather in my name, there am I with them.\u201d</p><p class="r">Matthew 18:20</p></div>`;
+    el.querySelector('#btnJoinLive').addEventListener('click', () => {
+      state.liveJoined = room.id;
+      renderLive();
+      api('/api/ohana/live/' + room.id + '/heartbeat', { method: 'POST' }).catch(() => {});
+    });
+    const endBtn = el.querySelector('#btnEndLive');
+    if (endBtn) endBtn.addEventListener('click', async () => {
+      if (!confirm('End this live gathering for the whole family?')) return;
+      try { await api('/api/ohana/live/' + room.id + '/end', { method: 'POST' }); } catch {}
+      state.liveJoined = null;
+      toast('The gathering has ended.');
+      renderLive();
+    });
+    return;
+  }
+  el.innerHTML = `
+    <h2 class="page-title">Live Gathering</h2>
+    <div class="card">
+      <h3>\ud83d\udd34 Live video gatherings</h3>
+      <p class="feed-text">Gather the family face-to-face: Bible studies, prayer circles, workshops and sisterhood meetings \u2014 right here, on any phone, tablet or computer. Free, no extra account needed.</p>
+    </div>
+    <div class="verse-card"><p class="v">\u201cFor where two or three gather in my name, there am I with them.\u201d</p><p class="r">Matthew 18:20</p></div>
+    ${owner ? `
+    <div class="card">
+      <h3>Start a Live Gathering</h3>
+      <label for="liveTitle">What is this gathering about?</label>
+      <input class="input" id="liveTitle" placeholder="e.g. Tuesday Night Prayer Circle" />
+      <p class="err" id="liveErr"></p>
+      <button class="btn btn-rose" id="btnStartLive" style="margin-top:12px">\ud83d\udd34 Go Live</button>
+      <p class="hint" style="margin-top:8px">Every sister gets a notification the moment you go live.</p>
+    </div>` : `
+    <div class="card">
+      <p class="feed-text">No live gathering right now. When your family admin goes live, you will get a notification and a red \u201cLive right now\u201d banner will appear on your home page.</p>
+    </div>`}`;
+  const startBtn = el.querySelector('#btnStartLive');
+  if (startBtn) startBtn.addEventListener('click', async () => {
+    const title = el.querySelector('#liveTitle').value.trim();
+    try {
+      const r = await api('/api/ohana/live', { method: 'POST', body: { title } });
+      state.live = [r.room];
+      state.liveJoined = r.room.id;
+      toast('You are live, sister! \ud83d\udd34');
+      renderLive();
+    } catch (e) {
+      el.querySelector('#liveErr').textContent = e.message;
+    }
+  });
+}
+
+function renderEvents() {
+  const el = document.getElementById('view-events');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Gather the Family</p><h2>Family Events</h2>
+    <p>Bible studies, prayer gatherings, workshops and celebrations.</p></div>
+    ${isOwner() ? `
+    <div class="card">
+      <h3>\ud83d\udee1\ufe0f Create an event <span class="badge badge-gold">Admin</span></h3>
+      <label for="evTitle">Event title</label>
+      <input class="input" id="evTitle" placeholder="e.g. Saturday Morning Prayer Gathering" />
+      <label for="evWhen">When</label>
+      <input class="input" id="evWhen" placeholder="e.g. Saturday at 9:00 AM" />
+      <label for="evDesc">Details</label>
+      <textarea class="input" id="evDesc" placeholder="What will happen, what to bring, who is welcome..."></textarea>
+      <label for="evLink">Meeting link (optional)</label>
+      <input class="input" id="evLink" placeholder="https://..." />
+      <p class="err" id="evErr"></p>
+      <button class="btn btn-rose" id="btnCreateEvent" style="margin-top:10px">Add to family calendar</button>
+    </div>` : ''}
+    <div id="eventList"></div>`;
+  if (isOwner()) {
+    el.querySelector('#btnCreateEvent').addEventListener('click', async () => {
+      const errEl = el.querySelector('#evErr');
+      try {
+        await api('/api/ohana/events', { method: 'POST', body: {
+          title: el.querySelector('#evTitle').value,
+          when: el.querySelector('#evWhen').value,
+          desc: el.querySelector('#evDesc').value,
+          link: el.querySelector('#evLink').value
+        } });
+        toast('On the family calendar \u2740');
+        renderEvents();
+      } catch (e) { errEl.textContent = e.message; }
+    });
+  }
+  loadEvents();
+}
+
+async function loadEvents() {
+  const box = document.getElementById('eventList');
+  try {
+    const data = await api('/api/ohana/events');
+    box.innerHTML = data.events.length
+      ? data.events.map(e => `
+        <div class="circle-card">
+          <h3>${esc(e.title)}</h3>
+          <p>\ud83d\udcc5 ${esc(e.when || 'Time to be announced')}</p>
+          ${e.desc ? '<p class="feed-text">' + esc(e.desc) + '</p>' : ''}
+          ${e.link ? '<a class="btn btn-gold btn-sm" style="margin-top:10px" href="' + esc(e.link) + '" target="_blank" rel="noopener">Join the gathering</a>' : ''}
+          <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
+            <button class="btn ${e.rsvped ? 'btn-ghost' : 'btn-rose'} btn-sm" data-rsvp="${esc(e.id)}">${e.rsvped ? 'Cancel my spot' : 'I\u2019ll be there \u2740'}</button>
+            <small class="hint">${e.rsvpCount} coming</small>
+          </div>
+        </div>`).join('')
+      : '<div class="card" style="text-align:center"><p class="hint">No events on the calendar yet. The family admin will add gatherings soon.</p></div>';
+    box.querySelectorAll('[data-rsvp]').forEach(b => b.addEventListener('click', async () => {
+      try {
+        const r = await api('/api/ohana/events/' + b.dataset.rsvp + '/rsvp', { method: 'POST' });
+        toast(r.rsvped ? 'Saved you a seat, sister \u2740' : 'Your spot was released.');
+        renderEvents();
+      } catch (e) { toast(e.message); }
+    }));
+  } catch (e) {
+    box.innerHTML = '<p class="err">' + esc(e.message) + '</p>';
+  }
+}
+
+function renderBusiness() {
+  const el = document.getElementById('view-business');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Sisters Supporting Sisters</p><h2>Business &amp; Creator Corner</h2>
+    <p>Kingdom dreams deserve real support.</p></div>
+    <div class="card">
+      <h3>Introduce your business or craft</h3>
+      <p class="hint" style="margin-top:4px">Tell the family what you make, offer or dream about. Support each other with follows, kind words, and honest encouragement. No spam \u2014 the family admin moderates this space with love.</p>
+      <textarea class="input" id="bizText" placeholder="e.g. I make handmade scripture candles. What does everyone else create?"></textarea>
+      <p class="err" id="bizErr"></p>
+      <button class="btn btn-rose" id="btnBizShare" style="margin-top:10px">Share with the Corner \u2740</button>
+    </div>
+    <h3 style="margin-top:18px">From the Corner</h3>
+    <div id="bizFeed"></div>`;
+  el.querySelector('#btnBizShare').addEventListener('click', async () => {
+    const errEl = el.querySelector('#bizErr');
+    const text = el.querySelector('#bizText').value.trim();
+    if (!text) { errEl.textContent = 'Tell the family about your work first, sister.'; return; }
+    try {
+      await api('/api/ohana/wall', { method: 'POST', body: { text, kind: 'post', circleId: 'business' } });
+      toast('Shared with the Corner \u2740');
+      renderBusiness();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  (async () => {
+    const feed = document.getElementById('bizFeed');
+    try {
+      const data = await api('/api/ohana/wall?circle=business');
+      feed.innerHTML = data.posts.length
+        ? data.posts.map(p => feedItemHtml(p)).join('')
+        : '<div class="card" style="text-align:center"><p class="hint">Be the first to introduce yourself, sister.</p></div>';
+      wireFeed(feed);
+    } catch (e) {
+      feed.innerHTML = '<p class="err">' + esc(e.message) + '</p>';
+    }
+  })();
+}
+
+function renderJournal() {
+  const el = document.getElementById('view-journal');
+  const kinds = ['Daily journal', 'Prayer journal', 'Gratitude', 'Scripture reflection', 'Goals', 'Monthly reflection'];
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Between You and God</p><h2>My Private Journal</h2>
+    <p>\ud83d\udd12 Every entry stays on your device. Ohana cannot read it \u2014 ever.</p></div>
+    <div class="card">
+      <select class="input" id="jKind" style="margin:0 0 4px">${kinds.map(k => '<option>' + esc(k) + '</option>').join('')}</select>
+      <textarea class="input" id="jText" placeholder="Pour out your heart..."></textarea>
+      <button class="btn btn-rose" id="btnJournalSave" style="margin-top:10px">Save this entry \u2740</button>
+    </div>
+    <h3 style="margin-top:18px">My entries (${state.journal.length})</h3>
+    <div id="journalList">${state.journal.length ? '' : '<p class="hint" style="margin-top:8px">Your first entry is waiting to be written.</p>'}</div>`;
+  if (state.journal.length) {
+    el.querySelector('#journalList').innerHTML = state.journal.map((j, i) => `
+      <div class="journal-entry">
+        <small>${esc(j.kind)} \u00b7 ${new Date(j.at).toLocaleString()}</small>
+        <p>${esc(j.text)}</p>
+        <button class="btn btn-ghost btn-sm" data-delj="${i}" style="margin-top:8px">Delete</button>
+      </div>`).join('');
+    el.querySelectorAll('[data-delj]').forEach(b => b.addEventListener('click', () => {
+      state.journal.splice(Number(b.dataset.delj), 1);
+      store.set('journal', state.journal);
+      renderJournal();
+    }));
+  }
+  el.querySelector('#btnJournalSave').addEventListener('click', () => {
+    const text = el.querySelector('#jText').value.trim();
+    if (!text) { toast('Write your entry first, sister.'); return; }
+    state.journal.unshift({ kind: el.querySelector('#jKind').value, text, at: Date.now() });
+    store.set('journal', state.journal);
+    toast('Saved \u2014 only for you \u2740');
+    renderJournal();
+  });
+}
+
+function renderMembership() {
+  const el = document.getElementById('view-membership');
+  const current = isPremium();
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Ohana Family</p><h2>Membership</h2>
+    <p>You are part of the family either way. Premium simply opens more rooms of the house.</p></div>
+    <div class="card" style="border-color:${current ? 'var(--gold)' : 'rgba(201,168,106,.28)'}">
+      <div style="display:flex;align-items:center;gap:8px"><h3>Free Ohana Family</h3>${!current ? '<span class="badge badge-rose">Your plan</span>' : ''}</div>
+      <p class="feed-text">\u2740 Member account &amp; profile<br />\u2740 Family Wall, Prayer Room &amp; Testimony Room<br />\u2740 Selected Sisterhood Circles<br />\u2740 Daily Scripture, devotional &amp; prayer<br />\u2740 Family announcements &amp; selected events<br />\u2740 Private journal &amp; AI Sister</p>
+    </div>
+    <div class="card" style="background:linear-gradient(150deg,var(--blush),var(--blush-2));border-color:var(--gold)">
+      <div style="display:flex;align-items:center;gap:8px"><h3>\ud83d\udc51 Premium Ohana Family</h3>${current ? '<span class="badge badge-gold">Your plan</span>' : ''}</div>
+      <p class="feed-text">\u2740 Everything in Free<br />\u2740 Exclusive Premium Sisterhood Circles<br />\u2740 Premium devotionals &amp; exclusive Bible studies<br />\u2740 Expanded journal resources &amp; faith challenges<br />\u2740 Special workshops &amp; exclusive events<br />\u2740 Additional learning resources</p>
+      ${!current ? '<p class="hint" style="margin-top:10px">Secure checkout is being connected to the Redeemed Warrior store. Until then, the family founder can switch your membership personally \u2014 just ask in the Family Wall. Prices are set by the founder, never hardcoded.</p>' : ''}
+    </div>
+    <div class="card">
+      <h3>\ud83d\udecd\ufe0f Redeemed Warrior products</h3>
+      <p class="hint" style="margin-top:4px">Planners, devotionals, journals and studies live in our family store.</p>
+      <button class="btn btn-gold btn-sm" id="btnMemStore" style="margin-top:10px">Visit the store</button>
+    </div>`;
+  el.querySelector('#btnMemStore').addEventListener('click', () => navTo('store'));
+}
+
+function renderStore() {
+  const el = document.getElementById('view-store');
+  const items = [
+    { e: '\ud83d\udcd3', n: 'Warrior Planner', d: 'Plan your days with purpose and prayer.' },
+    { e: '\ud83d\udcd6', n: 'Devotional Bible', d: 'The full Redeemed Warrior Devotional Bible app.' },
+    { e: '\ud83c\udf38', n: 'Healing After the Hurt', d: 'Gentle resources for the hard seasons.' },
+    { e: '\u270d\ufe0f', n: 'Faith Journals', d: 'Guided journals for prayer and gratitude.' },
+    { e: '\ud83d\udcd6', n: 'Bible Studies', d: 'Go deeper, at your own pace.' },
+    { e: '\u2728', n: 'Digital Courses', d: 'Faith-filled learning for every season.' }
+  ];
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Our Family Store</p><h2>Redeemed Warrior Store</h2>
+    <p>Every purchase helps the family grow.</p></div>
+    ${items.map(i => `
+      <div class="list-item">
+        <span class="li-icon">${i.e}</span>
+        <span style="flex:1"><b>${esc(i.n)}</b><small>${esc(i.d)}</small></span>
+      </div>`).join('')}
+    <button class="btn btn-gold" id="btnGoStore" style="margin-top:16px">Open godsredeemedwarrior.store \u2740</button>
+    <p class="hint" style="margin-top:10px">Purchases are verified securely through your account \u2014 never through this app's code.</p>`;
+  el.querySelector('#btnGoStore').addEventListener('click', () => window.open('https://godsredeemedwarrior.store', '_blank'));
+}
+
+function renderProfile() {
+  state.notifPrefs = state.notifPrefs || store.get('notifPrefs', {});
+  const el = document.getElementById('view-profile');
+  if (!state.auth) { document.getElementById('welcome').classList.remove('hidden'); renderWelcomeAuth(); return; }
+  const p = state.profile || {};
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">You Belong Here</p><h2>My Profile</h2></div>
+    <div class="card" style="text-align:center">
+      <div style="width:84px;height:84px;border-radius:50%;margin:0 auto;overflow:hidden;background:linear-gradient(135deg,var(--rose-soft),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.8rem;color:var(--rose-deep);font-weight:700" id="profileAvatarWrap">
+        ${p.photo ? '<img src="' + esc(p.photo) + '" style="width:100%;height:100%;object-fit:cover" alt="" />' : esc(initials(p.displayName || state.auth.email))}
+      </div>
+      <h3 style="margin-top:10px">${esc(p.displayName || state.auth.email.split('@')[0])}</h3>
+      <p class="hint">${esc(state.auth.email)}</p>
+      ${isPremium() ? '<span class="badge badge-gold" style="margin-top:8px">\ud83d\udc51 Premium Family</span>' : ''}
+      ${isOwner() ? '<span class="badge badge-gold" style="margin-top:8px">\ud83d\udee1\ufe0f Family Admin</span>' : ''}
+      <label class="btn btn-ghost btn-sm" style="margin:12px auto 0;cursor:pointer;width:auto;display:inline-block">📷 Change photo<input type="file" id="profilePhoto" accept="image/*" class="hidden" /></label>
+    </div>
+    <div class="card">
+      <h3>My details</h3>
+      <label for="pfName">Display name</label>
+      <input class="input" id="pfName" placeholder="What should your sisters call you?" value="${esc(p.displayName || '')}" />
+      <label for="pfIntro">Introduction</label>
+      <textarea class="input" id="pfIntro" placeholder="Tell your sisters a little about your story...">${esc(p.intro || '')}</textarea>
+      <label for="pfVerse">Favorite Scripture</label>
+      <input class="input" id="pfVerse" placeholder="e.g. Proverbs 31:25" value="${esc(p.verse || '')}" />
+      <label for="pfInterests">Interests</label>
+      <input class="input" id="pfInterests" placeholder="e.g. baking, prayer, business, motherhood" value="${esc(p.interests || '')}" />
+      <p class="err" id="pfErr"></p>
+      <button class="btn btn-rose" id="btnSaveProfile" style="margin-top:12px">Save my profile</button>
+    </div>
+    <div class="card">
+      <h3>Notification preferences</h3>
+      <p class="hint" style="margin-top:4px">Choose what you want to hear about. Saved on your device.</p>
+      ${['New messages', 'Comments and replies', 'Prayer activity', 'Circle conversations', 'Family announcements', 'Event reminders', 'Daily devotional'].map((n, i) => `
+        <label class="pill" style="display:flex;align-items:center;gap:10px;margin-top:8px;cursor:pointer">
+          <input type="checkbox" data-notif="${i}" ${state.notifPrefs[i] !== false ? 'checked' : ''} /> ${esc(n)}
+        </label>`).join('')}
+    </div>
+    <div class="card">
+      <h3>Safety</h3>
+      <button class="btn btn-ghost btn-sm" id="btnViewGuidelines" style="margin-top:8px">Family values &amp; guidelines</button>
+      <button class="btn btn-ghost btn-sm" id="btnDeleteAccount" style="margin-top:10px;color:#B04A3A;border-color:rgba(176,74,58,.4)">Delete my account data from this device</button>
+    </div>`;
+  el.querySelectorAll('[data-notif]').forEach(cb => cb.addEventListener('change', () => {
+    state.notifPrefs[cb.dataset.notif] = cb.checked;
+    store.set('notifPrefs', state.notifPrefs);
+    toast('Notification preferences saved \u2740');
+  }));
+  const photoInput = el.querySelector('#profilePhoto');
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files && photoInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const size = 240;
+        const scale = Math.min(1, size / Math.max(img.width, img.height));
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        el.querySelector('#profilePhoto').dataset.dataurl = canvas.toDataURL('image/jpeg', 0.75);
+        el.querySelector('#profileAvatarWrap').innerHTML = '<img src="' + el.querySelector('#profilePhoto').dataset.dataurl + '" style="width:100%;height:100%;object-fit:cover" alt="" />';
+        toast('Tap "Save my profile" to keep it \u2740');
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  el.querySelector('#btnSaveProfile').addEventListener('click', async () => {
+    const errEl = el.querySelector('#pfErr');
+    errEl.textContent = '';
+    try {
+      const photoInput2 = el.querySelector('#profilePhoto');
+      const r = await api('/api/ohana/profile', { method: 'PUT', body: {
+        displayName: el.querySelector('#pfName').value,
+        intro: el.querySelector('#pfIntro').value,
+        verse: el.querySelector('#pfVerse').value,
+        interests: el.querySelector('#pfInterests').value,
+        photo: photoInput2.dataset.dataurl !== undefined ? photoInput2.dataset.dataurl : undefined
+      } });
+      state.profile = r.profile;
+      toast('Your profile is beautiful, sister \u2740');
+      renderProfile();
+    } catch (e) { errEl.textContent = e.message; }
+  });
+  el.querySelector('#btnViewGuidelines').addEventListener('click', () => navTo('guidelines'));
+  el.querySelector('#btnDeleteAccount').addEventListener('click', () => {
+    if (!confirm('Remove your Ohana data from this device? Your account stays on the family server until the admin removes it.')) return;
+    ['auth', 'journal', 'privatePrayers', 'favDevos', 'assChat', 'onb', 'notifPrefs'].forEach(k => store.del(k));
+    state.auth = null; state.journal = []; state.privatePrayers = []; state.favDevos = []; state.assChat = [];
+    location.reload();
+  });
+}
+
+function renderDirectory() {
+  const el = document.getElementById('view-directory');
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Find Your Sisters</p><h2>Family Directory</h2>
+    <p>Every sister who calls Ohana home.</p></div>
+    <input class="input" id="dirSearch" placeholder="Search by name or interests..." style="margin:0" />
+    <div id="dirList" style="margin-top:6px"></div>`;
+  const search = el.querySelector('#dirSearch');
+  const run = async () => {
+    const box = el.querySelector('#dirList');
+    try {
+      const data = await api('/api/ohana/directory?search=' + encodeURIComponent(search.value.trim()));
+      box.innerHTML = data.members.length
+        ? data.members.map(m => `
+          <div class="list-item" data-view-member="${esc(m.memberId)}" style="cursor:pointer">
+            ${avatarHtml(m.displayName, m.photo)}
+            <span style="flex:1"><b>${esc(m.displayName)}${m.premium ? ' \ud83d\udc51' : ''}</b><small>${esc(m.intro || m.interests || 'A sister of Ohana')}</small></span>
+          </div>`).join('')
+        : '<p class="hint" style="margin-top:10px">No sisters found yet. Share your own profile so the family can find you!</p>';
+      box.querySelectorAll('[data-view-member]').forEach(b => b.addEventListener('click', () => {
+        state.sisterId = b.dataset.viewMember;
+        navTo('sister');
+      }));
+    } catch (e) { box.innerHTML = '<p class="err">' + esc(e.message) + '</p>'; }
+  };
+  search.addEventListener('input', run);
+  run();
+}
+
+function renderSister() {
+  const el = document.getElementById('view-sister');
+  el.innerHTML = '<p class="hint" style="text-align:center;margin-top:20px">Finding your sister\u2026</p>';
+  (async () => {
+    try {
+      const data = await api('/api/ohana/directory?search=');
+      const m = data.members.find(x => x.memberId === state.sisterId);
+      if (!m) { el.innerHTML = '<p class="err" style="text-align:center">This sister\u2019s profile is private or she is no longer part of Ohana.</p>'; return; }
+      el.innerHTML = `
+        <button class="btn btn-ghost btn-sm" id="btnBackDir">\u2190 Directory</button>
+        <div class="card" style="text-align:center;margin-top:12px">
+          <div style="width:84px;height:84px;border-radius:50%;margin:0 auto;overflow:hidden;background:linear-gradient(135deg,var(--rose-soft),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.8rem;color:var(--rose-deep);font-weight:700">
+            ${m.photo ? '<img src="' + esc(m.photo) + '" style="width:100%;height:100%;object-fit:cover" alt="" />' : esc(initials(m.displayName))}
+          </div>
+          <h3 style="margin-top:10px">${esc(m.displayName)} ${m.premium ? '\ud83d\udc51' : ''}</h3>
+          ${m.intro ? '<p class="feed-text">' + esc(m.intro) + '</p>' : ''}
+          ${m.verse ? '<p class="hint" style="margin-top:8px">\ud83d\udcd6 ' + esc(m.verse) + '</p>' : ''}
+          ${m.interests ? '<p class="hint" style="margin-top:6px">\u2740 ' + esc(m.interests) + '</p>' : ''}
+          <p class="hint" style="margin-top:8px">Joined ${new Date(m.joinedAt).toLocaleDateString()} \u00b7 ${m.circles.length} circle${m.circles.length === 1 ? '' : 's'}</p>
+          <button class="btn btn-rose" id="btnMsgSister" style="margin-top:12px">Send a message \u2740</button>
+        </div>`;
+      el.querySelector('#btnBackDir').addEventListener('click', () => navTo('directory'));
+      el.querySelector('#btnMsgSister').addEventListener('click', () => {
+        state.dmWith = m.memberId;
+        navTo('messages');
+        setTimeout(openDm, 100);
+      });
+    } catch (e) {
+      el.innerHTML = '<p class="err" style="text-align:center">' + esc(e.message) + '</p>';
+    }
+  })();
+}
+
+function renderNotifications() {
+  const el = document.getElementById('view-notifications');
+  el.innerHTML = '<div class="view-head"><p class="eyebrow">Family Happenings</p><h2>Notifications</h2></div><div id="notifList"><p class="hint" style="text-align:center">Listening for the family\u2026</p></div>';
+  (async () => {
+    const box = el.querySelector('#notifList');
+    try {
+      const data = await api('/api/ohana/notifications');
+      box.innerHTML = data.notifications.length
+        ? data.notifications.map(n => `
+          <div class="list-item">
+            <span class="li-icon">${n.kind === 'message' ? '\u2709\ufe0f' : n.kind === 'prayer' ? '\ud83d\ude4f' : n.kind === 'reaction' ? '\u2764\ufe0f' : n.kind === 'comment' ? '\ud83d\udcac' : n.kind === 'membership' ? '\ud83d\udc51' : '\ud83d\udce3'}</span>
+            <span style="flex:1"><b>${esc(n.text)}</b><small>${timeAgo(n.at)}${n.read ? '' : ' \u00b7 new'}</small></span>
+          </div>`).join('')
+        : '<p class="hint" style="text-align:center">All quiet, sister. The family will reach out soon.</p>';
+      await api('/api/ohana/notifications/read', { method: 'POST' });
+      state.unread = 0;
+      document.getElementById('bellDot').classList.add('hidden');
+    } catch (e) {
+      box.innerHTML = '<p class="err">' + esc(e.message) + '</p>';
+    }
+  })();
+}
+
+function renderAdmin() {
+  const el = document.getElementById('view-admin');
+  if (!isOwner()) { el.innerHTML = '<div class="card"><h3>\ud83d\udee1\ufe0f Family Administration</h3><p class="hint">This room is for the family admin only.</p></div>'; return; }
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">Owner Only</p><h2>Family Administration Center</h2></div>
+    <div class="card">
+      <h3>\ud83d\udce3 Family announcement</h3>
+      <textarea class="input" id="admAnn" placeholder="Something every sister should hear..."></textarea>
+      <button class="btn btn-rose btn-sm" id="btnAdmAnn" style="margin-top:10px">Send to every sister</button>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udc51 Grant Premium membership</h3>
+      <label for="admEmail">Member email</label>
+      <input class="input" id="admEmail" placeholder="sister@example.com" />
+      <button class="btn btn-gold btn-sm" id="btnAdmPremium" style="margin-top:10px">Grant Premium</button>
+    </div>
+    <div class="card">
+      <h3>\u2b50 Create a Sisterhood Circle</h3>
+      <label for="admCircleName">Circle name</label>
+      <input class="input" id="admCircleName" placeholder="e.g. Homeschool Sisters" />
+      <label for="admCircleDesc">Description</label>
+      <input class="input" id="admCircleDesc" placeholder="What this circle is about" />
+      <label style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="admCirclePremium" /> Premium-only circle</label>
+      <button class="btn btn-rose btn-sm" id="btnAdmCircle" style="margin-top:10px">Create circle</button>
+    </div>
+    <div class="card">
+      <h3>\ud83d\udcca Family at a glance</h3>
+      <div id="admStats"><p class="hint">Counting the family\u2026</p></div>
+    </div>`;
+  el.querySelector('#btnAdmAnn').addEventListener('click', async () => {
+    try {
+      await api('/api/ohana/admin/announcements', { method: 'POST', body: { text: el.querySelector('#admAnn').value } });
+      el.querySelector('#admAnn').value = '';
+      toast('Announcement sent to every sister \u2740');
+      refreshBootstrap();
+    } catch (e) { toast(e.message); }
+  });
+  el.querySelector('#btnAdmPremium').addEventListener('click', async () => {
+    try {
+      await api('/api/ohana/admin/grant-premium', { method: 'POST', body: { email: el.querySelector('#admEmail').value } });
+      el.querySelector('#admEmail').value = '';
+      toast('Premium granted \u2740');
+    } catch (e) { toast(e.message); }
+  });
+  el.querySelector('#btnAdmCircle').addEventListener('click', async () => {
+    try {
+      await api('/api/ohana/admin/circles', { method: 'POST', body: {
+        name: el.querySelector('#admCircleName').value,
+        desc: el.querySelector('#admCircleDesc').value,
+        premium: el.querySelector('#admCirclePremium').checked
+      } });
+      toast('Circle created \u2740');
+      refreshBootstrap();
+    } catch (e) { toast(e.message); }
+  });
+  (async () => {
+    const box = el.querySelector('#admStats');
+    try {
+      const d = await api('/api/ohana/admin/overview');
+      box.innerHTML = `<table>
+        <tr><th>Sisters</th><td>${d.members}</td></tr>
+        <tr><th>Wall posts</th><td>${d.posts}</td></tr>
+        <tr><th>Prayer requests</th><td>${d.prayers}</td></tr>
+        <tr><th>Circles</th><td>${d.circles}</td></tr>
+        <tr><th>Events</th><td>${d.events}</td></tr>
+        <tr><th>Premium members</th><td>${d.premium}</td></tr>
+      </table>
+      ${d.reports.length ? '<h3 style="margin-top:14px">\u26a0\ufe0f Open reports</h3>' + d.reports.map(r => `
+        <div class="journal-entry"><small>${esc(r.targetType)} \u00b7 ${timeAgo(r.at)}</small><p>${esc(r.reason)}</p>
+        <button class="btn btn-ghost btn-sm" data-resolve="${esc(r.id)}" style="margin-top:8px">Mark resolved</button></div>`).join('') : '<p class="hint" style="margin-top:10px">No open reports. A peaceful family \u2740</p>'}`;
+      box.querySelectorAll('[data-resolve]').forEach(b => b.addEventListener('click', async () => {
+        try { await api('/api/ohana/admin/reports/' + b.dataset.resolve, { method: 'DELETE' }); toast('Resolved with care.'); renderAdmin(); } catch (e) { toast(e.message); }
+      }));
+    } catch (e) { box.innerHTML = '<p class="err">' + esc(e.message) + '</p>'; }
+  })();
+}
+
+function renderGuidelines() {
+  const el = document.getElementById('view-guidelines');
+  const rules = [
+    'Treat every sister with kindness.',
+    'No bullying or harassment.',
+    'No judgment or shaming.',
+    'Respect personal boundaries.',
+    'Keep private conversations private.',
+    'No hate speech or discrimination.',
+    'No scams, spam or unauthorized solicitations.',
+    'Respect differences in personal journeys.',
+    'Encourage rather than tear down.',
+    'Protect the safety and dignity of every member.'
+  ];
+  el.innerHTML = `
+    <div class="view-head"><p class="eyebrow">How We Love Here</p><h2>Family Values &amp; Safety</h2>
+    <p>"You came looking for community. You found a family."</p></div>
+    <div class="card">
+      <h3>Our ten family values</h3>
+      ${rules.map((r, i) => '<p class="feed-text"><b style="color:var(--gold-deep)">' + (i + 1) + '.</b> ' + esc(r) + '</p>').join('')}
+    </div>
+    <div class="card">
+      <h3>Your safety tools</h3>
+      <p class="feed-text">\u2740 Report any post or sister (the \u26a0\ufe0f button)<br />\u2740 Block any sister from messaging you<br />\u2740 Private prayers and journal stay on your device<br />\u2740 Delete your device data anytime from your profile</p>
+      <p class="hint" style="margin-top:10px">The Healing Room is peer support and faith encouragement \u2014 never a replacement for professional care.</p>
+    </div>`;
+}
+
+function openMore() {
+  const sheet = document.getElementById('moreSheet');
+  if (!sheet.classList.contains('hidden')) return;
+  sheet.classList.remove('hidden');
+}
+
+function closeMore() {
+  document.getElementById('moreSheet').classList.add('hidden');
+}
+
+document.querySelectorAll('.nav button[data-nav]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.nav)));
+document.querySelector('.nav button[data-more]').addEventListener('click', openMore);
+document.getElementById('btnCloseSheet').addEventListener('click', closeMore);
+document.getElementById('moreSheet').addEventListener('click', (e) => { if (e.target === document.getElementById('moreSheet')) closeMore(); });
+document.getElementById('btnBell').addEventListener('click', () => navTo('notifications'));
+document.querySelectorAll('.mitem[data-mact]').forEach(b => b.addEventListener('click', () => {
+  const act = b.dataset.mact;
+  if (act === 'admin') { closeMore(); navTo('admin'); return; }
+  closeMore();
+  navTo(act);
+}));
+
+(async function boot() {
+  renderWelcomeAuth();
+  if (state.auth) {
+    await refreshBootstrap();
+    if (state.auth) {
+      document.getElementById('welcome').classList.add('hidden');
+      navTo('home');
+    }
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -416,7 +416,13 @@ const ICONS = {
   abandon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
   birthday: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16h16"/><path d="M6 11V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M12 3v2"/></svg>',
   youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 15 12 10 15 10 9"/></svg>',
-  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>'
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>',
+  pinterest: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 20l3-9"/><path d="M9.5 11.5A3.5 3.5 0 1 1 14 15"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 0 0-4 0"/></svg>',
+  banner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h8"/><path d="M6 14h5"/></svg>',
+  testimonial: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a4 4 0 0 1-4 4"/><path d="M20 11h-4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a4 4 0 0 1-4 4"/></svg>',
+  seasonal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7.5l14 9"/><path d="M19 7.5l-14 9"/></svg>',
+  countdown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg>'
 };
 
 const TIPS = [
@@ -530,6 +536,30 @@ const ADTYPES = [
     hint:'Seven days, one line each: the day, the post idea, and the format (photo, reel, poll, story). Numbered DAY 1 through DAY 7, each on its own line.',
     fields:[{k:'topic',l:'What is the account or product?',ph:'e.g. My devotional journal shop',ta:true}],
     markers:{ days:'7 DAYS OF POSTS', hashtags:'HASHTAGS', cta:'CTA' } },
+  { id:'pinterest', name:'Pinterest Pin', desc:'Pins that get saved and clicked for months', icon:'pinterest',
+    hint:'Pinterest is search, not social: the pin title needs keywords people actually type. Description is 2-3 keyword-rich sentences. Keywords are comma-separated search terms.',
+    fields:[{k:'topic',l:'What is the pin about?',ph:'e.g. Christian morning routine printable',ta:true}],
+    markers:{ ptitle:'PIN TITLE', pdesc:'PIN DESCRIPTION', ptags:'KEYWORDS', board:'BOARD IDEAS' } },
+  { id:'linkedin', name:'LinkedIn Post', desc:'Professional post that builds real authority', icon:'linkedin',
+    hint:'Professional but human. Open with a hook line, share the lesson or story in short paragraphs, end with a question or clear CTA that invites comments.',
+    fields:[{k:'topic',l:'What is the post about?',ph:'e.g. What starting my business taught me about faith',ta:true}],
+    markers:{ hook:'OPENING LINE', body:'POST BODY', cta:'CALL TO ACTION' } },
+  { id:'banner', name:'Website Banner', desc:'Homepage hero banner with button text', icon:'banner',
+    hint:'Banner headline max 8 words. Support line is one sentence. Button text is 2-4 action words like Shop the Collection.',
+    fields:[{k:'topic',l:'What is the banner promoting?',ph:'e.g. My spring collection of scripture tees',ta:true}],
+    markers:{ bhead:'BANNER HEADLINE', bsub:'SUPPORT LINE', cta:'BUTTON TEXT' } },
+  { id:'testimonial', name:'Customer Testimonial Ad', desc:'Turn a happy review into a selling ad', icon:'testimonial',
+    hint:'Build the ad around a real-sounding customer quote. Never invent fake statistics or fake named customers \u2014 use [Customer Name] placeholders the seller fills in.',
+    fields:[{k:'topic',l:'What is the product and the happy result?',ph:'e.g. My planner helped a mom win back her mornings',ta:true}],
+    markers:{ thead:'HEADLINE', tquote:'TESTIMONIAL QUOTE', tbody:'AD BODY', cta:'CTA' } },
+  { id:'seasonal', name:'Seasonal & Holiday Ad', desc:'Christmas, Easter, Mother\u2019s Day and more', icon:'seasonal',
+    hint:'Capture the feeling of the season without clich\u00e9s. Connect the holiday naturally to the product. The seasonal offer is one clear sentence with the real deadline.',
+    fields:[{k:'topic',l:'Which season or holiday, and what are we promoting?',ph:'e.g. Christmas gift guide for my devotional journals',ta:true}],
+    markers:{ shead:'HOLIDAY HEADLINE', sbody:'SEASONAL MESSAGE', soff:'SEASONAL OFFER', cta:'CTA' } },
+  { id:'countdown', name:'Countdown Flash Sale', desc:'Last-chance copy that is honest and urgent', icon:'countdown',
+    hint:'Real urgency only: state the actual deadline and what ends. Never fake scarcity. The countdown line makes time feel visible.',
+    fields:[{k:'topic',l:'What is ending, and when?',ph:'e.g. 30% off memberships ends Sunday at midnight',ta:true}],
+    markers:{ chead:'HEADLINE', clock:'COUNTDOWN LINE', cdetails:'DETAILS', cta:'CTA' } },
   { id:'pack', name:'Complete Ad Pack', desc:'Everything for one campaign, in one go', icon:'pack',
     fields:[{k:'topic',l:'What are we promoting?',ph:'e.g. Grand opening of my online boutique',ta:true}],
     markers:{ hl:'HEADLINE', caption:'CAPTION', hashtags:'HASHTAGS', cta:'CTA', slogan:'SLOGAN', emails:'EMAIL SUBJECTS', hook:'VIDEO HOOK' } }
@@ -553,7 +583,12 @@ const SECTION_LABELS = {
   next:"What's Next", reward:'Reward',
   bio:'Profile Bio', link:'Link Line', pitch:'Pitch', oneliner:'One-Liner',
   ytitle:'Video Title', ydesc:'Description', ytags:'Tags', days:'7 Days of Posts',
-  ename:'Event Name', invite:'Invitation'
+  ename:'Event Name', invite:'Invitation',
+  ptitle:'Pin Title', pdesc:'Pin Description', ptags:'Keywords', board:'Board Ideas',
+  bhead:'Banner Headline', bsub:'Support Line',
+  thead:'Headline', tquote:'Testimonial Quote', tbody:'Ad Body',
+  shead:'Holiday Headline', sbody:'Seasonal Message', soff:'Seasonal Offer',
+  clock:'Countdown Line', cdetails:'Details'
 };
 
 function brandBlock() {
@@ -708,7 +743,7 @@ function renderCreate() {
   if (!state.create.type) {
     el.innerHTML = `
       <div class="view-head"><p class="eyebrow">Create</p><h2>Choose Your Ad Type</h2>
-      <p>Twenty-seven professional formats. All included.</p></div>
+      <p>Thirty-three professional formats. All included.</p></div>
       <div class="typegrid">
         ${ADTYPES.map(t => `
           <button class="typecard" data-type="${t.id}">

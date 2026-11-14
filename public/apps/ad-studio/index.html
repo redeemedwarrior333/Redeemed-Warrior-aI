@@ -409,7 +409,14 @@ const ICONS = {
   launch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
   giveaway: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
   thankyou: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg>',
-  referral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+  referral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  bio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M14 9h4M14 13h4M6 16h12"/></svg>',
+  elevator: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>',
+  review: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  abandon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+  birthday: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16h16"/><path d="M6 11V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M12 3v2"/></svg>',
+  youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 15 12 10 15 10 9"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>'
 };
 
 const TIPS = [
@@ -495,6 +502,34 @@ const ADTYPES = [
     hint:'Make sharing feel like a gift for both friends. The reward must be specific and easy to understand in one sentence.',
     fields:[{k:'topic',l:'What do friends get if they join?',ph:'e.g. 20% off their first order',ta:true}],
     markers:{ invite:'INVITE', reward:'REWARD', cta:'CTA' } },
+  { id:'bio', name:'Social Media Bio', desc:'Profile bio that turns visitors into followers', icon:'bio',
+    hint:'Instagram and TikTok bios are short: a hook line, what the follower gets, and personality. Keep it under 150 characters.',
+    fields:[{k:'topic',l:'What is the account about?',ph:'e.g. My candle shop with scripture labels',ta:true}],
+    markers:{ bio:'PROFILE BIO', link:'LINK LINE' } },
+  { id:'elevator', name:'Elevator Pitch', desc:'30 seconds that explain your business perfectly', icon:'elevator',
+    hint:'Written to be SPOKEN in about 30 seconds: who you help, what changes for them, and why you. End with the one-liner they will repeat.',
+    fields:[{k:'topic',l:'Describe your business',ph:'e.g. Faith-based planners for busy Christian moms',ta:true}],
+    markers:{ pitch:'PITCH', oneliner:'ONE-LINER' } },
+  { id:'review', name:'Review Request', desc:'A gentle ask that gets 5-star reviews', icon:'review',
+    hint:'Warm, grateful, zero pressure. Thank them first, make leaving a review feel easy and meaningful, one clear ask.',
+    fields:[{k:'topic',l:'What did they buy or use?',ph:'e.g. Our 30-day devotional journal',ta:true}],
+    markers:{ msg:'MESSAGE', cta:'CTA' } },
+  { id:'abandon', name:'Come-Back Offer', desc:'Win back shoppers who left without buying', icon:'abandon',
+    hint:'Friendly, never guilt-trippy. Remind them what they loved and make returning feel worth it. The offer is one clear sentence.',
+    fields:[{k:'topic',l:'What did they leave behind?',ph:'e.g. The Grace candle set still in their cart',ta:true}],
+    markers:{ msg:'MESSAGE', offer:'OFFER', cta:'CTA' } },
+  { id:'birthday', name:'Birthday & Milestone Offer', desc:'Celebration copy that feels personal', icon:'birthday',
+    hint:'Joyful and personal. Terms must be one clear sentence with the real deadline. Never invent fake conditions.',
+    fields:[{k:'topic',l:'What is the celebration offer?',ph:'e.g. 25% off everything during their birthday month',ta:true}],
+    markers:{ head:'HEADLINE', offer:'OFFER', terms:'TERMS', cta:'CTA' } },
+  { id:'youtube', name:'YouTube Title & Description', desc:'Titles and descriptions built for search', icon:'youtube',
+    hint:'Title under 60 characters with the main keyword first. Description opens with a 2-sentence hook, then details. Tags are comma-separated.',
+    fields:[{k:'topic',l:'What is the video about?',ph:'e.g. 5 morning prayers that changed my business',ta:true}],
+    markers:{ ytitle:'VIDEO TITLE', ydesc:'DESCRIPTION', ytags:'TAGS' } },
+  { id:'calendar', name:'7-Day Content Calendar', desc:'A week of posts planned in one tap', icon:'calendar',
+    hint:'Seven days, one line each: the day, the post idea, and the format (photo, reel, poll, story). Numbered DAY 1 through DAY 7, each on its own line.',
+    fields:[{k:'topic',l:'What is the account or product?',ph:'e.g. My devotional journal shop',ta:true}],
+    markers:{ days:'7 DAYS OF POSTS', hashtags:'HASHTAGS', cta:'CTA' } },
   { id:'pack', name:'Complete Ad Pack', desc:'Everything for one campaign, in one go', icon:'pack',
     fields:[{k:'topic',l:'What are we promoting?',ph:'e.g. Grand opening of my online boutique',ta:true}],
     markers:{ hl:'HEADLINE', caption:'CAPTION', hashtags:'HASHTAGS', cta:'CTA', slogan:'SLOGAN', emails:'EMAIL SUBJECTS', hook:'VIDEO HOOK' } }
@@ -516,6 +551,8 @@ const SECTION_LABELS = {
   msg:'Message', ntitle:'Notification Title', nbody:'Notification Body',
   lbody:'Announcement', prize:'Prize', entry:'How to Enter', rules:'The Details',
   next:"What's Next", reward:'Reward',
+  bio:'Profile Bio', link:'Link Line', pitch:'Pitch', oneliner:'One-Liner',
+  ytitle:'Video Title', ydesc:'Description', ytags:'Tags', days:'7 Days of Posts',
   ename:'Event Name', invite:'Invitation'
 };
 
@@ -646,7 +683,7 @@ function renderHome() {
     <div class="tip"><span class="tl">Today's Marketing Wisdom</span><p>"${esc(tip)}"</p></div>
     <div class="card royal-card">
       <h3>Create</h3>
-      <p class="hint" style="margin-top:4px">Twenty professional formats \u2014 the AI writes, you approve.</p>
+      <p class="hint" style="margin-top:4px">Twenty-seven professional formats \u2014 the AI writes, you approve.</p>
       <div class="vrow">
         <button class="btn btn-pink" style="flex:1" data-nav="create">Make an Ad</button>
         <button class="btn btn-gold" style="flex:1" data-nav="poster">Design a Poster</button>
@@ -671,7 +708,7 @@ function renderCreate() {
   if (!state.create.type) {
     el.innerHTML = `
       <div class="view-head"><p class="eyebrow">Create</p><h2>Choose Your Ad Type</h2>
-      <p>Twenty professional formats. All included.</p></div>
+      <p>Twenty-seven professional formats. All included.</p></div>
       <div class="typegrid">
         ${ADTYPES.map(t => `
           <button class="typecard" data-type="${t.id}">
@@ -1069,6 +1106,60 @@ function renderPreviewCard(t, r) {
       ${r.reward ? `<p class="adtx"><strong>💰 ${esc(r.reward)}</strong></p>` : ''}
       ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
     </div><div class="adfoot">Preview: sharing that feels like a gift</div></div>`;
+  }
+  if (t.id === 'bio') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--gold));margin:6px auto 8px"></div>
+      <p class="adtx" style="font-weight:700;color:var(--night)">${esc(brand)}</p>
+      ${r.bio ? `<p class="adtx">${esc(r.bio)}</p>` : ''}
+      ${r.link ? `<p class="adtx" style="color:var(--pink-deep);font-weight:600">${esc(r.link)}</p>` : ''}
+    </div><div class="adfoot">Preview: your profile, ready to paste</div></div>`;
+  }
+  if (t.id === 'elevator') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.pitch ? `<p class="adtx" style="font-family:'Cormorant Garamond',serif;font-size:1.12rem">${esc(r.pitch)}</p>` : ''}
+      ${r.oneliner ? `<p class="adhl" style="font-size:1.1rem">\u201c${esc(r.oneliner)}\u201d</p>` : ''}
+    </div><div class="adfoot">Preview: say it out loud \u2014 about 30 seconds</div></div>`;
+  }
+  if (t.id === 'review') {
+    return `<div class="adcard">${head}<div class="adbody">
+      <div style="background:var(--blush);border-radius:16px 16px 16px 4px;padding:12px 14px;margin-top:4px">
+        <p class="adtx" style="margin:0">${esc(r.msg)}</p>
+      </div>
+      ${r.cta ? `<span class="adcta" style="margin-top:10px">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: warm, gentle, effective</div></div>`;
+  }
+  if (t.id === 'abandon') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.msg ? `<p class="adtx">${esc(r.msg)}</p>` : ''}
+      ${r.offer ? `<p class="adtx"><strong>\ud83d\udc9d ${esc(r.offer)}</strong></p>` : ''}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: a welcome reason to come back</div></div>`;
+  }
+  if (t.id === 'birthday') {
+    return `<div class="adcard">${head}<div class="adbody" style="text-align:center">
+      ${r.head ? `<p class="adhl">\ud83c\udf82 ${esc(r.head)}</p>` : ''}
+      ${r.offer ? `<p class="adtx"><strong>${esc(r.offer)}</strong></p>` : ''}
+      ${r.terms ? `<p class="adtx" style="font-size:.85rem;color:var(--muted)">${esc(r.terms)}</p>` : ''}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: celebration, ready to send</div></div>`;
+  }
+  if (t.id === 'youtube') {
+    return `<div class="adcard">${head}<div class="adbody">
+      <div style="background:var(--night);border-radius:10px;padding:16px;text-align:center;margin-top:4px">
+        <span style="display:inline-block;width:0;height:0;border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent"></span>
+      </div>
+      ${r.ytitle ? `<p class="adhl" style="font-size:1.05rem;margin-top:10px">${esc(r.ytitle)}</p>` : ''}
+      ${r.ydesc ? `<p class="adtx">${esc(r.ydesc)}</p>` : ''}
+      ${r.ytags ? `<p class="adtags">${esc(r.ytags)}</p>` : ''}
+    </div><div class="adfoot">Preview: built for search</div></div>`;
+  }
+  if (t.id === 'calendar') {
+    return `<div class="adcard">${head}<div class="adbody">
+      ${r.days ? `<p class="adtx" style="white-space:pre-line">${esc(r.days)}</p>` : ''}
+      ${r.hashtags ? `<p class="adtags">${esc(r.hashtags)}</p>` : ''}
+      ${r.cta ? `<span class="adcta">${esc(r.cta)}</span>` : ''}
+    </div><div class="adfoot">Preview: your week, planned</div></div>`;
   }
   if (t.id === 'product') {
     return `<div class="adcard">${head}<div class="adbody">

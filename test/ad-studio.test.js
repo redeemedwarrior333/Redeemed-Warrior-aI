@@ -40,10 +40,10 @@ test('ad studio inline script is syntactically valid', () => {
   new Function(script);
 });
 
-test('ad studio defines twenty ad types with unique ids and markers', () => {
+test('ad studio defines twenty-seven ad types with unique ids and markers', () => {
   const html = fs.readFileSync(APP_PATH, 'utf8');
   const ids = [...html.matchAll(/id:'([a-z]+)', name:/g)].map(m => m[1]);
-  assert.deepEqual([...new Set(ids)].sort(), ['billboard', 'email', 'event', 'flyer', 'giveaway', 'google', 'launch', 'pack', 'product', 'push', 'radio', 'referral', 'sale', 'slogan', 'sms', 'social', 'story', 'thankyou', 'tiktok', 'video']);
+  assert.deepEqual([...new Set(ids)].sort(), ['abandon', 'billboard', 'bio', 'birthday', 'calendar', 'elevator', 'email', 'event', 'flyer', 'giveaway', 'google', 'launch', 'pack', 'product', 'push', 'radio', 'referral', 'review', 'sale', 'slogan', 'sms', 'social', 'story', 'thankyou', 'tiktok', 'video', 'youtube']);
   assert.match(html, /Social Media Caption/);
   assert.match(html, /Complete Ad Pack/);
   assert.match(html, /TikTok Video Script/);
@@ -59,11 +59,19 @@ test('ad studio defines twenty ad types with unique ids and markers', () => {
   assert.match(html, /Giveaway & Contest/);
   assert.match(html, /Thank-You Message/);
   assert.match(html, /Referral Invite/);
-  assert.match(html, /Twenty professional formats/);
+  assert.match(html, /Social Media Bio/);
+  assert.match(html, /Elevator Pitch/);
+  assert.match(html, /Review Request/);
+  assert.match(html, /Come-Back Offer/);
+  assert.match(html, /Birthday & Milestone Offer/);
+  assert.match(html, /YouTube Title & Description/);
+  assert.match(html, /7-Day Content Calendar/);
+  assert.match(html, /Twenty-seven professional formats/);
   const promo = fs.readFileSync(path.join(path.dirname(APP_PATH), 'promo.html'), 'utf8');
-  assert.match(promo, /Twenty Professional Ad Types/);
+  assert.match(promo, /Twenty-Seven Professional Ad Types/);
   assert.match(promo, /Text Message Blasts/);
   assert.match(promo, /Referral Invites/);
+  assert.match(promo, /7-Day Content Calendars/);
 });
 
 test('ad studio prompts carry per-type format notes and quality instructions', () => {
